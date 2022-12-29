@@ -1,0 +1,662 @@
+﻿<Window x:Class="PacManWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PacManWPF"
+        mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey"
+        Title="MainWindow" Width="1024" Height="480" Background="DeepSkyBlue">
+
+    <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" Width="1024" Height="480" BorderBrush="Transparent" Name="app_pages">
+        <!-- MaxHeight="0" MaxWidth="0" for tab items-->
+        <TabItem Header="GameTab" Name="game_tab" TabIndex="0" Visibility="Collapsed">
+            <DockPanel Background="Black">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Name="points_label" Content="000" Foreground="Yellow" FontSize="15" Height="30" Grid.Column="0"></Label>
+                    <Label FontSize="18" Name="world_label" Content="Sample" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="1" HorizontalAlignment="Center"></Label>
+                    <WrapPanel Grid.Column="2" HorizontalAlignment="Right" Name="drug_wrap">
+                        <Label Name="drug_ticks_label" Content="test" Foreground="Yellow" HorizontalAlignment="Center"></Label>
+
+                        <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Right">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Assets\Images\Drug.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </WrapPanel>
+
+                </Grid>
+                <Grid x:Name="game_grid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+
+                    </Grid.RowDefinitions>
+                    <!--#region Grid-->
+                    <Rectangle Grid.Column="0" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="0" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="1" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="2" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="3" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="4" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="5" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="6" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="7" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="8" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="9" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="10" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="11" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="12" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="13" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="14" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="15" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="16" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="17" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="18" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="19" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="20" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="21" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="22" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="23" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="24" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="25" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="26" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="27" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="28" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="29" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="30" Grid.Row="14"></Rectangle>
+                    <Rectangle Grid.Column="31" Grid.Row="14"></Rectangle>
+
+                    <!--#endregion-->
+                </Grid>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="PauseTab" Name="pause_menu" TabIndex="1" Visibility="Collapsed">
+            <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="490" Height="245" HorizontalAlignment="Center" >
+                <StackPanel Background="Black" Width="480" Height="240">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Content="PAUSA" Foreground="Yellow" FontSize="20" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+                        <StackPanel Grid.Row="1" Grid.Column="0">
+                            <Label Margin="0,10,0,0"  Content="Mondi" Foreground="Yellow" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
+                            <ListBox Foreground="White" Background="#FF000137" HorizontalAlignment="Stretch" Height="123" Name="worlds_box" SelectionChanged="OnWorldSelected"></ListBox>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.Column="1" >
+                            <Label Content="Impostazioni" Foreground="Yellow" HorizontalAlignment="Left"/>
+                            <WrapPanel Margin="10,0,0,0">
+                                <Label Content="Volume" Foreground="Yellow" HorizontalAlignment="Left" HorizontalContentAlignment="Center"  VerticalAlignment="Center"/>
+                                <Slider Width="120" VerticalAlignment="Center" ValueChanged="SetVolume" Value="100" Maximum="100" Minimum="0"/>
+                            </WrapPanel>
+                            <Label Margin="10,0,0,0" Content="Grafica" Foreground="Yellow" HorizontalAlignment="Left"/>
+                            <WrapPanel Margin="20,0,0,0">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <RadioButton Content="LowQuality" Foreground="Yellow" Grid.Row="0"></RadioButton>
+                                    <RadioButton Content="Fant" Foreground="Yellow" Grid.Row="1"></RadioButton>
+                                    <RadioButton Content="Linear" Foreground="Yellow" Grid.Row="2"></RadioButton>
+                                    <RadioButton Content="HighQuality" Foreground="Yellow" Grid.Row="3"></RadioButton>
+                                </Grid>
+                            </WrapPanel>
+                        </StackPanel>
+                        <Button Margin="0,10,0,0" Width="100" Click="ClosePauseMenu" Content="Chiudi" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"></Button>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </TabItem>
+        <TabItem Header="GameWonTab" TabIndex="2" Name="game_won_tab" Visibility="Collapsed">
+            <DockPanel>
+                <WrapPanel Name="game_won" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top">
+                    <Label Foreground="Yellow" FontSize="100" Content="Mondo "></Label>
+                    <Label Name="game_won_label" Foreground="Yellow" FontSize="100" Content="Sample"></Label>
+                    <Label Foreground="Yellow" FontSize="100" Content="Superato!"></Label>
+                </WrapPanel>
+                <Grid Width="auto" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi esc per torbare alla scelta dei mondi" Foreground="Yellow" FontSize="17" />
+                    <WrapPanel HorizontalAlignment="Right" Grid.Column="1">
+                        <Label Content="Tempo impiegato:" Foreground="Yellow" FontSize="17" />
+                        <Label x:Name="ellapsed_time_label" Content="00:00:00" Foreground="Yellow" FontSize="17" />
+                    </WrapPanel>
+                </Grid>
+            </DockPanel>
+        </TabItem>
+        <TabItem Name="StartScreen" Visibility="Collapsed" TabIndex="3" IsSelected="True">
+            <DockPanel Background="Yellow">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="400"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Apri cartella mondi" Grid.Column="0"></Button>
+                            <Button Content="Avvia/Impostazioni" Grid.Column="1"></Button>
+                            <Button Content="Crediti" Grid.Column="2"></Button>
+                            <Button Content="Apri cartella mondi" Grid.Column="3"></Button>
+                        </Grid>
+                    </DockPanel>
+                </Grid>
+            </DockPanel>
+        </TabItem>
+    </TabControl>
+</Window>

@@ -1,0 +1,86 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net7.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWPF>true</UseWPF>
+        <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="bin\**" />
+      <EmbeddedResource Remove="bin\**" />
+      <None Remove="bin\**" />
+      <Page Remove="bin\**" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Remove="Assets\Fonts\ARCADECLASSIC.TTF" />
+        <None Remove="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" />
+        <None Remove="Assets\Sounds\chomp.wav" />
+        <None Remove="Assets\Sounds\start.wav" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.1" />
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+    </ItemGroup>
+<ItemGroup>
+    <ContentWithTargetPath Include="Assets\**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <TargetPath>%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
+    </ContentWithTargetPath>
+</ItemGroup>
+    <ItemGroup>
+        <Resource Include="Assets\Fonts\ARCADECLASSIC.TTF" />
+        <Resource Include="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\cyan.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\dead_ghost.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\Drug.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\eyes.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\orange.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\pacman_closed.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\pacman_open.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\pacman_partially_closed.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\pink.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+
+        </Resource>
+        <Resource Include="Assets\Images\Point.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Sounds\chomp.wav">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Sounds\start.wav">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+    </ItemGroup>
+</Project>
