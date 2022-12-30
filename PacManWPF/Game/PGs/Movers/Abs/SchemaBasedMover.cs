@@ -8,9 +8,14 @@ namespace PacManWPF.Game.PGs.Movers.Abs
 
         protected Point[] schema;
 
-        public SchemaBasedMover(Point[] schema)
+        public SchemaBasedMover(Point[] schema, Ghost self) : base(self)
         {
             this.schema = schema;
+        }
+
+        public override Point GetStartPoint()
+        {
+            return schema[0];
         }
 
         public override Point GetPos()
@@ -18,11 +23,14 @@ namespace PacManWPF.Game.PGs.Movers.Abs
             return schema[schema_idx];
         }
 
-        public abstract void Move(Ghost self);
+        public abstract bool Move();
 
-        public override void NextFrame(Ghost self)
+        public override bool NextFrame()
         {
-            Move(self);
+            if (base.NextFrame() is false)
+                return false;
+            
+            return Move();
         }
     }
 }

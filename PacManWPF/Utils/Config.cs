@@ -2,13 +2,9 @@
 {
     class Config
     {
-        public static float ChunkRowSize = 1.2F;
-        public static int ChunkSquare = 32;
-        public static int ChunkMarginCurve = 6;
-
         public const string WORLD_DIR = "worlds";
 
-        public const int CHUNK_WC = 32;
+        public const int CHUNK_WC = 33;
         public const int CHUNK_HC = 15;
 
         public const int GHOST_RESPAWN_TICKS = 50;
@@ -16,7 +12,7 @@
         public const double CHUNK_WCD = CHUNK_WC;
         public const double CHUNK_HCD = CHUNK_HC;
 
-        public const int DRUG_TICKS = 30;
+        public const int DRUG_TICKS = 15;
 
         public static double[][] Sizes = {  new[] { CHUNK_WCD * 28, CHUNK_HCD * 28 },  // 28
                                         new[] { CHUNK_WCD * 32, CHUNK_HCD * 32 },  // 32

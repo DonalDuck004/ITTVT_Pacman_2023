@@ -4,22 +4,24 @@ namespace PacManWPF.Game.PGs.Movers
 {
     public class OneTimeSchemaMover : Abs.SchemaBasedMover
     {
-        public OneTimeSchemaMover(Point[] schema) : base(schema)
+        public OneTimeSchemaMover(Point[] schema, Ghost self) : base(schema, self)
         {
 
         }
 
-        public override void Move(Ghost self)
+        public override bool Move()
         {
             Point LastPos = GetPos();
 
             if (schema_idx == schema.Length - 1)
-                return;
+                return false;
 
             schema_idx++;
 
             if (GetPos() == LastPos)
-                NextFrame(self);
+                return NextFrame();
+
+            return true;
         }
     }
 }

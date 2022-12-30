@@ -14,6 +14,21 @@ namespace PacManWPF.Utils
 
     public static class Extensions
     {
+        public static System.Drawing.Point Fix(this System.Drawing.Point point)
+        {
+            if (point.X == -1)
+                point.X = Config.CHUNK_WC - 1;
+            else if (point.X == Config.CHUNK_WC)
+                point.X = 0;
+
+            if (point.Y == -1)
+                point.Y = Config.CHUNK_HC - 1;
+            else if (point.Y == Config.CHUNK_HC)
+                point.Y = 0;
+
+            return point;
+        }
+
         public static bool IsDrug(this Rectangle? ceil)
         {
             return ceil is not null && ceil.Fill is not null &&
@@ -91,6 +106,17 @@ namespace PacManWPF.Utils
         {
             return ceil is not null && IsWall((ImageBrush)ceil.Fill);
         }
+
+        public static bool IsGate(this Rectangle? ceil)
+        {
+            return ceil is not null && IsGate((ImageBrush)ceil.Fill);
+        }
+
+        public static bool IsGate(this ImageBrush? ceil)
+        {
+            return ceil is not null && ((BitmapImage)ceil.ImageSource).UriSource == ((BitmapImage)ResourcesLoader.Gate.ImageSource).UriSource;
+        }
+
 
         public static bool IsWall(this ImageBrush? ceil)
         {

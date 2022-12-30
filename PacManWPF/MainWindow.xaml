@@ -64,6 +64,7 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -116,6 +117,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="0"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="0"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="0"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="0"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="1"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="1"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="1"></Rectangle>
@@ -148,6 +150,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="1"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="1"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="1"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="1"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="2"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="2"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="2"></Rectangle>
@@ -180,6 +183,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="2"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="2"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="2"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="2"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="3"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="3"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="3"></Rectangle>
@@ -212,6 +216,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="3"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="3"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="3"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="3"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="4"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="4"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="4"></Rectangle>
@@ -244,6 +249,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="4"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="4"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="4"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="4"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="5"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="5"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="5"></Rectangle>
@@ -276,6 +282,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="5"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="5"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="5"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="5"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="6"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="6"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="6"></Rectangle>
@@ -308,6 +315,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="6"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="6"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="6"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="6"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="7"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="7"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="7"></Rectangle>
@@ -340,6 +348,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="7"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="7"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="7"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="7"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="8"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="8"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="8"></Rectangle>
@@ -372,6 +381,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="8"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="8"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="8"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="8"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="9"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="9"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="9"></Rectangle>
@@ -404,6 +414,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="9"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="9"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="9"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="9"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="10"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="10"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="10"></Rectangle>
@@ -436,6 +447,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="10"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="10"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="10"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="10"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="11"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="11"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="11"></Rectangle>
@@ -468,6 +480,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="11"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="11"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="11"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="11"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="12"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="12"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="12"></Rectangle>
@@ -500,6 +513,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="12"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="12"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="12"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="12"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="13"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="13"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="13"></Rectangle>
@@ -532,6 +546,7 @@
                     <Rectangle Grid.Column="29" Grid.Row="13"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="13"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="13"></Rectangle>
+                    <Rectangle Grid.Column="32" Grid.Row="13"></Rectangle>
                     <Rectangle Grid.Column="0" Grid.Row="14"></Rectangle>
                     <Rectangle Grid.Column="1" Grid.Row="14"></Rectangle>
                     <Rectangle Grid.Column="2" Grid.Row="14"></Rectangle>
@@ -564,12 +579,12 @@
                     <Rectangle Grid.Column="29" Grid.Row="14"></Rectangle>
                     <Rectangle Grid.Column="30" Grid.Row="14"></Rectangle>
                     <Rectangle Grid.Column="31" Grid.Row="14"></Rectangle>
-
+                    <Rectangle Grid.Column="32" Grid.Row="14"></Rectangle>
                     <!--#endregion-->
                 </Grid>
             </DockPanel>
         </TabItem>
-        <TabItem Header="PauseTab" Name="pause_menu" TabIndex="1" Visibility="Collapsed">
+        <TabItem Header="PauseTab" Name="pause_menu_tab" TabIndex="1" Visibility="Collapsed">
             <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="490" Height="245" HorizontalAlignment="Center" >
                 <StackPanel Background="Black" Width="480" Height="240">
                     <Grid>
@@ -586,6 +601,7 @@
                         <StackPanel Grid.Row="1" Grid.Column="0">
                             <Label Margin="0,10,0,0"  Content="Mondi" Foreground="Yellow" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
                             <ListBox Foreground="White" Background="#FF000137" HorizontalAlignment="Stretch" Height="123" Name="worlds_box" SelectionChanged="OnWorldSelected"></ListBox>
+                            <Button Content="Aggiorna" Click="DropWorldsCache"></Button>
                         </StackPanel>
                         <StackPanel Grid.Row="1" Grid.Column="1" >
                             <Label Content="Impostazioni" Foreground="Yellow" HorizontalAlignment="Left"/>
@@ -626,35 +642,37 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi esc per torbare alla scelta dei mondi" Foreground="Yellow" FontSize="17" />
+                    <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi  esc  per  tornare  alla  scelta  dei  mondi" Foreground="Yellow" FontSize="17" />
                     <WrapPanel HorizontalAlignment="Right" Grid.Column="1">
-                        <Label Content="Tempo impiegato:" Foreground="Yellow" FontSize="17" />
+                        <Label Content="Tempo  impiegato:" Foreground="Yellow" FontSize="17" />
                         <Label x:Name="ellapsed_time_label" Content="00:00:00" Foreground="Yellow" FontSize="17" />
                     </WrapPanel>
                 </Grid>
             </DockPanel>
         </TabItem>
-        <TabItem Name="StartScreen" Visibility="Collapsed" TabIndex="3" IsSelected="True">
-            <DockPanel Background="Yellow">
-                <Grid>
+        <TabItem Header="StartScreen" Visibility="Collapsed" TabIndex="3" Name="start_game_tab" IsSelected="True">
+            <DockPanel>
+                <DockPanel.Background>
+                    <ImageBrush ImageSource="Assets/Images/bg.png" Stretch="Uniform">
+                        
+                    </ImageBrush>
+                </DockPanel.Background>
+                <Grid Margin="0, 0, 0, 6">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="400"></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition Height="90"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <DockPanel Grid.Row="1">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                                <ColumnDefinition></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-                            <Button Content="Apri cartella mondi" Grid.Column="0"></Button>
-                            <Button Content="Avvia/Impostazioni" Grid.Column="1"></Button>
-                            <Button Content="Crediti" Grid.Column="2"></Button>
-                            <Button Content="Apri cartella mondi" Grid.Column="3"></Button>
-                        </Grid>
-                    </DockPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Height="500" Width="600" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite"></Image>
+                    <Image Stretch="Uniform" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\folder.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenWorldsFolder"></Image>
+                    <Image Stretch="Uniform" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\settings.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenSettings"></Image>
+                    <Image Stretch="Uniform" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\tg.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenTG"></Image>
+                    <Image Grid.Column="3" Grid.Row="1"  Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Git.png" MouseLeftButtonDown="OpenGit"></Image>
                 </Grid>
             </DockPanel>
         </TabItem>

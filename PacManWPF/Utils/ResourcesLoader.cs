@@ -54,6 +54,7 @@ namespace PacManWPF.Utils
 
         public const string GHOST_EYES_PATH = @"Images\eyes.png";
         public const string DRUG_PATH = @"Images\Drug.png";
+        public const string GATE_PATH = @"Images\Gate.png";
         public const string PACMAN_PATH = @"Images\pacman_open.png";
         public const string PACMAN_P_CLOSED_PATH = @"Images\pacman_partially_closed.png";
         public const string PACMAN_CLOSED_PATH = @"Images\pacman_closed.png";
@@ -67,32 +68,20 @@ namespace PacManWPF.Utils
 
         private static Dictionary<string, ImageBrush> cache = new();
 
-        public static ImageBrush GhostEyes
-        {
-            get => GetImage(GHOST_EYES_PATH);
+        public static ImageBrush GhostEyes = GetImage(GHOST_EYES_PATH);
 
-        }
 
-        public static ImageBrush PacMan
-        {
-            get => GetImage(PACMAN_PATH);
-        }
-        // static Random rnd = new Random();
+        public static ImageBrush PacMan =  GetImage(PACMAN_PATH);
 
-        public static ImageBrush ScaryGhost
-        {
-            get => GetImage(SCARY_GHOST_PATH); // Paths[rnd.Next(Paths.Length)]);
-        }
 
-        public static ImageBrush SmallPoint
-        {
-            get => GetImage(SMALL_POINT_PATH);
-        }
+        public static ImageBrush ScaryGhost = GetImage(SCARY_GHOST_PATH);
 
-        public static ImageBrush Drug
-        {
-            get => GetImage(DRUG_PATH);
-        }
+        public static ImageBrush SmallPoint = GetImage(SMALL_POINT_PATH);
+
+        public static ImageBrush Drug = GetImage(DRUG_PATH);
+
+        public static ImageBrush Gate = GetImage(GATE_PATH);
+
         public record CacheKey(Walls Block, ColorD PenColor);
        
         public static ImageBrush GetImage(Walls Block, ColorD PenColor) => GetImage(new CacheKey(Block, PenColor));

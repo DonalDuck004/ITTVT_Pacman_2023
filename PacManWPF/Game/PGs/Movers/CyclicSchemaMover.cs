@@ -4,12 +4,12 @@ namespace PacManWPF.Game.PGs.Movers
 {
     public class CyclicSchemaMover : Abs.SchemaBasedMover
     {
-        public CyclicSchemaMover(Point[] schema) : base(schema)
+        public CyclicSchemaMover(Point[] schema, Ghost self) : base(schema, self)
         {
 
         }
 
-        public override void Move(Ghost self)
+        public override bool Move()
         {
             Point LastPos = GetPos();
 
@@ -19,7 +19,9 @@ namespace PacManWPF.Game.PGs.Movers
 
 
             if (GetPos() == LastPos)
-                NextFrame(self);
+                return NextFrame();
+
+            return true;
         }
     }
 }

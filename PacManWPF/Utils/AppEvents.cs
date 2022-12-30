@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Interop;
+using PacManWPF.Game.Worlds;
 using PacManWPF.Utils;
 
 namespace PacManWPF
@@ -111,6 +115,57 @@ namespace PacManWPF
         private void SetVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SoundEffectsPlayer.SetVolume(e.NewValue);
+        }
+
+        private void OpenGit(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://github.com/DonalDuck004/ITTVT_Pacman_2023") { UseShellExecute = true });
+        }
+
+        private void OpenTG(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://t.me/DonalDuck004") { UseShellExecute = true });
+        }
+
+        private void OpenSettings(object sender, RoutedEventArgs e)
+        {
+            FillWorldsBox();
+            pause_menu_tab.IsSelected = true;
+        }
+
+        private void OpenWorldsFolder(object sender, RoutedEventArgs e)
+        {
+            Process.Start("explorer", Config.WORLD_DIR);
+        }
+
+        private void OpenITTVTSite(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://ittvt.edu.it/") { UseShellExecute = true });
+        }
+
+        private void ClosePauseMenu(object sender, EventArgs e)
+        {
+            if (WorldLoader.CurrentWorld is null)
+            {
+                this.start_game_tab.IsSelected = true;
+                return;
+            }
+
+            this.game_tab.IsSelected = true;
+            CloseMenu();
+        }
+
+        private void FillWorldsBox()
+        {
+            this.worlds_box.Items.Clear();
+            foreach (World world in WorldLoader.Worlds)
+                this.worlds_box.Items.Add(world.Name);
+        }
+
+        private void DropWorldsCache(object sender, EventArgs e)
+        {
+            WorldLoader.DropCache();
+            FillWorldsBox();
         }
     }
 }

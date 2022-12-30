@@ -101,7 +101,7 @@ namespace PacManWPF.Game.PGs
             foreach (var ceil in PacmanGame.INSTANCE.CeilsAt(x, y))
             {
 
-                if (ceil.IsWall())
+                if (ceil.IsWall() || ceil.IsGate())
                 {
                     can_pass = false;
                     break;

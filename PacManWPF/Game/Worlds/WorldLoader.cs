@@ -22,6 +22,9 @@ namespace PacManWPF.Game.Worlds
         public string Name { get; private set; }
         public int TotalPoints { get; private set; }
 
+        public Point SpawnGate { get; private set; }
+
+
         public World(string file)
         {
             filename = file;
@@ -29,7 +32,7 @@ namespace PacManWPF.Game.Worlds
             Name = Path.GetFileName(file).Split(".")[0];
         }
 
-        public void Apply(MainWindow app)
+        public void Apply()
         {
             WorldLoader.CurrentWorld = this;
             SoundEffectsPlayer.Play(SoundEffectsPlayer.START);
@@ -70,17 +73,18 @@ namespace PacManWPF.Game.Worlds
                         this.TotalPoints++;
                     }
                     else if (v == -2)
-                    {
                         item.Fill = ResourcesLoader.Drug;
-                    }
                     else if (v == -3)
-                    {
                         item.Fill = null;
-                    }
                     else if (v == -4)
                         item.Fill = ResourcesLoader.GetImage((Walls)sr.ReadInt32(), System.Drawing.Color.FromArgb(sr.ReadByte(),
                                                                                                                   sr.ReadByte(),
                                                                                                                   sr.ReadByte()));
+                    else if (v == -5)
+                    {
+                        this.SpawnGate = new(Grid.GetColumn(item), Grid.GetRow(item));
+                        item.Fill = ResourcesLoader.Gate;
+                    }
                     else
                         throw new Exception();
 
@@ -120,19 +124,32 @@ namespace PacManWPF.Game.Worlds
                         Point[] schema = new Point[sr.ReadInt32()];
                         for (int i = 0; i < schema.Length; i++)
                             schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
-                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema));
+                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost), SpawnPointOf(ghost));
                     } else if (schema_type == typeof(MLDataCollectorSchemaMover))
                     {
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, 
                                                                                  Convert.ToHexString(md5), 
-                                                                                 new Point(sr.ReadInt32(), sr.ReadInt32())));
+                                                                                 new Point(sr.ReadInt32(), sr.ReadInt32()),
+                                                                                 ghost), 
+                                        SpawnPointOf(ghost));
                     }
 #pragma warning restore CS8604
 #pragma warning restore CS8600
 
                 }
-
             }
+        }
+
+        private Point SpawnPointOf(Ghost ghost)
+        {
+            if (ghost.Type is PGs.Enums.GhostColors.Red)
+                return this.SpawnGate;
+            else if (ghost.Type is PGs.Enums.GhostColors.Pink)
+                return new(this.SpawnGate.X, this.SpawnGate.Y + 1);
+            else if (ghost.Type is PGs.Enums.GhostColors.Cyan)
+                return new(this.SpawnGate.X - 1, this.SpawnGate.Y + 1);
+            else
+                return new(this.SpawnGate.X + 1, this.SpawnGate.Y + 1);
         }
     }
 

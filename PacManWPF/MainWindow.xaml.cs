@@ -49,9 +49,9 @@ namespace PacManWPF
 
         private PacmanGame()
         {
-            Ghost.INSTANCES[0] = new(GhostColors.Cyan);
+            Ghost.INSTANCES[0] = new(GhostColors.Red);
             Ghost.INSTANCES[1] = new(GhostColors.Pink);
-            Ghost.INSTANCES[2] = new(GhostColors.Red);
+            Ghost.INSTANCES[2] = new(GhostColors.Cyan);
             Ghost.INSTANCES[3] = new(GhostColors.Orange);
         }
 
@@ -61,13 +61,22 @@ namespace PacManWPF
                 throw new Exception("No world selected");
 
             for (int i = 0; i < Ghost.INSTANCES.Length; i++)
+            {
                 if (Ghost.INSTANCES[i].ShouldTick(type))
                 {
+                    if (!Ghost.INSTANCES[i].Initialized)
+                    {
+                        Ghost.INSTANCES[i].Tick();
+                        break;
+                    }
+
                     Ghost.INSTANCES[i].Tick();
 
                     if (this.GameOver)
                         return;
                 }
+            }
+
 
             if (this.Points == WorldLoader.CurrentWorld.TotalPoints)
                 this.Won = true;
@@ -122,15 +131,21 @@ namespace PacManWPF
             e.Handled = true;
             if (e.Key is Key.Escape)
             {
-                if (this.pause_menu.IsSelected)
+                if (this.pause_menu_tab.IsSelected)
                 {
+                    if (WorldLoader.CurrentWorld is null)
+                    {
+                        this.start_game_tab.IsSelected = true;
+                        return;
+                    }
+
                     this.ResumeGame();
                     this.game_tab.IsSelected = true;
                 }
                 else
                 {
                     this.FreezeGame();
-                    this.app_pages.SelectedIndex = this.pause_menu.TabIndex;
+                    this.app_pages.SelectedIndex = this.pause_menu_tab.TabIndex;
                 }
                 CloseMenu();
                 return;
@@ -188,24 +203,15 @@ namespace PacManWPF
             
         }
 
-        public void ClosePauseMenu(object sender, EventArgs e)
-        {
-            this.game_tab.IsSelected = true;
-            CloseMenu();
-        }
-
         public void CloseMenu()
         {
-            if (this.pause_menu.IsSelected)
-            {
-                foreach (World world in WorldLoader.Worlds)
-                    this.worlds_box.Items.Add(world.Name);
-            }
-            else
+            if (this.pause_menu_tab.IsSelected)
             {
                 this.worlds_box.Items.Clear();
-                this.ResumeGame();
+                FillWorldsBox();
             }
+            else
+                this.ResumeGame();
 
         }
 
@@ -298,7 +304,7 @@ namespace PacManWPF
             FreezeGame();
             this.world_label.Content = WorldLoader.Worlds[this.worlds_box.SelectedIndex].Name;
             this.game_won_label.Content = this.world_label.Content;
-            WorldLoader.Worlds[this.worlds_box.SelectedIndex].Apply(this);
+            WorldLoader.Worlds[this.worlds_box.SelectedIndex].Apply();
             this.game_tab.IsSelected = true;
             this.CloseMenu();
             this.start_time = DateTime.Now;

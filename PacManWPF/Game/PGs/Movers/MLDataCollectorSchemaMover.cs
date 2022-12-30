@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using System.Threading;
 using System.IO;
 using System;
@@ -14,6 +15,8 @@ using System.Numerics;
 
 using Point = System.Drawing.Point;
 using System.Windows.Input;
+using System.Runtime.InteropServices.JavaScript;
+using System.Drawing;
 
 namespace PacManWPF.Game.PGs.Movers
 {
@@ -23,10 +26,14 @@ namespace PacManWPF.Game.PGs.Movers
         private string hash;
         private SqliteConnection connection;
         private Point Position;
+        private Point StartPoint;
 
         public static Semaphore sem = new Semaphore(1, 1);
+        private record GhostState(bool Died, bool PacmanDrugged, bool InGate, bool initialized);
 
-        public MLDataCollectorSchemaMover(string hash, Point start_point)
+        private GhostState? oldState = null;
+
+        public MLDataCollectorSchemaMover(string hash, Point start_point, Ghost ghost) : base(ghost)
         {
             try
             {
@@ -35,7 +42,8 @@ namespace PacManWPF.Game.PGs.Movers
                 connection = new SqliteConnection("Data Source=" + ML_DB_NAME);
                 connection.Open();
                 this.hash = hash;
-                this.Position = start_point;
+                this.StartPoint = start_point;
+                this.Position = new(Grid.GetColumn(ghost.CeilObject), Grid.GetRow(ghost.CeilObject));
                 if (intialize)
                     this.LoadSchema();
                 RegWorld();
@@ -48,25 +56,14 @@ namespace PacManWPF.Game.PGs.Movers
 
         }
 
-        public override System.Drawing.Point GetPos()
-        {
-            return this.Position;
-        }
+        public override Point GetStartPoint() => this.StartPoint;
 
-        private void RegWorld()
-        {
-            SqliteCommand cur = this.connection.CreateCommand();
-            string sql = "INSERT INTO Worlds(WorldName, WorldHash) VALUES($wn, $wh) ON CONFLICT DO NOTHING";
-            cur.CommandText = sql;
-            cur.Parameters.Clear();
-            cur.Parameters.AddWithValue("$wn", "TODO");
-            cur.Parameters.AddWithValue("$wh", this.hash);
-            cur.ExecuteNonQuery();
-        }
+        public override Point GetPos() => this.Position;
+
 
         // private int fixed_idx(int idx) => idx == PacmanGame.INSTANCE.FreeAreas.Count ? 0 : idx == -1 ? (PacmanGame.INSTANCE.FreeAreas.Count - 1) : idx;
 
-        List<Point>? cached_way = null;
+        List<Point>? old_way = null;
 
         private void _NearPoints(Point from,
                                  List<Point> root,
@@ -79,31 +76,24 @@ namespace PacManWPF.Game.PGs.Movers
 
             if (done.Count != 0)
                 lock (done)
-                    if (root.Count > done.Select(x => x.Count).Order().First()) return;
+                    if (root.Count > done.Select(x => x.Count).Order().First())
+                        return;
             
 
             List<Point> near = new();
-            foreach (var point in PacmanGame.INSTANCE.FreeAreas)
-            {
-                if (near.Count == 4)
-                    break;
-                if (root.Contains(point))
-                    continue;
+            Point tmp;
 
+            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X - 1, from.Y).Fix()) && !root.Contains(tmp))
+                near.Add(tmp);
 
-                if (IsValid(from, point))
-                {
-                    if (point.X == dest.X && point.Y == dest.Y)
-                    {
-                        root.Add(point);
-                        lock (done)
-                            done.Add(root);
-                        return;
-                    }
-                    else
-                        near.Add(point);
-                }
-            }
+            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X + 1, from.Y).Fix()) && !root.Contains(tmp))
+                near.Add(tmp);
+
+            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X, from.Y - 1).Fix()) && !root.Contains(tmp))
+                near.Add(tmp);
+
+            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X, from.Y + 1).Fix()) && !root.Contains(tmp))
+                near.Add(tmp);
 
             if (near.Count == 0)
                 return;
@@ -111,10 +101,19 @@ namespace PacManWPF.Game.PGs.Movers
             var e = near.GetEnumerator();
             e.MoveNext();
             var first = e.Current;
+
+
             List<Point> bck;
 
             while (e.MoveNext())
             {
+                if (e.Current.X == dest.X && e.Current.Y == dest.Y)
+                {
+                    lock (done)
+                        done.Add(root);
+                    return;
+                }
+
                 bck = new(root)
                 {
                     e.Current
@@ -123,6 +122,12 @@ namespace PacManWPF.Game.PGs.Movers
             }
 
             root.Add(first);
+            if (first.X == dest.X && first.Y == dest.Y)
+            {
+                lock (done)
+                    done.Add(root);
+                return;
+            }
             _NearPoints(first, root, done, dest, limit);
         }
 
@@ -142,8 +147,7 @@ namespace PacManWPF.Game.PGs.Movers
         }
 
 
-
-        private List<Point> NearPoints(Point from, Point dest, int limit, Ghost self)
+        private List<Point>? NearPoints(Point from, Point dest, int limit)
         {
             if (from == dest)
                 return new() { from, dest };
@@ -168,7 +172,7 @@ namespace PacManWPF.Game.PGs.Movers
                 thread.Join();
 
             if (done.Count == 0)
-                return new() { from, from };
+                return null;
 
             if (done.Count == 1)
                 return done[0];
@@ -176,34 +180,57 @@ namespace PacManWPF.Game.PGs.Movers
             return done.OrderBy(x => x.Count).First();
         }
 
-        public override void NextFrame(Ghost self)
+        public override bool NextFrame()
         {
-            if (!self.IsDied)
-                this.cached_way = null;
-
-           var center = new Point(Config.CHUNK_WC / 2, Config.CHUNK_HC / 2);
-            if (self.IsDied) {
-                if (cached_way is null)
-                {
-                    cached_way = NearPoints(this.Position,
-                                            center,
-                                            1000,
-                                            self);
-                    cached_way.RemoveAt(0);
-                }
-
-                if (cached_way.Count == 0)
-                    return;
-
-                this.Position = cached_way[0];
-                cached_way.RemoveAt(0);
-
+            return false;
+            /*var state = new GhostState(ghost.IsDied, Pacman.INSTANCE.IsDrugged, ghost.InGate, ghost.Initialized);
+            if (state.InGate)
+            {
+                
             }
-            // !self.IsDied && !Pacman.INSTANCE.IsDrugged
-            this.Position = NearPoints(this.Position,
-                                            Pacman.INSTANCE.Position,
-                                            10,
-                                            self)[1];
+
+
+
+            List<Point>? way;
+            int limit;
+            if (state.Died && state != oldState)
+            {
+                limit = 1000;
+                way = NearPoints(this.Position,
+                 this.ghost.SpawnPoint,
+                 1000);
+            }
+            else if (!state.Died && !state.PacmanDrugged)
+            {
+                limit = 7;
+                way = NearPoints(this.Position,
+                                  Pacman.INSTANCE.Position,
+                                  7);
+            }else
+            {
+                this.oldState = state;
+                return;
+            }
+
+            if (way is not null)
+            {
+                this.old_way = way.Take(limit).ToList();
+                this.old_way.RemoveAt(0);
+            }
+            else if (this.oldState != state)
+            {
+                this.oldState = state;
+                return;
+            }
+
+            if (this.old_way is null || this.old_way.Count == 0)
+            {
+                this.oldState = state;
+                return;
+            }
+
+            this.Position = this.old_way[0];
+            this.old_way.RemoveAt(0);*/
         }
 
 
@@ -306,5 +333,17 @@ namespace PacManWPF.Game.PGs.Movers
             cur.CommandText = sql;
             cur.ExecuteNonQuery();
         }
+
+        private void RegWorld()
+        {
+            SqliteCommand cur = this.connection.CreateCommand();
+            string sql = "INSERT INTO Worlds(WorldName, WorldHash) VALUES($wn, $wh) ON CONFLICT DO NOTHING";
+            cur.CommandText = sql;
+            cur.Parameters.Clear();
+            cur.Parameters.AddWithValue("$wn", "TODO");
+            cur.Parameters.AddWithValue("$wh", this.hash);
+            cur.ExecuteNonQuery();
+        }
+
     }
 }

@@ -15,6 +15,8 @@
     <ItemGroup>
         <None Remove="Assets\Fonts\ARCADECLASSIC.TTF" />
         <None Remove="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" />
+        <None Remove="Assets\Images\folder.png" />
+        <None Remove="Assets\Images\settings.png" />
         <None Remove="Assets\Sounds\chomp.wav" />
         <None Remove="Assets\Sounds\start.wav" />
     </ItemGroup>
@@ -30,45 +32,41 @@
 </ItemGroup>
     <ItemGroup>
         <Resource Include="Assets\Fonts\ARCADECLASSIC.TTF" />
+        <Resource Include="Assets\Images\bg.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
         <Resource Include="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\cyan.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\dead_ghost.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\Drug.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\eyes.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
+        </Resource>
+        <Resource Include="Assets\Images\folder.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\orange.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\pacman_closed.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\pacman_open.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\pacman_partially_closed.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\pink.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-
         </Resource>
         <Resource Include="Assets\Images\Point.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -76,10 +74,19 @@
         <Resource Include="Assets\Images\red.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
+        <Resource Include="Assets\Images\settings.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\tg.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
         <Resource Include="Assets\Sounds\chomp.wav">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Sounds\start.wav">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\Git.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>

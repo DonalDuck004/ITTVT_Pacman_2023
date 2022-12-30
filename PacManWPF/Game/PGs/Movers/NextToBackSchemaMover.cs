@@ -6,11 +6,11 @@ namespace PacManWPF.Game.PGs.Movers
     {
         private bool increment = true;
     
-        public NextToBackSchemaMover(Point[] schema) : base(schema)
+        public NextToBackSchemaMover(Point[] schema, Ghost self) : base(schema, self)
         {
         }
 
-        public override void Move(Ghost self)
+        public override bool Move()
         {
             Point LastPos = GetPos();
 
@@ -34,7 +34,9 @@ namespace PacManWPF.Game.PGs.Movers
             }
 
             if (GetPos() == LastPos)
-                NextFrame(self);
+                NextFrame();
+
+            return true;
         }
     }
 }
