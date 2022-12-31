@@ -9,6 +9,11 @@ using System.Windows.Media.Imaging;
 using Color = System.Windows.Media.Color;
 using ColorD = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
+using PacManWPF.Game.Tags;
+using PacManWPF.Game.PGs.Enums;
+using System.Runtime.CompilerServices;
+using System.Windows.Shapes;
+using System.Windows.Input;
 
 namespace PacManWPF.Utils
 {
@@ -53,13 +58,21 @@ namespace PacManWPF.Utils
         public const string OrangeGhost = @"Images\orange.png";
 
         public const string GHOST_EYES_PATH = @"Images\eyes.png";
-        public const string DRUG_PATH = @"Images\Drug.png";
+        public const string POWER_PELLET_PATH = @"Images\PowerPellet.png";
+        public const string CHERRY_PATH = @"Images\Cherry.png";
+        public const string STRAWBERRY_PATH = @"Images\Strawberry.png";
+        public const string PEACH_PATH = @"Images\Peach.png";
         public const string GATE_PATH = @"Images\Gate.png";
         public const string PACMAN_PATH = @"Images\pacman_open.png";
         public const string PACMAN_P_CLOSED_PATH = @"Images\pacman_partially_closed.png";
         public const string PACMAN_CLOSED_PATH = @"Images\pacman_closed.png";
-        public const string SMALL_POINT_PATH = @"Images\Point.png";
+        public const string PAC_DOT_PATH = @"Images\PacDot.png";
         public const string SCARY_GHOST_PATH = @"Images\dead_ghost.png";
+        public const string GALAXIAN_PATH = @"Images\Galaxian.png";
+        public const string APPLE_PATH = @"Images\Apple.png";
+        public const string MELON_PATH = @"Images\Melon.png";
+        public const string BELL_PATH = @"Images\Bell.png";
+        public const string KEY_PATH = @"Images\Key.png";
 
         private static Dictionary<CacheKey, ImageBrush> walls_cache = new();
 
@@ -76,15 +89,56 @@ namespace PacManWPF.Utils
 
         public static ImageBrush ScaryGhost = GetImage(SCARY_GHOST_PATH);
 
-        public static ImageBrush SmallPoint = GetImage(SMALL_POINT_PATH);
+        public static ImageBrush PacDot = GetImage(PAC_DOT_PATH);
 
-        public static ImageBrush Drug = GetImage(DRUG_PATH);
+        public static ImageBrush Peach = GetImage(PEACH_PATH);
+
+        public static ImageBrush PowerPellet = GetImage(POWER_PELLET_PATH);
+
+        public static ImageBrush Cherry = GetImage(CHERRY_PATH);
+
+        public static ImageBrush Galaxian = GetImage(GALAXIAN_PATH);
+
+        public static ImageBrush Apple = GetImage(APPLE_PATH);
+
+        public static ImageBrush Melon = GetImage(MELON_PATH);
+
+        public static ImageBrush Bell = GetImage(BELL_PATH);
+
+        public static ImageBrush Key = GetImage(KEY_PATH);
+
+        public static ImageBrush Strawberry = GetImage(STRAWBERRY_PATH);
 
         public static ImageBrush Gate = GetImage(GATE_PATH);
 
         public record CacheKey(Walls Block, ColorD PenColor);
        
         public static ImageBrush GetImage(Walls Block, ColorD PenColor) => GetImage(new CacheKey(Block, PenColor));
+
+        public static ImageBrush GetImage(FoodTypes type)
+        {
+            if (type is FoodTypes.PacDot)
+                return PacDot;
+            else if (type is FoodTypes.PowerPellet)
+                return PowerPellet;
+            else if (type is FoodTypes.Cherry)
+                return Cherry;
+            else if (type is FoodTypes.Strawberry)
+                return Strawberry;
+            else if (type is FoodTypes.Peach)
+                return Peach;
+            else if (type is FoodTypes.Apple)
+                return Apple;
+            else if (type is FoodTypes.Melon)
+                return Melon;
+            else if (type is FoodTypes.Galaxian)
+                return Galaxian;
+            else if (type is FoodTypes.Bell)
+                return Bell;
+            else
+                return Key;
+        }
+
 
         public static ImageBrush GetImage(CacheKey key)
         {

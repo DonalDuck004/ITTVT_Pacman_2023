@@ -17,6 +17,7 @@ using PacManWPF.Utils;
 
 using Point = System.Drawing.Point;
 using System.Drawing.Drawing2D;
+using System.Windows.Media.Animation;
 
 namespace PacManWPF
 {
@@ -26,8 +27,11 @@ namespace PacManWPF
         public Rectangle[] CeilsAt(Point point) => CeilsAt(point.X, point.Y);
         public Rectangle[] CeilsAt(int x, int y) => MainWindow.INSTANCE.game_grid.Children.OfType<Rectangle>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
 
+        private Random rnd = new();
+
         public readonly List<Point> FreeAreas = new();
         public bool Frozen { get; set;} = false;
+
         public bool GameOver { get; set;} = false;
         public bool Won { get; set;} = false;
 
@@ -91,6 +95,22 @@ namespace PacManWPF
             this.GameOver = false;
             this.Won = false;
         }
+
+        public void SpawnFood()
+        {
+            if (rnd.Next(100) == 0)
+            {
+                var values = ((FoodTypes[])Enum.GetValues(typeof(FoodTypes)));
+                var ceils = MainWindow.INSTANCE.game_grid.Children.OfType<Rectangle>().Where(x => ((Game.Tags.BaseTag)x.Tag).GetType() == typeof(Game.Tags.EmptyTag)).ToArray();
+                if (ceils.Length == 0)
+                    return;
+
+                var ceil = ceils[rnd.Next(ceils.Length)];
+                var food = values[rnd.Next(2, values.Length)];
+                ceil.Fill = ResourcesLoader.GetImage(food);
+                ceil.Tag = new Game.Tags.FoodTag(food);
+            }
+        }
     }
 
 
@@ -115,6 +135,7 @@ namespace PacManWPF
 
         };
 
+        GridLengthAnimation animation;
 
         public MainWindow()
         {
@@ -124,6 +145,14 @@ namespace PacManWPF
             InitializeComponent();
             this.AdaptToSize();
             this.game_ticker.Tick += new EventHandler(OnGameTick);
+
+            animation = (new GridLengthAnimation()
+            {
+                BeginTime = new TimeSpan(0),
+                Duration = new TimeSpan(TimeSpan.TicksPerSecond),
+                From = new GridLength(0)
+            });
+            // Storyboard.SetTarget(story, x);
         }
        
         public void DispatchKey(object sender, KeyEventArgs e)
@@ -230,13 +259,14 @@ namespace PacManWPF
             try
             {
                 bool was_drugged = Pacman.INSTANCE.IsDrugged;
-                if (was_drugged)
-                    Pacman.INSTANCE.DrugTicks--;
+
 
                 this.tick_seq = (GhostTickTypes)(((int)tick_seq + 1) % 3);
                 Debug.WriteLine(this.tick_seq);
                 
                 PacmanGame.INSTANCE.Tick(this.tick_seq);
+                if (was_drugged)
+                    Pacman.INSTANCE.DrugTicks--;
 
                 if (PacmanGame.INSTANCE.GameOver)
                 {
@@ -250,6 +280,8 @@ namespace PacManWPF
 
                 if (PacmanGame.INSTANCE.Won)
                     this.Won();
+
+                PacmanGame.INSTANCE.SpawnFood();
 
             }
             finally
@@ -272,6 +304,7 @@ namespace PacManWPF
         public void GameOver()
         {
             this.FreezeGame();
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.GAME_OVER);
             PacmanGame.INSTANCE.GameOver = true;
             this.UpdateLayout();
             MessageBox.Show("Game Over");
@@ -310,6 +343,20 @@ namespace PacManWPF
             this.start_time = DateTime.Now;
             GC.Collect();
             this.mutex.Release();
+
+            /*foreach (var g in this.game_grid.RowDefinitions)
+            {
+
+                var a = new Storyboard();
+                this.animation.To = new GridLength(this.game_grid.ActualHeight / 15);
+                a.Children.Add(this.animation);
+                Storyboard.SetTargetProperty(a, new PropertyPath(RowDefinition.HeightProperty));
+                Storyboard.SetTarget(a, g);
+                this.animation.Completed += Animation_Completed;
+                a.Begin();
+            }*/
+
         }
+
     }
 }

@@ -6,7 +6,10 @@ namespace PacManWPF.Utils
     public static class SoundEffectsPlayer
     {
         public static string CHOMP = "Sounds/chomp.wav";
+        public static string CHOMP_FRUIT = "Sounds/eatfruit.wav";
+        public static string GAME_OVER = "Sounds/gameover.wav";
         public static string START = "Sounds/start.wav";
+        public static string EAT_GHOST = "Sounds/eatghost.wav";
 
         private static MediaPlayer soundPlayer = new MediaPlayer();
 

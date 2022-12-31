@@ -61,8 +61,8 @@ namespace PacManWPF.Game.PGs
                                                   type is GhostColors.Pink ? ResourcesLoader.PinkGhost :
                                                   type is GhostColors.Red ?  ResourcesLoader.RedGhost : 
                                                                              ResourcesLoader.OrangeGhost);
-            this.CeilObject = new Rectangle();
-            this.CeilObject.Fill = this.Image;
+            this.CeilObject = new Rectangle() { Tag = new Tags.GhostTag(this),
+                                                Fill = this.Image};
             MainWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
         }
 
@@ -99,6 +99,8 @@ namespace PacManWPF.Game.PGs
         {
             if (this.IsDied is false)
                 this.RespawnTicks = 50;
+
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
 
             this.IsDied = true;
             this.CeilObject.Fill = ResourcesLoader.GhostEyes;

@@ -12,6 +12,8 @@ using System.Security.Cryptography;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Linq;
+using PacManWPF.Game.Tags;
+using PacManWPF.Game.PGs.Enums;
 
 namespace PacManWPF.Game.Worlds
 {
@@ -50,7 +52,7 @@ namespace PacManWPF.Game.Worlds
 
                 byte[] md5 = new byte[Config.CHUNK_HC * Config.CHUNK_WC * 4];
                 int idx = 0;
-
+                Walls walls;
 
                 foreach (var item in MainWindow.INSTANCE.game_grid.Children.OfType<System.Windows.Shapes.Rectangle>())
                 {
@@ -69,21 +71,33 @@ namespace PacManWPF.Game.Worlds
 
                     if (v == -1)
                     {
-                        item.Fill = ResourcesLoader.SmallPoint;
+                        item.Fill = ResourcesLoader.PacDot;
+                        item.Tag = new FoodTag(FoodTypes.PacDot);
                         this.TotalPoints++;
                     }
                     else if (v == -2)
-                        item.Fill = ResourcesLoader.Drug;
+                    {
+                        item.Fill = ResourcesLoader.PowerPellet;
+                        item.Tag = new FoodTag(FoodTypes.PowerPellet);
+                    }
                     else if (v == -3)
+                    {
                         item.Fill = null;
+                        item.Tag = EmptyTag.INSTANCE;
+                    }
                     else if (v == -4)
-                        item.Fill = ResourcesLoader.GetImage((Walls)sr.ReadInt32(), System.Drawing.Color.FromArgb(sr.ReadByte(),
-                                                                                                                  sr.ReadByte(),
-                                                                                                                  sr.ReadByte()));
+                    {
+                        walls = (Walls)sr.ReadInt32();
+                        item.Fill = ResourcesLoader.GetImage(walls, System.Drawing.Color.FromArgb(sr.ReadByte(),
+                                                                                          sr.ReadByte(),
+                                                                                          sr.ReadByte()));
+                        item.Tag = new WallTag(walls);
+                    }
                     else if (v == -5)
                     {
                         this.SpawnGate = new(Grid.GetColumn(item), Grid.GetRow(item));
                         item.Fill = ResourcesLoader.Gate;
+                        item.Tag = new GateTag();
                     }
                     else
                         throw new Exception();

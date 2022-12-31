@@ -32,17 +32,17 @@ namespace PacManWPF.Utils
         public static bool IsDrug(this Rectangle? ceil)
         {
             return ceil is not null && ceil.Fill is not null &&
-                ((BitmapImage)((ImageBrush)ceil.Fill).ImageSource).UriSource == ((BitmapImage)ResourcesLoader.Drug.ImageSource).UriSource;
+                ((BitmapImage)((ImageBrush)ceil.Fill).ImageSource).UriSource == ((BitmapImage)ResourcesLoader.PowerPellet.ImageSource).UriSource;
         }
         public static bool IsDrug(this ImageBrush? ceil)
         {
-            return ceil is not null && ((BitmapImage)ceil.ImageSource).UriSource == ((BitmapImage)ResourcesLoader.Drug.ImageSource).UriSource;
+            return ceil is not null && ((BitmapImage)ceil.ImageSource).UriSource == ((BitmapImage)ResourcesLoader.PowerPellet.ImageSource).UriSource;
         }
 
         public static bool IsPoint(this Rectangle? ceil)
         {
             return ceil is not null && ceil.Fill is not null &&
-                ((BitmapImage)((ImageBrush)ceil.Fill).ImageSource).UriSource == ((BitmapImage)ResourcesLoader.SmallPoint.ImageSource).UriSource;
+                ((BitmapImage)((ImageBrush)ceil.Fill).ImageSource).UriSource == ((BitmapImage)ResourcesLoader.PacDot.ImageSource).UriSource;
         }
 
         public static bool IsEmpty(this ImageBrush? ceil)
@@ -58,7 +58,7 @@ namespace PacManWPF.Utils
         public static bool IsPoint(this ImageBrush? ceil)
         {
 
-            return ceil is not null && ((BitmapImage)ceil.ImageSource).UriSource == ((BitmapImage)ResourcesLoader.SmallPoint.ImageSource).UriSource;
+            return ceil is not null && ((BitmapImage)ceil.ImageSource).UriSource == ((BitmapImage)ResourcesLoader.PacDot.ImageSource).UriSource;
         }
 
         public static bool IsPacman(this Rectangle? ceil)

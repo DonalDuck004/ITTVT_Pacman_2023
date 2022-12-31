@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:PacManWPF"
         mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey"
         Title="MainWindow" Width="1024" Height="480" Background="DeepSkyBlue">
-
     <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" Width="1024" Height="480" BorderBrush="Transparent" Name="app_pages">
         <!-- MaxHeight="0" MaxWidth="0" for tab items-->
         <TabItem Header="GameTab" Name="game_tab" TabIndex="0" Visibility="Collapsed">
@@ -24,7 +23,7 @@
 
                         <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Right">
                             <Rectangle.Fill>
-                                <ImageBrush ImageSource="Assets\Images\Drug.png"/>
+                                <ImageBrush ImageSource="Assets\Images\PowerPellet.png"/>
                             </Rectangle.Fill>
                         </Rectangle>
                     </WrapPanel>

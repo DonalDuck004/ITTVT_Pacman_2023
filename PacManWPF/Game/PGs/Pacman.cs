@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using PacManWPF.Game.Tags;
 using PacManWPF.Utils;
 
 using Point = System.Drawing.Point;
@@ -45,7 +46,7 @@ namespace PacManWPF.Game.PGs
 
         public bool IsDrugged => DrugTicks > 0;
 
-        public Rectangle CeilObject { get; private set; } = new Rectangle();
+        public Rectangle CeilObject { get; private set; } = new Rectangle() { Tag = new PacmanTag()};
 
 #nullable disable
         private Pacman()
@@ -98,44 +99,47 @@ namespace PacManWPF.Game.PGs
 
 
             bool can_pass = true;
+            BaseTag ceil_type;
             foreach (var ceil in PacmanGame.INSTANCE.CeilsAt(x, y))
             {
+                ceil_type = (BaseTag)ceil.Tag;
 
-                if (ceil.IsWall() || ceil.IsGate())
+                if (ceil_type.IsGate || ceil_type.IsAWall)
                 {
                     can_pass = false;
                     break;
                 }
-                else if (ceil.IsPoint())
+                else if (ceil_type.IsFood)
                 {
-                    SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP);
-                    PacmanGame.INSTANCE.Points++;
-                    ceil.Fill = null;
-                }
-                else if (ceil.IsDrug())
-                {
-                    DrugTicks += Config.DRUG_TICKS;
-                    ceil.Fill = null;
-                }
-                else if (ceil.Fill is not null)
-                {
-
-                    foreach (Ghost killer in Ghost.INSTANCES)
+                    switch(((FoodTag)ceil_type).FoodType)
                     {
-                        if (object.ReferenceEquals(ceil, killer.CeilObject))
-                        {
-                            if (IsDrugged || killer.IsDied)
-                                killer.Kill();
-                            else
-                            {
-                                PacmanGame.INSTANCE.GameOver = true;
-                                break;
-                            }
-                        }
+                        case Enums.FoodTypes.PacDot:
+                            SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP);
+                            break;
+
+                        case Enums.FoodTypes.PowerPellet:
+                            this.DrugTicks += Config.DRUG_TICKS;
+                            break;
+
+                        default:
+                            SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
+                            break;
                     }
 
-                    if (PacmanGame.INSTANCE.GameOver)
+                    PacmanGame.INSTANCE.Points += (int)((FoodTag)ceil_type).FoodType;
+
+                    ceil.Fill = null;
+                    ceil.Tag = EmptyTag.INSTANCE;
+                }
+                else if (ceil_type.IsAGhost)
+                {
+                    if (this.IsDrugged || ((GhostTag)ceil_type).ghost.IsDied)
+                        ((GhostTag)ceil_type).ghost.Kill();
+                    else
+                    {
+                        PacmanGame.INSTANCE.GameOver = true;
                         break;
+                    }
                 }
                     
             }

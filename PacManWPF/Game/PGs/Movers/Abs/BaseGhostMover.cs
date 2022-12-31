@@ -38,7 +38,7 @@ namespace PacManWPF.Game.PGs.Movers.Abs
         {
             if (done.Count != 0)
                 lock (done)
-                    if (root.Count > done.Select(x => x.Count).Order().First())
+                    if (root.Count >= done.Select(x => x.Count).Order().First())
                         return;
 
 
