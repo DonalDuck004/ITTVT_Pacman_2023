@@ -25,7 +25,6 @@ namespace PacManWPF.Animations
         }
 
 
-
         private MatrixTransform GetTransform()
         {
             var transform = Matrix.Identity;

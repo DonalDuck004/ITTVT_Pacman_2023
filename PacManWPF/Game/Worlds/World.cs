@@ -120,7 +120,7 @@ namespace PacManWPF.Game.Worlds
                             schema_type = typeof(OneTimeSchemaMover);
                             break;
                         case 3:
-                            schema_type = typeof(MLDataCollectorSchemaMover);
+                            schema_type = typeof(AutoMover);
                             break;
                         default: 
                             throw new Exception();
@@ -134,7 +134,7 @@ namespace PacManWPF.Game.Worlds
                         for (int i = 0; i < schema.Length; i++)
                             schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost), SpawnPointOf(ghost));
-                    } else if (schema_type == typeof(MLDataCollectorSchemaMover))
+                    } else if (schema_type == typeof(AutoMover))
                     {
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, 
                                                                                  Convert.ToHexString(md5), 

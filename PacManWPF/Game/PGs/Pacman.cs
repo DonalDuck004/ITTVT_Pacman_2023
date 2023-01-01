@@ -126,6 +126,7 @@ namespace PacManWPF.Game.PGs
                         ((GhostTag)ceil_type).ghost.Kill();
                     else
                     {
+                        Grid.SetZIndex(this.CeilObject, 2);
                         PacmanGame.INSTANCE.GameOver = true;
                         break;
                     }

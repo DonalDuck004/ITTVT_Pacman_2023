@@ -31,14 +31,15 @@ namespace PacManWPF
 
         private bool _frozen;
 
-        public bool Frozen { get => _frozen; 
-                            set { 
-                                this._frozen = value; // TODO Stop animations
-                                if (this._frozen) 
-                                    this.clock.Stop();
-                                else
-                                    this.clock.Start();
-                            } 
+        public bool Frozen { 
+            get => _frozen; 
+            set { 
+                this._frozen = value; // TODO Stop animations
+                if (this._frozen)
+                    this.clock.Stop();
+                else
+                    this.clock.Start();
+            } 
         }
 
         public bool GameOver { get; set;} = false;

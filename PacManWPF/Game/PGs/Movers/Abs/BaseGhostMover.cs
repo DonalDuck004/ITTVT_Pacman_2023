@@ -21,6 +21,7 @@ namespace PacManWPF.Game.PGs.Movers.Abs
 
         protected Ghost ghost;
         protected GhostState? OldState = null;
+        protected GhostState? CurrentState = null;
 
         public BaseGhostMover(Ghost self) { 
             this.ghost = self;
@@ -135,7 +136,7 @@ namespace PacManWPF.Game.PGs.Movers.Abs
             return done.OrderBy(x => x.Count).First();
         }
 
-        protected virtual void GotoStartPoint(Point to)
+        protected virtual void CalculateWay(Point to)
         {
             var from = ghost.EffectivePosition;
 
@@ -152,21 +153,21 @@ namespace PacManWPF.Game.PGs.Movers.Abs
 
         public virtual bool NextFrame() // False no read, True read .GetPos() result
         {
-            var state = new GhostState(ghost.IsDied, Pacman.INSTANCE.IsDrugged, ghost.InGate, ghost.Initialized, ghost.NeedToGoToSpawn);
-            if (state != this.OldState && this.goto_way is not null)
+            this.CurrentState = new GhostState(ghost.IsDied, Pacman.INSTANCE.IsDrugged, ghost.InGate, ghost.Initialized, ghost.NeedToGoToSpawn);
+            if (this.CurrentState != this.OldState && this.goto_way is not null)
                 this.goto_way = null;
 
-            this.OldState = state;
+            this.OldState = this.CurrentState;
 
-            if (state.Died)
+            if (this.CurrentState.Died)
             {
-                this.GotoStartPoint(this.ghost.SpawnPoint);
+                this.CalculateWay(this.ghost.SpawnPoint);
                 return false;
             }
 
-            if (!state.initialized || state.needToGoToSpawn)
+            if (!this.CurrentState.initialized || this.CurrentState.needToGoToSpawn)
             {
-                this.GotoStartPoint(this.GetStartPoint());
+                this.CalculateWay(this.GetStartPoint());
                 return false;
             }
 

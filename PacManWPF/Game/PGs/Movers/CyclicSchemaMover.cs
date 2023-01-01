@@ -13,9 +13,9 @@ namespace PacManWPF.Game.PGs.Movers
         {
             Point LastPos = GetPos();
 
-            schema_idx++;
-            if (schema_idx == schema.Length)
-                schema_idx = 0;
+            this.schema_idx++;
+            if (this.schema_idx == this.schema.Length)
+                this.schema_idx = 0;
 
 
             if (GetPos() == LastPos)
