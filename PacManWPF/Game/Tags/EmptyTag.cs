@@ -4,7 +4,6 @@
     {
         public static EmptyTag INSTANCE { get; }  = new EmptyTag();
 
-
         private EmptyTag()
         {
             this.IsAWall = false;

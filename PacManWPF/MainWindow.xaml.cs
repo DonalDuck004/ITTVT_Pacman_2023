@@ -2,22 +2,20 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Runtime.InteropServices.JavaScript;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using PacManWPF.Game.Worlds;
 using PacManWPF.Game.PGs;
 using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
+using PacManWPF.Animations;
 
 using Point = System.Drawing.Point;
-using System.Drawing.Drawing2D;
-using System.Windows.Media.Animation;
+
 
 namespace PacManWPF
 {
@@ -30,19 +28,28 @@ namespace PacManWPF
         private Random rnd = new();
 
         public readonly List<Point> FreeAreas = new();
-        public bool Frozen { get; set;} = false;
+
+        private bool _frozen;
+
+        public bool Frozen { get => _frozen; 
+                            set { 
+                                this._frozen = value; // TODO Stop animations
+                                if (this._frozen) 
+                                    this.clock.Stop();
+                                else
+                                    this.clock.Start();
+                            } 
+        }
 
         public bool GameOver { get; set;} = false;
         public bool Won { get; set;} = false;
-
+        public int PacDots { get; set; } = 0;
+        public DateTime StartDate { get; set; }
 
         private int _points = 0;
         public int Points
         {
-            get
-            {
-                return _points;
-            }
+            get => _points;
             set
             {
                 MainWindow.INSTANCE.points_label.Content = value.ToString().ZFill(3);
@@ -50,6 +57,7 @@ namespace PacManWPF
             }
         }
 
+        private DispatcherTimer clock;
 
         private PacmanGame()
         {
@@ -57,6 +65,13 @@ namespace PacManWPF
             Ghost.INSTANCES[1] = new(GhostColors.Pink);
             Ghost.INSTANCES[2] = new(GhostColors.Cyan);
             Ghost.INSTANCES[3] = new(GhostColors.Orange);
+
+            this.clock = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+
+            this.clock.Tick += (s, e) => MainWindow.INSTANCE.time_label.Content = new DateTime((DateTime.Now - this.StartDate).Ticks).ToString("HH:mm:ss");
         }
 
         public void Tick(GhostTickTypes type)
@@ -82,33 +97,59 @@ namespace PacManWPF
             }
 
 
-            if (this.Points == WorldLoader.CurrentWorld.TotalPoints)
+            if (this.PacDots == WorldLoader.CurrentWorld.PacDotCount)
                 this.Won = true;
         }
 
         public void InitGame(int pacman_x, int pacman_y, int pacman_grad)
         {
-            Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
+            Debug.Assert(WorldLoader.CurrentWorld is not null);
+            
             this.FreeAreas.Clear();
             this.Points = 0;
+            this.PacDots = 0;
             this.Frozen = false;
             this.GameOver = false;
             this.Won = false;
+            this.StartDate = DateTime.Now;
+            this.clock.Start();
+
+            Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
         }
 
         public void SpawnFood()
         {
             if (rnd.Next(100) == 0)
             {
+                Debug.Assert(WorldLoader.CurrentWorld is not null);
+                var world = WorldLoader.CurrentWorld;
                 var values = ((FoodTypes[])Enum.GetValues(typeof(FoodTypes)));
-                var ceils = MainWindow.INSTANCE.game_grid.Children.OfType<Rectangle>().Where(x => ((Game.Tags.BaseTag)x.Tag).GetType() == typeof(Game.Tags.EmptyTag)).ToArray();
+                var ceils = MainWindow.INSTANCE.game_grid.Children.OfType<Rectangle>().Where(x => ((Game.Tags.BaseTag)x.Tag).GetType() == typeof(Game.Tags.EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
                 if (ceils.Length == 0)
                     return;
 
                 var ceil = ceils[rnd.Next(ceils.Length)];
                 var food = values[rnd.Next(2, values.Length)];
                 ceil.Fill = ResourcesLoader.GetImage(food);
-                ceil.Tag = new Game.Tags.FoodTag(food);
+                Guid guid = Guid.NewGuid();
+                var animation = new SpecialFoodAnimation();
+                animation.Id = guid;
+                ceil.Tag = new Game.Tags.FoodTag(food, animation);
+               
+                animation.Completed += (s, e) => {
+                    Debug.WriteLine("Ao");
+                    if (ceil.Tag.GetType() != typeof(Game.Tags.FoodTag) || ((Game.Tags.FoodTag)ceil.Tag).animation is null)
+                        return;
+                   Guid ID = ((Game.Tags.FoodTag)ceil.Tag).animation.Id;
+
+                    if (ID == guid)
+                    {
+                        ceil.Tag = Game.Tags.EmptyTag.INSTANCE;
+                        ceil.Fill = null;
+                    }
+                };
+
+                ceil.BeginAnimation(Rectangle.OpacityProperty, animation);
             }
         }
     }
@@ -124,8 +165,6 @@ namespace PacManWPF
         public int total_points;
 
         private Semaphore mutex = new Semaphore(1, 1);
-
-        private DateTime start_time;
         
         private DateTime last_call = DateTime.Now;
 
@@ -135,24 +174,17 @@ namespace PacManWPF
 
         };
 
-        GridLengthAnimation animation;
+        private GhostTickTypes tick_seq = GhostTickTypes.Scaried;
+        
+
 
         public MainWindow()
         {
             if (MainWindow._INSTANCE is null)
                 MainWindow._INSTANCE = this;
-
             InitializeComponent();
             this.AdaptToSize();
             this.game_ticker.Tick += new EventHandler(OnGameTick);
-
-            animation = (new GridLengthAnimation()
-            {
-                BeginTime = new TimeSpan(0),
-                Duration = new TimeSpan(TimeSpan.TicksPerSecond),
-                From = new GridLength(0)
-            });
-            // Storyboard.SetTarget(story, x);
         }
        
         public void DispatchKey(object sender, KeyEventArgs e)
@@ -237,14 +269,13 @@ namespace PacManWPF
             if (this.pause_menu_tab.IsSelected)
             {
                 this.worlds_box.Items.Clear();
-                FillWorldsBox();
+                this.FillWorldsBox();
             }
             else
                 this.ResumeGame();
 
         }
 
-        GhostTickTypes tick_seq = GhostTickTypes.Scaried;
 
         private void OnGameTick(object? sender, EventArgs e)
         {
@@ -262,7 +293,6 @@ namespace PacManWPF
 
 
                 this.tick_seq = (GhostTickTypes)(((int)tick_seq + 1) % 3);
-                Debug.WriteLine(this.tick_seq);
                 
                 PacmanGame.INSTANCE.Tick(this.tick_seq);
                 if (was_drugged)
@@ -273,9 +303,6 @@ namespace PacManWPF
                     this.GameOver();
                     return;
                 }
-
-                if (tick_seq is not GhostTickTypes.Died)
-                    Pacman.INSTANCE.Animate();
 
 
                 if (PacmanGame.INSTANCE.Won)
@@ -292,12 +319,9 @@ namespace PacManWPF
 
         public void Won()
         {
-            var tmp = Pacman.INSTANCE.CeilObject.Fill.RelativeTransform;
-            Pacman.INSTANCE.CeilObject.Fill = ResourcesLoader.PacMan;
-            Pacman.INSTANCE.CeilObject.Fill.RelativeTransform = tmp;
             this.FreezeGame();
 
-            this.ellapsed_time_label.Content = (new DateTime((DateTime.Now - this.start_time).Ticks)).ToString("HH:mm:ss");
+            this.ellapsed_time_label.Content = new DateTime((DateTime.Now - PacmanGame.INSTANCE.StartDate).Ticks).ToString("HH:mm:ss");
             this.game_won_tab.IsSelected = true;
         }
 
@@ -334,28 +358,14 @@ namespace PacManWPF
                 return;
 
             this.mutex.WaitOne();
-            FreezeGame();
+            this.FreezeGame();
             this.world_label.Content = WorldLoader.Worlds[this.worlds_box.SelectedIndex].Name;
             this.game_won_label.Content = this.world_label.Content;
             WorldLoader.Worlds[this.worlds_box.SelectedIndex].Apply();
             this.game_tab.IsSelected = true;
             this.CloseMenu();
-            this.start_time = DateTime.Now;
             GC.Collect();
             this.mutex.Release();
-
-            /*foreach (var g in this.game_grid.RowDefinitions)
-            {
-
-                var a = new Storyboard();
-                this.animation.To = new GridLength(this.game_grid.ActualHeight / 15);
-                a.Children.Add(this.animation);
-                Storyboard.SetTargetProperty(a, new PropertyPath(RowDefinition.HeightProperty));
-                Storyboard.SetTarget(a, g);
-                this.animation.Completed += Animation_Completed;
-                a.Begin();
-            }*/
-
         }
 
     }

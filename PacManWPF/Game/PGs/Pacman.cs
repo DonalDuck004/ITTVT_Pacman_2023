@@ -4,7 +4,9 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using PacManWPF.Animations;
 using PacManWPF.Game.Tags;
 using PacManWPF.Utils;
 
@@ -19,8 +21,7 @@ namespace PacManWPF.Game.PGs
 
         public int X { get; private set; }
         public int Y { get; private set; }
-        public int Grad { get; private set; }
-        private int animation_count;
+        public PacmanAnimation Animation { get; private set; } = new();
 
         public Point Position => new (X, Y);
 
@@ -46,11 +47,12 @@ namespace PacManWPF.Game.PGs
 
         public bool IsDrugged => DrugTicks > 0;
 
-        public Rectangle CeilObject { get; private set; } = new Rectangle() { Tag = new PacmanTag()};
+        public Rectangle CeilObject { get; private set; } = new Rectangle() { Tag = PacmanTag.INSTANCE };
 
 #nullable disable
         private Pacman()
         {
+            this.CeilObject.BeginAnimation(Rectangle.FillProperty, this.Animation);
             MainWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
         }
 #nullable restore
@@ -60,28 +62,12 @@ namespace PacManWPF.Game.PGs
             this.DrugTicks = 0;
             this.X = x;
             this.Y = y;
-            this.Grad = grad;
 
-            this.Animate();
-
+            this.Animation.Grad = grad;
 
             Grid.SetColumn(this.CeilObject, x);
             Grid.SetRow(this.CeilObject, y); 
             Grid.SetZIndex(this.CeilObject, 2);
-        }
-
-
-        public MatrixTransform GetTransform(int? grad = null)
-        {
-            var transform = Matrix.Identity;
-            transform.RotateAt(grad ?? Grad, 0.5, 0.5);
-
-            if (IsDrugged)
-                transform.ScaleAt(2, 2, 0.5, 0.5);
-            else
-                transform.ScaleAt(1, 1, 0.5, 0.5);
-
-            return new (transform);
         }
 
 
@@ -115,10 +101,13 @@ namespace PacManWPF.Game.PGs
                     {
                         case Enums.FoodTypes.PacDot:
                             SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP);
+                            PacmanGame.INSTANCE.PacDots++;
                             break;
 
                         case Enums.FoodTypes.PowerPellet:
                             this.DrugTicks += Config.DRUG_TICKS;
+                            if (((FoodTag)ceil_type).animation is not null)
+                                ((FoodTag)ceil_type).animation.Freeze();
                             break;
 
                         default:
@@ -154,22 +143,12 @@ namespace PacManWPF.Game.PGs
                 Grid.SetRow(this.CeilObject, y);
             }
 
-            this.Grad = grad;
-            var img = GetImage(); // Without this var, it may result laggy
-            img.RelativeTransform = GetTransform(grad);
-            this.CeilObject.Fill = img;
+            this.Animation.Grad = grad;
         }
 
-        public void Animate()
-        {
-            var tmp = this.GetImage();
-            tmp.RelativeTransform = this.GetTransform();
-            this.CeilObject.Fill = tmp;
-        }
 
         public bool IsAt(Point point) => IsAt(point.X, point.Y);
 
         public bool IsAt(int x, int y) => x == X && y == Y;
-        public ImageBrush GetImage() => ResourcesLoader.GetImage(ResourcesLoader.PacManAnimationPaths[++animation_count % 3]);
     }
 }

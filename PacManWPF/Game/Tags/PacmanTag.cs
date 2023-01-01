@@ -2,7 +2,9 @@
 {
     class PacmanTag : BaseTag
     {
-        public PacmanTag() { 
+        public static PacmanTag INSTANCE { get; }  = new PacmanTag();
+
+        private PacmanTag() { 
             this.IsAWall = false;
             this.IsFood = false;
             this.IsAGhost = false;
