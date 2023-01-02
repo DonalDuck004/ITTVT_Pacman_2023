@@ -106,11 +106,11 @@ namespace PacManWPF.Game.PGs
 
                         case Enums.FoodTypes.PowerPellet:
                             this.DrugTicks += Config.DRUG_TICKS;
-                            if (((FoodTag)ceil_type).animation is not null)
-                                ((FoodTag)ceil_type).animation.Freeze();
                             break;
 
                         default:
+                            if (((FoodTag)ceil_type).animation is not null)
+                                ((FoodTag)ceil_type).animation.Stop();
                             SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
                             break;
                     }
