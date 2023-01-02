@@ -24,7 +24,6 @@ namespace PacManWPF.Animations
             this.RepeatBehavior = RepeatBehavior.Forever;
         }
 
-
         private MatrixTransform GetTransform()
         {
             var transform = Matrix.Identity;
