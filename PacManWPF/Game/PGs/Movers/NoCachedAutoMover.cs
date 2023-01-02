@@ -27,8 +27,7 @@ namespace PacManWPF.Game.PGs.Movers
                 return false;
 
             var way = GetWay(this.ghost.EffectivePosition, Pacman.INSTANCE.Position);
-            way.RemoveAt(0);
-            this.Position = way[0];
+            this.Position = way.PopFirstNode().Point;
 
             return true;
         }
