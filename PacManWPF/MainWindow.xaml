@@ -644,7 +644,7 @@
                 <WrapPanel Name="game_won" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top">
                     <Label Foreground="Yellow" FontSize="100" Content="Mondo "></Label>
                     <Label Name="game_won_label" Foreground="Yellow" FontSize="100" Content="Sample"></Label>
-                    <Label Foreground="Yellow" FontSize="100" Content="Superato!"></Label>
+                    <Label Foreground="Yellow" FontSize="100" Content=" Superato!"></Label>
                 </WrapPanel>
                 <Grid Width="auto" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>

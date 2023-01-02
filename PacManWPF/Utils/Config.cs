@@ -12,7 +12,7 @@
         public const double CHUNK_WCD = CHUNK_WC;
         public const double CHUNK_HCD = CHUNK_HC;
 
-        public const int DRUG_TICKS = 15;
+        public const int DRUG_TICKS = 30;
 
         public static double[][] Sizes = {  new[] { CHUNK_WCD * 28, CHUNK_HCD * 28 },  // 28
                                         new[] { CHUNK_WCD * 32, CHUNK_HCD * 32 },  // 32
