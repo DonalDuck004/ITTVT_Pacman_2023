@@ -5,6 +5,7 @@ using System.Threading;
 using PacManWPF.Utils;
 using System.Windows.Media.Animation;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace PacManWPF.Game.PGs.Movers.Abs
 {
@@ -13,6 +14,77 @@ namespace PacManWPF.Game.PGs.Movers.Abs
     {
         Point GetPos();
         bool NextFrame();
+    }
+
+    public class ChainNode
+    {
+        public required Point Point;
+        public required ChainNode? Previus;
+
+        private int? _CachedCount = null;
+        public int CountBefore
+        {
+            get
+            {
+                lock (this)
+                {
+                    if (_CachedCount is null)
+                    {
+                        var C = this;
+                        this._CachedCount = 0;
+                        while (C.Previus is not null)
+                        {
+                            this._CachedCount++;
+                            C = C.Previus;
+                        }
+                    }
+                  return _CachedCount.Value;
+                }
+            }
+        }
+
+        public bool Contains(Point point)
+        {
+            var C = this;
+            while (C.Previus is not null)
+            {
+                if (C.Point == point)
+                    return true;
+                C = C.Previus;
+            }
+
+            return false;
+        }
+
+
+        public ChainNode GetFirstNode()
+        {
+            var C = this;
+            while (C.Previus is not null)
+                C = C.Previus;
+
+            return C;
+        }
+
+        public ChainNode PopFirstNode()
+        {
+            if (this._CachedCount is not null)
+                this._CachedCount--;
+            var C = this;
+            ChainNode tmp = C;
+
+            while (C.Previus is not null)
+            {
+                tmp = C;
+                C = C.Previus;
+                if (C._CachedCount is not null)
+                    C._CachedCount--;
+            }
+
+            tmp.Previus = null;
+
+            return C;
+        }
     }
 
     public abstract class BaseGhostMover : IGhostMover
@@ -30,102 +102,84 @@ namespace PacManWPF.Game.PGs.Movers.Abs
         public abstract Point GetPos();
         public abstract Point GetStartPoint();
 
-        protected List<Point>? goto_way = null;
+        protected ChainNode? goto_way = null;
 
-        protected virtual void NearPoints(Point from, 
+        protected virtual void NearPoints(ChainNode from, 
                                           Point to,
-                                          List<Point> root,
-                                          List<List<Point>> done)
+                                          List<ChainNode> done)
         {
-            if (done.Count != 0)
-                lock (done)
-                    if (root.Count >= done.Select(x => x.Count).Order().First())
-                        return;
-
-
-            List<Point> near = new();
+            Queue<ChainNode> q = new();
+            q.Enqueue(from);
+            ChainNode? item;
             Point tmp;
+            List<Point> near = new();
 
-            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X - 1, from.Y).Fix()) && !root.Contains(tmp))
-                near.Add(tmp);
-
-            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X + 1, from.Y).Fix())  && !root.Contains(tmp))
-                near.Add(tmp);
-
-            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X, from.Y - 1).Fix()) && !root.Contains(tmp))
-                near.Add(tmp);
-
-            if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X, from.Y + 1).Fix()) && !root.Contains(tmp))
-                near.Add(tmp);
-
-            if (near.Count == 0)
-                return;
-
-            foreach (var item in near)
+            while (q.TryDequeue(out item))
             {
-                if (item == to)
+                if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(item.Point.X - 1, item.Point.Y).Fix()) && !item.Contains(tmp))
+                    near.Add(tmp);
+
+                if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(item.Point.X + 1, item.Point.Y).Fix()) && !item.Contains(tmp))
+                    near.Add(tmp);
+
+                if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(item.Point.X, item.Point.Y - 1).Fix()) && !item.Contains(tmp))
+                    near.Add(tmp);
+
+                if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(item.Point.X, item.Point.Y + 1).Fix()) && !item.Contains(tmp))
+                    near.Add(tmp);
+
+                foreach (var x in near)
                 {
-                    root.Add(item);
-                    lock (done)
-                        done.Add(root);
-                    return;
+                    if (x == to)
+                    {
+                        lock (done)
+                            done.Add(new ChainNode() { Point = x, Previus = item });
+                        return;
+                    }
+                    else
+                        q.Enqueue(new ChainNode() { Point = x, Previus = item });
                 }
+
+                near.Clear();
             }
-
-            var e = near.GetEnumerator();
-            e.MoveNext();
-            var first = e.Current;
-
-
-            List<Point> bck;
-
-            while (e.MoveNext())
-            {
-                bck = new(root)
-                {
-                    e.Current
-                }; // Shallow copy
-                NearPoints(e.Current, to, bck, done);
-            }
-
-            root.Add(first);
-            NearPoints(first, to, root, done);
         }
 
 
-        protected virtual List<Point> GetWay(Point from, Point to)
+        protected virtual ChainNode GetWay(Point from, Point to)
         {
             if (from == to)
-                return new() { from, to };
+                return new ChainNode() { Point = from, Previus = null };
 
             Point tmp;
-            List<Point> roots = new List<Point>();
+            List<Point> routes = new();
 
             if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X - 1, from.Y).Fix()))
-                roots.Add(tmp);
+                routes.Add(tmp);
 
             if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X + 1, from.Y).Fix()))
-                roots.Add(tmp);
+                routes.Add(tmp);
 
             if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X, from.Y - 1).Fix()))
-                roots.Add(tmp);
+                routes.Add(tmp);
 
             if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(from.X, from.Y + 1).Fix()))
-                roots.Add(tmp);
+                routes.Add(tmp);
 
 
-            foreach (var root in roots)
-                if (root == to)
-                    return new() { from, root };
+            foreach (var route in routes)
+                if (route == to)
+                    return new ChainNode() { Point = route, Previus = null };
 
-            List<Thread> threads = new List<Thread>();
-            List<List<Point>> done = new List<List<Point>>();
+            List<Thread> threads = new();
+            List<ChainNode> done = new();
 
             Thread th;
-            foreach (var root in roots)
+            foreach (var route in routes)
             {
-                th = new(() => NearPoints(root, to, new() { from, root }, done));
-                th.Start();
+#nullable disable
+                th = new(new ParameterizedThreadStart((node) => NearPoints((ChainNode)node, to, done)));
+#nullable restore
+                th.Start(new ChainNode() { Point = route, Previus = null });
                 threads.Add(th);
             }
                 
@@ -133,22 +187,19 @@ namespace PacManWPF.Game.PGs.Movers.Abs
             foreach (var thread in threads)
                 thread.Join();
 
-            return done.OrderBy(x => x.Count).First();
+            return done.OrderBy(x => x.CountBefore).First();
         }
 
         protected virtual void CalculateWay(Point to)
         {
             var from = ghost.EffectivePosition;
 
-            if (this.goto_way is null) {
+            if (this.goto_way is null)
                 this.goto_way = GetWay(from, to);
-                this.goto_way.RemoveAt(0);
-            }
 
-            Grid.SetColumn(this.ghost.CeilObject, this.goto_way[0].X);
-            Grid.SetRow(this.ghost.CeilObject, this.goto_way[0].Y);
-            
-            this.goto_way.RemoveAt(0);
+            var Node = this.goto_way.PopFirstNode();
+            Grid.SetColumn(this.ghost.CeilObject, Node.Point.X);
+            Grid.SetRow(this.ghost.CeilObject, Node.Point.Y);
         }
 
         public virtual bool NextFrame() // False no read, True read .GetPos() result
