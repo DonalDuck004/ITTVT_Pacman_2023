@@ -9,6 +9,13 @@
         </Style>
         <Style TargetType="RadioButton">
             <Setter Property="FontFamily" Value="Assets/Fonts/ARCADECLASSIC.TTF #ArcadeClassic"></Setter>
+            <Setter Property="Cursor" Value="Hand"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"></Setter>
+        </Style>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
     </Application.Resources>
 </Application>

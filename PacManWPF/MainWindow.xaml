@@ -681,11 +681,11 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Height="500" Width="600" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite"></Image>
-                    <Image Stretch="Uniform" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\folder.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenWorldsFolder"></Image>
-                    <Image Stretch="Uniform" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\settings.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenSettings"></Image>
-                    <Image Stretch="Uniform" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\tg.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenTG"></Image>
-                    <Image Grid.Column="3" Grid.Row="1"  Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Git.png" MouseLeftButtonDown="OpenGit"></Image>
+                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Height="500" Width="600" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
+                    <Image Stretch="Uniform" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\folder.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenWorldsFolder" Cursor="Hand"></Image>
+                    <Image Stretch="Uniform" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\settings.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenSettings" Cursor="Hand"></Image>
+                    <Image Stretch="Uniform" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" Source="Assets\Images\tg.png" VerticalAlignment="Top" MouseLeftButtonDown="OpenTG" Cursor="Hand"></Image>
+                    <Image Grid.Column="3" Grid.Row="1"  Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Git.png" MouseLeftButtonDown="OpenGit" Cursor="Hand"></Image>
                 </Grid>
             </DockPanel>
         </TabItem>
