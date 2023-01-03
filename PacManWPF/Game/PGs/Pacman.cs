@@ -24,7 +24,8 @@ namespace PacManWPF.Game.PGs
         public PacmanAnimation Animation { get; private set; } = new();
 
         public Point Position => new (X, Y);
-
+        public Point SpawnPoint { get; private set; }
+        public int SpawnGrad { get; private set; }
 
         private int _drug_frames = 0;
         public int DrugTicks
@@ -41,7 +42,7 @@ namespace PacManWPF.Game.PGs
                     MainWindow.INSTANCE.drug_ticks_label.Content = value.ToString().ZFill(2) + " ticks";
                 }
 
-                _drug_frames = value; // + 100;
+                _drug_frames = value;
             }
         }
 
@@ -57,11 +58,25 @@ namespace PacManWPF.Game.PGs
         }
 #nullable restore
 
+        public void Respawn()
+        {
+            this.DrugTicks = 0;
+            this.Animation.Grad = this.SpawnGrad;
+
+            this.X = this.SpawnPoint.X;
+            this.Y = this.SpawnPoint.Y;
+            Grid.SetColumn(this.CeilObject, this.SpawnPoint.X);
+            Grid.SetRow(this.CeilObject, this.SpawnPoint.Y);
+            Grid.SetZIndex(this.CeilObject, 2);
+        }
+
         public void Initialize(int x, int y, int grad)
         {
             this.DrugTicks = 0;
             this.X = x;
             this.Y = y;
+            this.SpawnPoint = this.Position;
+            this.SpawnGrad = grad;
 
             this.Animation.Grad = grad;
 
@@ -71,7 +86,7 @@ namespace PacManWPF.Game.PGs
         }
 
 
-        public void MoveTo(int x, int y, int grad)
+        public void MoveTo(int x, int y, int grad, ref bool PacmanHitted)
         {
             if (x == -1)
                 x = Config.CHUNK_WC - 1;
@@ -100,12 +115,16 @@ namespace PacManWPF.Game.PGs
                     switch(((FoodTag)ceil_type).FoodType)
                     {
                         case Enums.FoodTypes.PacDot:
-                            SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP);
+                            SoundEffectsPlayer.PlayNoOverlap(SoundEffectsPlayer.CHOMP);
                             PacmanGame.INSTANCE.PacDots++;
                             break;
 
                         case Enums.FoodTypes.PowerPellet:
+                            var play = !this.IsDrugged;
+
                             this.DrugTicks += Config.DRUG_TICKS;
+                            if (play)
+                                SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.POWER_PELLET, () => this.IsDrugged).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !this.IsDrugged));
                             break;
 
                         default:
@@ -127,11 +146,11 @@ namespace PacManWPF.Game.PGs
                     else
                     {
                         Grid.SetZIndex(this.CeilObject, 2);
-                        PacmanGame.INSTANCE.GameOver = true;
+                        PacmanGame.INSTANCE.Lifes--;
+                        PacmanHitted = true;
                         break;
                     }
                 }
-                    
             }
 
 

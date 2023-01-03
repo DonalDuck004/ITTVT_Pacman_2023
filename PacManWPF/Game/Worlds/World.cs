@@ -32,7 +32,6 @@ namespace PacManWPF.Game.Worlds
         public void Apply()
         {
             WorldLoader.CurrentWorld = this;
-            SoundEffectsPlayer.Play(SoundEffectsPlayer.START);
 
             int v;
             this.PacDotCount = 0;
@@ -122,6 +121,9 @@ namespace PacManWPF.Game.Worlds
                         case 3:
                             schema_type = typeof(AutoMover);
                             break;
+                        case 4:
+                            schema_type = typeof(NoCachedAutoMover);
+                            break;
                         default: 
                             throw new Exception();
                     }
@@ -134,7 +136,7 @@ namespace PacManWPF.Game.Worlds
                         for (int i = 0; i < schema.Length; i++)
                             schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost), SpawnPointOf(ghost));
-                    } else if (schema_type == typeof(AutoMover))
+                    } else if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)))
                     {
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, 
                                                                                  Convert.ToHexString(md5), 

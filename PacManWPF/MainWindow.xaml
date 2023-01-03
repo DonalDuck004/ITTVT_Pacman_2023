@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PacManWPF"
-        mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey"
+        mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey"  Closed="OnClosed"
         Title="MainWindow" Width="1024" Height="480" Background="DeepSkyBlue">
     <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" Width="1024" Height="480" BorderBrush="Transparent" Name="app_pages">
         <!-- MaxHeight="0" MaxWidth="0" for tab items-->
@@ -23,7 +23,6 @@
                         <Image Source="Assets/Images/pacman_open.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
                         <Image Source="Assets/Images/pacman_open.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
                         <Image Source="Assets/Images/pacman_open.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
-                        <Label Content="todo" Foreground="Yellow" FontSize="15"  VerticalAlignment="Center"></Label>
                     </WrapPanel>
                     <Label FontSize="18" Name="world_label" Content="Sample" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"></Label>
                     <Label FontSize="18" Name="time_label" Content="00:00:00" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Label>
@@ -650,9 +649,14 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi  esc  per  tornare  alla  scelta  dei  mondi" Foreground="Yellow" FontSize="17" />
                     <WrapPanel HorizontalAlignment="Right" Grid.Column="1">
+                        <Label Content="Punti:" Foreground="Yellow" FontSize="17" />
+                        <Label x:Name="points_final_label" Content="0" Foreground="Yellow" FontSize="17" />
+                    </WrapPanel>
+                    <WrapPanel HorizontalAlignment="Right" Grid.Column="2">
                         <Label Content="Tempo  impiegato:" Foreground="Yellow" FontSize="17" />
                         <Label x:Name="ellapsed_time_label" Content="00:00:00" Foreground="Yellow" FontSize="17" />
                     </WrapPanel>

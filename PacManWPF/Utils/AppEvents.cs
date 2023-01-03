@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Security.Policy;
+using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using PacManWPF.Game.Worlds;
@@ -166,6 +167,13 @@ namespace PacManWPF
         {
             WorldLoader.DropCache();
             FillWorldsBox();
+        }
+
+        private void OnClosed(object sender, EventArgs e)
+        {
+            SoundEffectsPlayer.StopAll();
+            // TODO Wait for scoredb thread
+            Application.Current.Shutdown();
         }
     }
 }

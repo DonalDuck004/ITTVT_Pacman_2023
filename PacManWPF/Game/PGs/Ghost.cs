@@ -92,7 +92,6 @@ namespace PacManWPF.Game.PGs
 
             Grid.SetColumn(this.CeilObject, spawnPoint.X);
             Grid.SetRow(this.CeilObject, spawnPoint.Y);
-            Debug.WriteLine(this.Position);
         }
 
         public void Kill()
@@ -100,7 +99,8 @@ namespace PacManWPF.Game.PGs
             if (this.IsDied is false)
                 this.RespawnTicks = 50;
 
-            SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.EAT_GHOST).OnDone(() =>
+                                    SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_GO_BACK, () => this.IsDied));
 
             this.IsDied = true;
             this.CeilObject.Fill = ResourcesLoader.GhostEyes;
@@ -108,9 +108,9 @@ namespace PacManWPF.Game.PGs
         }
 
        
-        public void Tick()
+        public void Tick(ref bool PacmanHitted)
         {
-            Debug.Assert(mover is not null);
+            Debug.Assert(this.mover is not null);
 
             if (this.InGate)
             {
@@ -129,7 +129,7 @@ namespace PacManWPF.Game.PGs
                     Grid.SetColumn(this.CeilObject, pos.X - 1);
                 else
                     Debug.Assert(false);
-                HandleCollisions();
+                HandleCollisions(ref PacmanHitted);
                 return;
             }
 
@@ -172,17 +172,26 @@ namespace PacManWPF.Game.PGs
                 this.NeedToGoToSpawn = true;
             }
 
-            HandleCollisions();
+            HandleCollisions(ref PacmanHitted);
         }
 
-        private void HandleCollisions()
+        private void HandleCollisions(ref bool PacmanHitted)
         {
             System.Drawing.Point collision_ceil = this.EffectivePosition;
 
             if (!this.IsDied && !Pacman.INSTANCE.IsDrugged && Pacman.INSTANCE.IsAt(collision_ceil))
-                PacmanGame.INSTANCE.GameOver = true;
+            {
+                PacmanHitted = true;
+                PacmanGame.INSTANCE.Lifes--;
+            }
             else if (!this.IsDied && Pacman.INSTANCE.IsDrugged && Pacman.INSTANCE.IsAt(collision_ceil))
                 this.Kill();
+        }
+
+        public void Respawn()
+        {
+            Debug.Assert(this.mover is not null);
+            this.SetSchema(this.mover, this.SpawnPoint);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,14 +30,20 @@ namespace PacManWPF.Game
 
         public bool Frozen
         {
-            get => _frozen;
+            get => this._frozen;
             set
             {
-                _frozen = value; // TODO Stop animations
-                if (_frozen)
-                    clock.Stop();
+                this._frozen = value; // TODO Stop animations
+                if (this._frozen)
+                {
+                    this.clock.Stop();
+                    SoundEffectsPlayer.PauseAll();
+                }
                 else
-                    clock.Start();
+                {
+                    this.clock.Start();
+                    SoundEffectsPlayer.ResumeAll();
+                }
             }
         }
 
@@ -53,6 +60,32 @@ namespace PacManWPF.Game
             {
                 MainWindow.INSTANCE.points_label.Content = value.ToString().ZFill(3);
                 _points = value;
+            }
+        }
+
+        private int _lifes = 3;
+
+        public int Lifes
+        {
+            get => _lifes;
+            set
+            {
+                if (value <= 0)
+                {
+                    this.GameOver = true;
+                    this._lifes = 0;
+                }
+                else
+                    this._lifes = value;
+
+                Image[] lifes_wp = MainWindow.INSTANCE.lifes_wp.Children.OfType<Image>().ToArray();
+
+                for (int i = 0; i < this._lifes; i++)
+                    lifes_wp[i].Visibility = Visibility.Visible;
+
+                for (int i = this._lifes; i < lifes_wp.Length; i++)
+                    lifes_wp[i].Visibility = Visibility.Hidden;
+
             }
         }
 
@@ -82,36 +115,44 @@ namespace PacManWPF.Game
             if (WorldLoader.CurrentWorld is null)
                 throw new Exception("No world selected");
 
+            if (this.PacDots == WorldLoader.CurrentWorld.PacDotCount)
+            {
+                this.Won = true;
+                return;
+            }
+
+            bool PacmanHitted = false;
+
             for (int i = 0; i < Ghost.INSTANCES.Length; i++)
             {
                 if (Ghost.INSTANCES[i].ShouldTick(type))
                 {
-                    if (!Ghost.INSTANCES[i].Initialized)
-                    {
-                        Ghost.INSTANCES[i].Tick();
-                        break;
-                    }
+                    Ghost.INSTANCES[i].Tick(ref PacmanHitted);
 
-                    Ghost.INSTANCES[i].Tick();
-
-                    if (GameOver)
+                    if (this.GameOver)
                         return;
+                    else if (PacmanHitted)
+                    {
+                        this.Respawn();
+                        return;
+                    }
+                    if (!Ghost.INSTANCES[i].Initialized)
+                        break;
                 }
             }
 
-
-            if (PacDots == WorldLoader.CurrentWorld.PacDotCount)
-                this.Won = true;
         }
 
         public void InitGame(int pacman_x, int pacman_y, int pacman_grad)
         {
             Debug.Assert(WorldLoader.CurrentWorld is not null);
-            foreach(var animation in PendingAnimations)
+            SoundEffectsPlayer.StopAll();
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged));
+            foreach (var animation in PendingAnimations)
                 animation.Interrupt();
 
             PendingAnimations.Clear();
-
+            this.Lifes = 3;
 
             FreeAreas.Clear();
             Points = 0;
@@ -121,13 +162,12 @@ namespace PacManWPF.Game
             Won = false;
             StartDate = DateTime.Now;
             clock.Start();
-
             Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
         }
 
         public void SpawnFood()
         {
-            if (rnd.Next(100) == 0)
+            if (rnd.Next(200) == 0)
             {
                 Debug.Assert(WorldLoader.CurrentWorld is not null);
                 var world = WorldLoader.CurrentWorld;
@@ -160,8 +200,17 @@ namespace PacManWPF.Game
                 };
 
 
-                ceil.BeginAnimation(System.Windows.UIElement.OpacityProperty, animation);
+                ceil.BeginAnimation(UIElement.OpacityProperty, animation);
             }
+        }
+
+        public void Respawn()
+        {
+            SoundEffectsPlayer.StopAll();
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged));
+            Pacman.INSTANCE.Respawn();
+            for (int i = 0; i < Ghost.INSTANCES.Length; i++)
+                Ghost.INSTANCES[i].Respawn();
         }
     }
 }

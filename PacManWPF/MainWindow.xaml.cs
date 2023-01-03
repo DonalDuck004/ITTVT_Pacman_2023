@@ -9,6 +9,7 @@ using PacManWPF.Game.PGs;
 using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
 using PacManWPF.Game;
+using System.Linq;
 
 namespace PacManWPF
 {
@@ -18,19 +19,18 @@ namespace PacManWPF
     {
         private static MainWindow? _INSTANCE = null;
 
-        public static MainWindow INSTANCE { get => _INSTANCE ?? throw new Exception("No instance was found"); }
+        public static MainWindow INSTANCE => _INSTANCE ?? throw new Exception("No instance was found");
 
 
         public int total_points;
 
         private Semaphore mutex = new Semaphore(1, 1);
-        
+
         private DateTime last_call = DateTime.Now;
 
         private DispatcherTimer game_ticker = new DispatcherTimer(DispatcherPriority.Input)
         {
             Interval = new TimeSpan(TimeSpan.TicksPerSecond / 12),
-
         };
 
         private GhostTickTypes tick_seq = GhostTickTypes.Scaried;
@@ -39,8 +39,7 @@ namespace PacManWPF
 
         public MainWindow()
         {
-            if (MainWindow._INSTANCE is null)
-                MainWindow._INSTANCE = this;
+            MainWindow._INSTANCE = this;
             InitializeComponent();
             this.AdaptToSize();
             this.game_ticker.Tick += new EventHandler(OnGameTick);
@@ -104,7 +103,7 @@ namespace PacManWPF
             if (PacmanGame.INSTANCE.Frozen)
                 return;
 
-            if (!Pacman.INSTANCE.IsDrugged && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / 10))
+            if (!Pacman.INSTANCE.IsDrugged && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / 12))
                 return;
 
             this.last_call = DateTime.Now;
@@ -112,9 +111,13 @@ namespace PacManWPF
             try
             {
                 this.mutex.WaitOne();
-                Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular);
+                bool PacmanHitted = false;
+                Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted);
+
                 if (PacmanGame.INSTANCE.GameOver)
                     this.GameOver();
+                else if (PacmanHitted)
+                    PacmanGame.INSTANCE.Respawn();
             }
             finally
             {
@@ -153,8 +156,7 @@ namespace PacManWPF
                 this.tick_seq = (GhostTickTypes)(((int)tick_seq + 1) % 3);
                 
                 PacmanGame.INSTANCE.Tick(this.tick_seq);
-                if (was_drugged)
-                    Pacman.INSTANCE.DrugTicks--;
+
 
                 if (PacmanGame.INSTANCE.GameOver)
                 {
@@ -162,6 +164,8 @@ namespace PacManWPF
                     return;
                 }
 
+                if (was_drugged)
+                    Pacman.INSTANCE.DrugTicks--;
 
                 if (PacmanGame.INSTANCE.Won)
                     this.Won();
@@ -180,6 +184,7 @@ namespace PacManWPF
             this.FreezeGame();
 
             this.ellapsed_time_label.Content = new DateTime((DateTime.Now - PacmanGame.INSTANCE.StartDate).Ticks).ToString("HH:mm:ss");
+            this.points_final_label.Content = PacmanGame.INSTANCE.Points;
             this.game_won_tab.IsSelected = true;
         }
 
