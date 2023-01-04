@@ -14,11 +14,11 @@ namespace PacManWPF
 {
 
 
-    public partial class MainWindow : Window
+    public partial class UIWindow : Window
     {
-        private static MainWindow? _INSTANCE = null;
+        private static UIWindow? _INSTANCE = null;
 
-        public static MainWindow INSTANCE => _INSTANCE ?? throw new Exception("No instance was found");
+        public static UIWindow INSTANCE => _INSTANCE ?? throw new Exception("No instance was found");
 
 
         public int total_points;
@@ -27,15 +27,15 @@ namespace PacManWPF
 
         private DispatcherTimer game_ticker = new DispatcherTimer(DispatcherPriority.Input)
         {
-            Interval = new (TimeSpan.TicksPerSecond / 12),
+            Interval = new TimeSpan(Config.GAME_TICK)
         };
 
         private int tick_seq = 0;
         
 
-        public MainWindow()
+        public UIWindow()
         {
-            MainWindow._INSTANCE = this;
+            UIWindow._INSTANCE = this;
             InitializeComponent();
             this.AdaptToSize();
             this.game_ticker.Tick += new EventHandler(OnGameTick);
@@ -102,7 +102,7 @@ namespace PacManWPF
             if (PacmanGame.INSTANCE.Frozen)
                 return;
 
-            if (!Pacman.INSTANCE.IsDrugged && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / 12))
+            if (!Pacman.INSTANCE.IsDrugged && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / 8)) // TODO ANIMATION
                 return;
 
             this.last_call = DateTime.Now;

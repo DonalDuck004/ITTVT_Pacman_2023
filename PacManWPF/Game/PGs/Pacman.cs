@@ -33,12 +33,12 @@ namespace PacManWPF.Game.PGs
             set
             {
                 if (value == 0)
-                    MainWindow.INSTANCE.drug_wrap.Visibility = Visibility.Hidden;
+                    UIWindow.INSTANCE.drug_wrap.Visibility = Visibility.Hidden;
                 else
                 {
-                    MainWindow.INSTANCE.drug_wrap.Visibility = Visibility.Visible;
+                    UIWindow.INSTANCE.drug_wrap.Visibility = Visibility.Visible;
 
-                    MainWindow.INSTANCE.drug_ticks_label.Content = value.ToString().ZFill(2) + " ticks";
+                    UIWindow.INSTANCE.drug_ticks_label.Content = value.ToString().ZFill(2) + " ticks";
                 }
 
                 _drug_frames = value;
@@ -53,7 +53,7 @@ namespace PacManWPF.Game.PGs
         private Pacman()
         {
             ImageBehavior.SetAnimatedSource(this.CeilObject, ResourcesLoader.PacMan);
-            MainWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
+            UIWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
             // this.CeilObject.BeginAnimation(Image.SourceProperty, this.Animation);
         }
 #nullable restore

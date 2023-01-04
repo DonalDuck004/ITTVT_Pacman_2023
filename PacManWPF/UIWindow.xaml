@@ -1,13 +1,15 @@
-﻿<Window x:Class="PacManWPF.MainWindow"
+﻿<Window x:Class="PacManWPF.UIWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PacManWPF"
         mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey" Closed="OnClosed"
-        Title="MainWindow" Width="1024" Height="480" Background="DeepSkyBlue">
+        Title="Pacman" Width="1024" Height="480" Background="DeepSkyBlue">
+    <Window.Icon>
+        <BitmapImage UriSource="Assets/Images/pacman.png"></BitmapImage>
+    </Window.Icon>
     <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" Width="1024" Height="480" BorderBrush="Transparent" Name="app_pages">
-        <!-- MaxHeight="0" MaxWidth="0" for tab items-->
         <TabItem Header="GameTab" Name="game_tab" TabIndex="0" Visibility="Collapsed">
             <DockPanel Background="Black">
                 <Grid x:Name="game_grid" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Bottom">

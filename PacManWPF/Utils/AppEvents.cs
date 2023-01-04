@@ -12,7 +12,7 @@ using PacManWPF.Utils;
 
 namespace PacManWPF
 {
-    public partial class MainWindow : Window
+    public partial class UIWindow : Window
     {
         private const int SC_RESTORE = 0xF120;
         private const int SC_MAXIMIZE = 0xF030;

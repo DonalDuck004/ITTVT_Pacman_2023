@@ -48,7 +48,7 @@ namespace PacManWPF.Game.Worlds
                 int idx = 0;
                 Walls walls;
 
-                foreach (var item in MainWindow.INSTANCE.game_grid.Children.OfType<System.Windows.Controls.Image>())
+                foreach (var item in UIWindow.INSTANCE.game_grid.Children.OfType<System.Windows.Controls.Image>())
                 {
 
                     if (object.ReferenceEquals(Pacman.INSTANCE.CeilObject, item) || 
@@ -119,10 +119,10 @@ namespace PacManWPF.Game.Worlds
                             schema_type = typeof(OneTimeSchemaMover);
                             break;
                         case 3:
-                            schema_type = typeof(AutoMover);
+                            schema_type = typeof(NoCachedAutoMover);
                             break;
                         case 4:
-                            schema_type = typeof(NoCachedAutoMover);
+                            schema_type = typeof(AutoMover);
                             break;
                         default: 
                             throw new Exception();
@@ -130,20 +130,21 @@ namespace PacManWPF.Game.Worlds
 
 #pragma warning disable CS8604
 #pragma warning disable CS8600
-                    if (schema_type.IsSubclassOf(typeof(SchemaBasedMover)))
+                    if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)) || typeof(NoCachedAutoMover) == schema_type)
+                    {
+                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type,
+                                                                                 Convert.ToHexString(md5),
+                                                                                 new Point(sr.ReadInt32(), sr.ReadInt32()),
+                                                                                 ghost),
+                                        SpawnPointOf(ghost));
+                    }
+                    else if (schema_type.IsSubclassOf(typeof(SchemaBasedMover)))
                     {
                         var schema = new Point[sr.ReadInt32()];
                         for (int i = 0; i < schema.Length; i++)
                             schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost), SpawnPointOf(ghost));
-                    } else if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)))
-                    {
-                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, 
-                                                                                 Convert.ToHexString(md5),
-                                                                                 new Point(sr.ReadInt32(), sr.ReadInt32()),
-                                                                                 ghost), 
-                                        SpawnPointOf(ghost));
-                    }
+                    }  
 #pragma warning restore CS8604
 #pragma warning restore CS8600
 

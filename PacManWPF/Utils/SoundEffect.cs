@@ -63,7 +63,7 @@ namespace PacManWPF.Utils
             if (!this.ExtStopRequired)
                 this.StopRequired = true;
 
-            MainWindow.INSTANCE.Dispatcher.Invoke(() => this.player.Position = TimeSpan.FromMinutes(1)); // No 1 track is length more than 1 min
+            UIWindow.INSTANCE.Dispatcher.Invoke(() => this.player.Position = TimeSpan.FromMinutes(1)); // No 1 track is length more than 1 min
             // Doing this instead of:
             // MainWindow.INSTANCE.Dispatcher.Invoke(this.player.Stop);
             // MediaEnded will be dispatched 

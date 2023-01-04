@@ -20,7 +20,7 @@ namespace PacManWPF.Game
     public class PacmanGame : Singleton<PacmanGame>
     {
         public Image[] CeilsAt(Point point) => CeilsAt(point.X, point.Y);
-        public Image[] CeilsAt(int x, int y) => MainWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
+        public Image[] CeilsAt(int x, int y) => UIWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
 
         private Random rnd = new();
 
@@ -58,7 +58,7 @@ namespace PacManWPF.Game
             get => _points;
             set
             {
-                MainWindow.INSTANCE.points_label.Content = value.ToString().ZFill(3);
+                UIWindow.INSTANCE.points_label.Content = value.ToString().ZFill(3);
                 _points = value;
             }
         }
@@ -78,7 +78,7 @@ namespace PacManWPF.Game
                 else
                     this._lifes = value;
 
-                Image[] lifes_wp = MainWindow.INSTANCE.lifes_wp.Children.OfType<Image>().ToArray();
+                Image[] lifes_wp = UIWindow.INSTANCE.lifes_wp.Children.OfType<Image>().ToArray();
 
                 for (int i = 0; i < this._lifes; i++)
                     lifes_wp[i].Visibility = Visibility.Visible;
@@ -109,7 +109,7 @@ namespace PacManWPF.Game
                 if (!this.Initizialized)
                     return;
 
-                MainWindow.INSTANCE.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
+                UIWindow.INSTANCE.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
             };
         }
 
@@ -183,7 +183,7 @@ namespace PacManWPF.Game
                 Debug.Assert(WorldLoader.CurrentWorld is not null);
                 var world = WorldLoader.CurrentWorld;
                 var values = (FoodTypes[])Enum.GetValues(typeof(FoodTypes));
-                var ceils = MainWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(x => ((Tags.BaseTag)x.Tag).GetType() == typeof(Tags.EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
+                var ceils = UIWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(x => ((Tags.BaseTag)x.Tag).GetType() == typeof(Tags.EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
                 if (ceils.Length == 0)
                     return;
 

@@ -1,4 +1,6 @@
-﻿namespace PacManWPF.Utils
+﻿using System;
+
+namespace PacManWPF.Utils
 {
     class Config
     {
@@ -7,7 +9,7 @@
         public const int CHUNK_WC = 33;
         public const int CHUNK_HC = 15; 
 
-        public const int GHOST_RESPAWN_TICKS = 50;
+        public const long GAME_TICK = TimeSpan.TicksPerSecond / 12;
 
         private const double CHUNK_WCD = CHUNK_WC;
         private const double CHUNK_HCD = CHUNK_HC + 1;

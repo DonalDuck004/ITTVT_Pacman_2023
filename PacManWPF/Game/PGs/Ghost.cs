@@ -64,7 +64,7 @@ namespace PacManWPF.Game.PGs
                                                                              ResourcesLoader.OrangeGhost);
             this.CeilObject = new Image() { Tag = new Tags.GhostTag(this),
                                             Source = this.Image};
-            MainWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
+            UIWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
         }
 
         public bool ShouldTick(GhostTickTypes tickType)
@@ -183,7 +183,7 @@ namespace PacManWPF.Game.PGs
             if (this.IsDied)
                 return;
 
-            TimeSpan duration = new TimeSpan(TimeSpan.TicksPerSecond / 12 * (!Pacman.INSTANCE.IsDrugged ?  3 : 5));
+            TimeSpan duration = new TimeSpan(Config.GAME_TICK * (!Pacman.INSTANCE.IsDrugged ?  3 : 5));
             if (from.X - to.X == 1 && from.Y == to.Y) // <-
             {
                 TranslateTransform trans = new TranslateTransform();
