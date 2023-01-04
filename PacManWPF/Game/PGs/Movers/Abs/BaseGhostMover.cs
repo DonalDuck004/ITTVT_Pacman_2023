@@ -6,6 +6,7 @@ using PacManWPF.Utils;
 using System.Windows.Media.Animation;
 using System.Windows.Controls;
 using System.Diagnostics;
+using System.Windows.Automation;
 
 namespace PacManWPF.Game.PGs.Movers.Abs
 {
@@ -202,6 +203,11 @@ namespace PacManWPF.Game.PGs.Movers.Abs
             var Node = this.goto_way.PopFirstNode();
             Grid.SetColumn(this.ghost.CeilObject, Node.Point.X);
             Grid.SetRow(this.ghost.CeilObject, Node.Point.Y);
+        }
+
+        public virtual void Loaded()
+        {
+            this.OldState = null;
         }
 
         public virtual bool NextFrame() // False no read, True read .GetPos() result

@@ -5,12 +5,13 @@
         public const string WORLD_DIR = "worlds";
 
         public const int CHUNK_WC = 33;
-        public const int CHUNK_HC = 16; // 16 Because there is the gamebar
+        public const int CHUNK_HC = 15; 
 
         public const int GHOST_RESPAWN_TICKS = 50;
 
-        public const double CHUNK_WCD = CHUNK_WC;
-        public const double CHUNK_HCD = CHUNK_HC;
+        private const double CHUNK_WCD = CHUNK_WC;
+        private const double CHUNK_HCD = CHUNK_HC + 1;
+        // 16 Because there is the gamebar
 
         public const int DRUG_TICKS = 30;
 

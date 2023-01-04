@@ -104,7 +104,13 @@ namespace PacManWPF.Game
                 Interval = TimeSpan.FromSeconds(1)
             };
 
-            clock.Tick += (s, e) => MainWindow.INSTANCE.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
+            clock.Tick += (s, e) =>
+            {
+                if (!this.Initizialized)
+                    return;
+
+                MainWindow.INSTANCE.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
+            };
         }
 
         private List<Animations.Abs.IInterruptable> PendingAnimations = new();

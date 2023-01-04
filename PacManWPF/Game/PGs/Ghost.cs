@@ -82,6 +82,7 @@ namespace PacManWPF.Game.PGs
         public void SetSchema(BaseGhostMover mover, System.Drawing.Point spawnPoint)
         {
             this.mover = mover;
+            this.mover.Loaded();
             this.IsDied = false;
             this.InGate = true;
             this.Initialized = false;
@@ -182,11 +183,12 @@ namespace PacManWPF.Game.PGs
             if (this.IsDied)
                 return;
 
+            TimeSpan duration = new TimeSpan(TimeSpan.TicksPerSecond / 12 * (!Pacman.INSTANCE.IsDrugged ?  3 : 5));
             if (from.X - to.X == 1 && from.Y == to.Y) // <-
             {
                 TranslateTransform trans = new TranslateTransform();
                 this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualWidth, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualWidth, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
                     anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
@@ -197,7 +199,7 @@ namespace PacManWPF.Game.PGs
             {
                 TranslateTransform trans = new TranslateTransform();
                 this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualWidth, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualWidth, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
                     anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
@@ -208,7 +210,7 @@ namespace PacManWPF.Game.PGs
             {
                 TranslateTransform trans = new TranslateTransform();
                 this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualHeight, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualHeight, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
                     anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
@@ -219,7 +221,7 @@ namespace PacManWPF.Game.PGs
             {
                 TranslateTransform trans = new TranslateTransform();
                 this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualHeight, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualHeight, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
                     anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };

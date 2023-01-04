@@ -109,20 +109,11 @@ namespace PacManWPF.Game.PGs
 
         public void MoveTo(int x, int y, int grad, ref bool PacmanHitted)
         {
-            if (x == -1)
-                x = Config.CHUNK_WC - 1;
-            else if (x == Config.CHUNK_WC)
-                x = 0;
-
-            if (y == -1)
-                y = Config.CHUNK_HC - 1;
-            else if (y == Config.CHUNK_HC)
-                y = 0;
-
+            var dest = new Point(x, y).Fix();
 
             bool can_pass = true;
             BaseTag ceil_type;
-            foreach (var ceil in PacmanGame.INSTANCE.CeilsAt(x, y))
+            foreach (var ceil in PacmanGame.INSTANCE.CeilsAt(dest.X, dest.Y))
             {
                 ceil_type = (BaseTag)ceil.Tag;
 
@@ -177,11 +168,11 @@ namespace PacManWPF.Game.PGs
 
             if (can_pass)
             {
-                this.X = x;
-                this.Y = y;
+                this.X = dest.X;
+                this.Y = dest.Y;
 
-                Grid.SetColumn(this.CeilObject, x);
-                Grid.SetRow(this.CeilObject, y);
+                Grid.SetColumn(this.CeilObject, dest.X);
+                Grid.SetRow(this.CeilObject, dest.Y);
             }
 
             this.UpdateLayout(grad);

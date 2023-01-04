@@ -30,7 +30,7 @@ namespace PacManWPF
             Interval = new (TimeSpan.TicksPerSecond / 12),
         };
 
-        private GhostTickTypes tick_seq = GhostTickTypes.Scaried;
+        private int tick_seq = 0;
         
 
         public MainWindow()
@@ -128,6 +128,7 @@ namespace PacManWPF
 
         }
 
+        GhostTickTypes[] seq = { GhostTickTypes.Alive, GhostTickTypes.Died, GhostTickTypes.Scaried, GhostTickTypes.Alive, GhostTickTypes.Died, GhostTickTypes.Died };
         private void OnGameTick(object? sender, EventArgs e)
         {
             if (PacmanGame.INSTANCE.Frozen || !PacmanGame.INSTANCE.Initizialized)
@@ -140,9 +141,7 @@ namespace PacManWPF
             bool was_drugged = Pacman.INSTANCE.IsDrugged;
 
 
-            this.tick_seq = (GhostTickTypes)(((int)tick_seq + 1) % 3);
-                
-            PacmanGame.INSTANCE.Tick(this.tick_seq);
+            PacmanGame.INSTANCE.Tick(seq[++tick_seq % seq.Length]);
 
 
             if (PacmanGame.INSTANCE.GameOver)
