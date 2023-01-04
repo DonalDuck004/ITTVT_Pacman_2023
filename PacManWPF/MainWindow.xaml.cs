@@ -151,11 +151,8 @@ namespace PacManWPF
                 return;
             }
 
-            if (was_drugged)
-            {
-                Pacman.INSTANCE.DrugTicks--;
+            if (was_drugged && --Pacman.INSTANCE.DrugTicks == 0)
                 Pacman.INSTANCE.UpdateLayout();
-            }
 
             if (PacmanGame.INSTANCE.Won)
                 this.Won();
@@ -168,7 +165,7 @@ namespace PacManWPF
         {
             this.FreezeGame();
 
-            this.ellapsed_time_label.Content = new DateTime((DateTime.Now - PacmanGame.INSTANCE.StartDate).Ticks).ToString("HH:mm:ss");
+            this.ellapsed_time_label.Content = (new DateTime() + TimeSpan.FromSeconds(PacmanGame.INSTANCE.Seconds)).ToString("HH:mm:ss");
             this.points_final_label.Content = PacmanGame.INSTANCE.Points;
             this.game_won_tab.IsSelected = true;
         }
@@ -211,7 +208,7 @@ namespace PacManWPF
             WorldLoader.Worlds[this.worlds_box.SelectedIndex].Apply();
             this.game_tab.IsSelected = true;
             this.CloseMenu();
-            GC.Collect();
+            GC.Collect(2, GCCollectionMode.Aggressive, true, true);
         }
 
     }

@@ -51,7 +51,6 @@ namespace PacManWPF.Game
         public bool GameOver { get; set; } = false;
         public bool Won { get; set; } = false;
         public int PacDots { get; set; } = 0;
-        public DateTime StartDate { get; set; }
 
         private int _points = 0;
         public int Points
@@ -91,6 +90,7 @@ namespace PacManWPF.Game
         }
 
         private DispatcherTimer clock;
+        public int Seconds { get; private set; } = 0;
 
         private PacmanGame()
         {
@@ -104,7 +104,7 @@ namespace PacManWPF.Game
                 Interval = TimeSpan.FromSeconds(1)
             };
 
-            clock.Tick += (s, e) => MainWindow.INSTANCE.time_label.Content = new DateTime((DateTime.Now - StartDate).Ticks).ToString("HH:mm:ss");
+            clock.Tick += (s, e) => MainWindow.INSTANCE.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
         }
 
         private List<Animations.Abs.IInterruptable> PendingAnimations = new();
@@ -147,6 +147,7 @@ namespace PacManWPF.Game
         public void InitGame(int pacman_x, int pacman_y, int pacman_grad)
         {
             Debug.Assert(WorldLoader.CurrentWorld is not null);
+            this.Seconds = 0;
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
             SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => {
@@ -159,14 +160,12 @@ namespace PacManWPF.Game
 
             PendingAnimations.Clear();
             this.Lifes = 3;
-
             FreeAreas.Clear();
             Points = 0;
             PacDots = 0;
             Frozen = false;
             GameOver = false;
             Won = false;
-            StartDate = DateTime.Now;
             clock.Start();
             Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
         }
@@ -212,13 +211,14 @@ namespace PacManWPF.Game
 
         public void Respawn()
         {
-            this.Initizialized = false;
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
-            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => { 
-                this.Initizialized = true; 
-                SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
-            });
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.GAME_OVER).OnDone(() =>
+                SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => { 
+                    this.Initizialized = true; 
+                    SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
+                })
+            );
 
             Pacman.INSTANCE.Respawn();
             for (int i = 0; i < Ghost.INSTANCES.Length; i++)

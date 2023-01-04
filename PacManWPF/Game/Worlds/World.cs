@@ -62,7 +62,7 @@ namespace PacManWPF.Game.Worlds
                     BitConverter.GetBytes(v).CopyTo(md5, idx);
                     idx += 4;
 
-
+                    item.Opacity = 1.0;
                     if (v == -1)
                     {
                         item.Source = ResourcesLoader.PacDot;

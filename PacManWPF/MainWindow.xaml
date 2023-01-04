@@ -4,40 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PacManWPF"
-        mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey"  Closed="OnClosed"
+        mc:Ignorable="d " Loaded="OnLoad" KeyDown="DispatchKey" Closed="OnClosed"
         Title="MainWindow" Width="1024" Height="480" Background="DeepSkyBlue">
     <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" Width="1024" Height="480" BorderBrush="Transparent" Name="app_pages">
         <!-- MaxHeight="0" MaxWidth="0" for tab items-->
         <TabItem Header="GameTab" Name="game_tab" TabIndex="0" Visibility="Collapsed">
             <DockPanel Background="Black">
-                <Grid DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Label Name="points_label" Content="000" Foreground="Yellow" FontSize="15" Height="30" Grid.Column="0"></Label>
-                    <WrapPanel Name="lifes_wp" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
-                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
-                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
-                    </WrapPanel>
-                    <Label FontSize="18" Name="world_label" Content="Sample" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"></Label>
-                    <Label FontSize="18" Name="time_label" Content="00:00:00" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Label>
-                    <WrapPanel Grid.Column="4" HorizontalAlignment="Right" Name="drug_wrap">
-                        <Label Name="drug_ticks_label" Content="test" Foreground="Yellow" HorizontalAlignment="Center"></Label>
-
-                        <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Right" Stretch="Uniform">
-                            <Rectangle.Fill>
-                                <ImageBrush ImageSource="Assets\Images\PowerPellet.png"/>
-                            </Rectangle.Fill>
-                        </Rectangle>
-                    </WrapPanel>
-
-                </Grid>
-                <Grid x:Name="game_grid" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Grid x:Name="game_grid" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Bottom">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
@@ -589,9 +562,34 @@
                     <Image Grid.Column="32" Grid.Row="14"></Image>
                     <!--#endregion-->
                 </Grid>
+                <Grid x:Name="game_bar">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Name="points_label" Content="000" Foreground="Yellow" FontSize="15" Height="30" Grid.Column="0"></Label>
+                    <WrapPanel Name="lifes_wp" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
+                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
+                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
+                    </WrapPanel>
+                    <Label FontSize="18" Name="world_label" Content="Sample" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"></Label>
+                    <Label FontSize="18" Name="time_label" Content="00:00:00" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Label>
+                    <WrapPanel Grid.Column="4" HorizontalAlignment="Right" Name="drug_wrap" VerticalAlignment="Center">
+                        <Label Name="drug_ticks_label" Content="test" Foreground="Yellow" HorizontalAlignment="Center"></Label>
+                        <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Right" Stretch="Uniform">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="Assets\Images\PowerPellet.png"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </WrapPanel>
+                </Grid>
             </DockPanel>
         </TabItem>
-        <TabItem Header="PauseTab" Name="pause_menu_tab" TabIndex="1" Visibility="Collapsed" IsSelected="True">
+        <TabItem Header="PauseTab" Name="pause_menu_tab" TabIndex="1" Visibility="Collapsed">
             <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="490" Height="245" HorizontalAlignment="Center" >
                 <StackPanel Background="Black" Width="480" Height="240">
                     <Grid>

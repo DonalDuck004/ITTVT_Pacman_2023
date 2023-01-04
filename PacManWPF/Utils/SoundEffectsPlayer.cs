@@ -38,6 +38,7 @@ namespace PacManWPF.Utils
         public static void PlayNoOverlap(string Track)
         {
             var player = new MediaPlayer();
+            player.Volume = SoundEffectsPlayer.Volume;
             var rt = new SoundEffect(player, null, Track);
             SoundEffect? value;
 
@@ -53,6 +54,7 @@ namespace PacManWPF.Utils
         {
 
             var player = new MediaPlayer();
+            player.Volume = SoundEffectsPlayer.Volume;
             var rt = new SoundEffect(player, null, Track);
             rt.Start();
             SoundEffectsPlayer.INSTANCES.Add(rt);
@@ -63,6 +65,7 @@ namespace PacManWPF.Utils
         {
 
             var player = new MediaPlayer();
+            player.Volume = SoundEffectsPlayer.Volume;
             var rt = new SoundEffect(player, Condition, Track);
             rt.Start();
             SoundEffectsPlayer.INSTANCES.Add(rt);

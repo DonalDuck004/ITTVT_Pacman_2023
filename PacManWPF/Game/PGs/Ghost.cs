@@ -70,11 +70,11 @@ namespace PacManWPF.Game.PGs
         public bool ShouldTick(GhostTickTypes tickType)
         {
 
-            if (IsDied && tickType is GhostTickTypes.Died)
+            if (this.IsDied && tickType is GhostTickTypes.Died)
                 return true;
             else if (Pacman.INSTANCE.IsDrugged && tickType is GhostTickTypes.Scaried)
                 return true;
-            else if (!IsDied && !Pacman.INSTANCE.IsDrugged && tickType is GhostTickTypes.Alive)
+            else if (!this.IsDied && !Pacman.INSTANCE.IsDrugged && tickType is GhostTickTypes.Alive)
                 return true;
             return false;
         }
@@ -88,6 +88,7 @@ namespace PacManWPF.Game.PGs
             this.NeedToGoToSpawn = false;
             this.SpawnPoint = spawnPoint;
             this.CeilObject.Source = this.Image;
+            this.CeilObject.RenderTransform = null;
             Grid.SetZIndex(this.CeilObject, 3);
 
             Grid.SetColumn(this.CeilObject, spawnPoint.X);
@@ -107,10 +108,17 @@ namespace PacManWPF.Game.PGs
             Grid.SetZIndex(this.CeilObject, 1);
         }
 
-        bool reversed = false;
+#if ANIMATION_DEBUG
+        private bool AnimationDebugLock = false;
+#endif
         public void Tick(ref bool PacmanHitted)
         {
+#if ANIMATION_DEBUG
+            if (AnimationDebugLock)
+                return;
+#endif
             Debug.Assert(this.mover is not null);
+            System.Drawing.Point position = this.EffectivePosition;
 
             if (this.InGate)
             {
@@ -129,10 +137,11 @@ namespace PacManWPF.Game.PGs
                     Grid.SetColumn(this.CeilObject, pos.X - 1);
                 else
                     Debug.Assert(false);
-                HandleCollisions(ref PacmanHitted);
+
+                this.HandleAnimation(position, this.EffectivePosition);
+                this.HandleCollisions(ref PacmanHitted);
                 return;
             }
-
 
             if (!this.IsDied && !Pacman.INSTANCE.IsDrugged && !ReferenceEquals(this.CeilObject.Source, this.Image))
             {
@@ -161,9 +170,62 @@ namespace PacManWPF.Game.PGs
                 this.NeedToGoToSpawn = true;
             }
 
+            else if (this.CeilObject.RenderTransform is not null)
+                this.CeilObject.RenderTransform = null;
 
-            reversed = !reversed;
-            HandleCollisions(ref PacmanHitted);
+            this.HandleAnimation(position, this.EffectivePosition);
+            this.HandleCollisions(ref PacmanHitted);
+        }
+
+        public void HandleAnimation(System.Drawing.Point from, System.Drawing.Point to)
+        {
+            if (this.IsDied)
+                return;
+
+            if (from.X - to.X == 1 && from.Y == to.Y) // <-
+            {
+                TranslateTransform trans = new TranslateTransform();
+                this.CeilObject.RenderTransform = trans;
+                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualWidth, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                trans.BeginAnimation(TranslateTransform.XProperty, anim2);
+            }
+            else if (from.X - to.X == -1 && from.Y == to.Y) // ->
+            {
+                TranslateTransform trans = new TranslateTransform();
+                this.CeilObject.RenderTransform = trans;
+                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualWidth, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                trans.BeginAnimation(TranslateTransform.XProperty, anim2);
+            }
+            else if (from.Y - to.Y == 1 && from.X == to.X) // Up
+            {
+                TranslateTransform trans = new TranslateTransform();
+                this.CeilObject.RenderTransform = trans;
+                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualHeight, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                trans.BeginAnimation(TranslateTransform.YProperty, anim2);
+            }
+            else if (from.Y - to.Y == -1 && from.X == to.X) // Down
+            {
+                TranslateTransform trans = new TranslateTransform();
+                this.CeilObject.RenderTransform = trans;
+                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualHeight, 0, new TimeSpan(TimeSpan.TicksPerSecond / 4));
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                trans.BeginAnimation(TranslateTransform.YProperty, anim2);
+            }
         }
 
         private void HandleCollisions(ref bool PacmanHitted)

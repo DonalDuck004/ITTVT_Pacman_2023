@@ -71,6 +71,7 @@ namespace PacManWPF.Utils
 
         public void RequireStop()
         {
+            this.player.Volume = 0;
             this.ExtStopRequired = true;
             this.player.Stop();
         }

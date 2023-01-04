@@ -5,7 +5,7 @@
         public const string WORLD_DIR = "worlds";
 
         public const int CHUNK_WC = 33;
-        public const int CHUNK_HC = 15;
+        public const int CHUNK_HC = 16; // 16 Because there is the gamebar
 
         public const int GHOST_RESPAWN_TICKS = 50;
 
@@ -14,8 +14,7 @@
 
         public const int DRUG_TICKS = 30;
 
-        public static double[][] Sizes = {  new[] { CHUNK_WCD * 28, CHUNK_HCD * 28 },  // 28
-                                        new[] { CHUNK_WCD * 32, CHUNK_HCD * 32 },  // 32
+        public static double[][] Sizes = { new[] { CHUNK_WCD * 32, CHUNK_HCD * 32 },  // 32
                                         new[] { CHUNK_WCD * 36, CHUNK_HCD * 36 },  // 36
                                         new[] { CHUNK_WCD * 40, CHUNK_HCD * 40 },  // 40
                                         new[] { CHUNK_WCD * 44, CHUNK_HCD * 44 },  // 44

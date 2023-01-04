@@ -197,6 +197,8 @@ namespace PacManWPF.Game.PGs.Movers.Abs
             if (this.goto_way is null)
                 this.goto_way = GetWay(from, to);
 
+
+            this.ghost.HandleAnimation(this.ghost.EffectivePosition, to);
             var Node = this.goto_way.PopFirstNode();
             Grid.SetColumn(this.ghost.CeilObject, Node.Point.X);
             Grid.SetRow(this.ghost.CeilObject, Node.Point.Y);
