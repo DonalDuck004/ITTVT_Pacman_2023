@@ -48,7 +48,7 @@ namespace PacManWPF.Game.Worlds
                 int idx = 0;
                 Walls walls;
 
-                foreach (var item in MainWindow.INSTANCE.game_grid.Children.OfType<System.Windows.Shapes.Rectangle>())
+                foreach (var item in MainWindow.INSTANCE.game_grid.Children.OfType<System.Windows.Controls.Image>())
                 {
 
                     if (object.ReferenceEquals(Pacman.INSTANCE.CeilObject, item) || 
@@ -65,24 +65,24 @@ namespace PacManWPF.Game.Worlds
 
                     if (v == -1)
                     {
-                        item.Fill = ResourcesLoader.PacDot;
+                        item.Source = ResourcesLoader.PacDot;
                         item.Tag = new FoodTag(FoodTypes.PacDot);
                         this.PacDotCount++;
                     }
                     else if (v == -2)
                     {
-                        item.Fill = ResourcesLoader.PowerPellet;
+                        item.Source = ResourcesLoader.PowerPellet;
                         item.Tag = new FoodTag(FoodTypes.PowerPellet);
                     }
                     else if (v == -3)
                     {
-                        item.Fill = null;
+                        item.Source = ResourcesLoader.EmptyImage;
                         item.Tag = EmptyTag.INSTANCE;
                     }
                     else if (v == -4)
                     {
                         walls = (Walls)sr.ReadInt32();
-                        item.Fill = ResourcesLoader.GetImage(walls, System.Drawing.Color.FromArgb(sr.ReadByte(),
+                        item.Source = ResourcesLoader.GetImage(walls, System.Drawing.Color.FromArgb(sr.ReadByte(),
                                                                                           sr.ReadByte(),
                                                                                           sr.ReadByte()));
                         item.Tag = new WallTag(walls);
@@ -90,7 +90,7 @@ namespace PacManWPF.Game.Worlds
                     else if (v == -5)
                     {
                         this.SpawnGate = new(Grid.GetColumn(item), Grid.GetRow(item));
-                        item.Fill = ResourcesLoader.Gate;
+                        item.Source = ResourcesLoader.Gate;
                         item.Tag = new GateTag();
                     }
                     else
@@ -132,14 +132,14 @@ namespace PacManWPF.Game.Worlds
 #pragma warning disable CS8600
                     if (schema_type.IsSubclassOf(typeof(SchemaBasedMover)))
                     {
-                        Point[] schema = new Point[sr.ReadInt32()];
+                        var schema = new Point[sr.ReadInt32()];
                         for (int i = 0; i < schema.Length; i++)
                             schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost), SpawnPointOf(ghost));
                     } else if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)))
                     {
                         ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, 
-                                                                                 Convert.ToHexString(md5), 
+                                                                                 Convert.ToHexString(md5),
                                                                                  new Point(sr.ReadInt32(), sr.ReadInt32()),
                                                                                  ghost), 
                                         SpawnPointOf(ghost));

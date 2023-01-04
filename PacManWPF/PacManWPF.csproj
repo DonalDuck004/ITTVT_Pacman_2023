@@ -23,6 +23,7 @@
         <None Remove="Assets\Images\Key.png" />
         <None Remove="Assets\Images\Melon.png" />
         <None Remove="Assets\Images\PacDot.png" />
+        <None Remove="Assets\Images\pacman.png" />
         <None Remove="Assets\Images\Peach.png" />
         <None Remove="Assets\Images\PowerPellet.png" />
         <None Remove="Assets\Images\settings.png" />
@@ -31,8 +32,8 @@
         <None Remove="Assets\Sounds\start.wav" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.1" />
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+        <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
     </ItemGroup>
 <ItemGroup>
     <ContentWithTargetPath Include="Assets\**">
@@ -84,14 +85,11 @@
         <Resource Include="Assets\Images\PacDot.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Assets\Images\pacman_closed.png">
+        <Resource Include="Assets\Images\pacman.gif">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Assets\Images\pacman_open.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
-        <Resource Include="Assets\Images\pacman_partially_closed.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Resource Include="Assets\Images\pacman.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\Peach.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -19,12 +19,13 @@ namespace PacManWPF.Game
 {
     public class PacmanGame : Singleton<PacmanGame>
     {
-        public Rectangle[] CeilsAt(Point point) => CeilsAt(point.X, point.Y);
-        public Rectangle[] CeilsAt(int x, int y) => MainWindow.INSTANCE.game_grid.Children.OfType<Rectangle>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
+        public Image[] CeilsAt(Point point) => CeilsAt(point.X, point.Y);
+        public Image[] CeilsAt(int x, int y) => MainWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
 
         private Random rnd = new();
 
         public readonly List<Point> FreeAreas = new();
+        public bool Initizialized { get; private set; } = false;
 
         private bool _frozen;
 
@@ -147,7 +148,12 @@ namespace PacManWPF.Game
         {
             Debug.Assert(WorldLoader.CurrentWorld is not null);
             SoundEffectsPlayer.StopAll();
-            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged));
+            this.Initizialized = false;
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => {
+                this.Initizialized = true;
+                SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
+            });
+
             foreach (var animation in PendingAnimations)
                 animation.Interrupt();
 
@@ -172,13 +178,13 @@ namespace PacManWPF.Game
                 Debug.Assert(WorldLoader.CurrentWorld is not null);
                 var world = WorldLoader.CurrentWorld;
                 var values = (FoodTypes[])Enum.GetValues(typeof(FoodTypes));
-                var ceils = MainWindow.INSTANCE.game_grid.Children.OfType<Rectangle>().Where(x => ((Tags.BaseTag)x.Tag).GetType() == typeof(Tags.EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
+                var ceils = MainWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(x => ((Tags.BaseTag)x.Tag).GetType() == typeof(Tags.EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
                 if (ceils.Length == 0)
                     return;
 
                 var ceil = ceils[rnd.Next(ceils.Length)];
                 var food = values[rnd.Next(2, values.Length)];
-                ceil.Fill = ResourcesLoader.GetImage(food);
+                ceil.Source = ResourcesLoader.GetImage(food);
                 Guid guid = Guid.NewGuid();
                 var animation = new SpecialFoodAnimation();
                 animation.Id = guid;
@@ -186,16 +192,16 @@ namespace PacManWPF.Game
 
                 animation.Completed += (s, e) =>
                 {
+                    ceil.Opacity = 1.0;
 
                     if (ceil.Tag.GetType() != typeof(Tags.FoodTag) || ((Tags.FoodTag)ceil.Tag).animation is null)
                         return;
                     Guid ID = ((Tags.FoodTag)ceil.Tag).animation.Id;
-                    ceil.Opacity = 1.0;
 
                     if (ID == guid)
                     {
                         ceil.Tag = Tags.EmptyTag.INSTANCE;
-                        ceil.Fill = null;
+                        ceil.Source = null;
                     }
                 };
 
@@ -206,8 +212,14 @@ namespace PacManWPF.Game
 
         public void Respawn()
         {
+            this.Initizialized = false;
             SoundEffectsPlayer.StopAll();
-            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged));
+            this.Initizialized = false;
+            SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => { 
+                this.Initizialized = true; 
+                SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
+            });
+
             Pacman.INSTANCE.Respawn();
             for (int i = 0; i < Ghost.INSTANCES.Length; i++)
                 Ghost.INSTANCES[i].Respawn();

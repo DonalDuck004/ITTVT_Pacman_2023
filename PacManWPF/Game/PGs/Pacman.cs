@@ -9,7 +9,7 @@ using System.Windows.Shapes;
 using PacManWPF.Animations;
 using PacManWPF.Game.Tags;
 using PacManWPF.Utils;
-
+using WpfAnimatedGif;
 using Point = System.Drawing.Point;
 
 namespace PacManWPF.Game.PGs
@@ -21,11 +21,10 @@ namespace PacManWPF.Game.PGs
 
         public int X { get; private set; }
         public int Y { get; private set; }
-        public PacmanAnimation Animation { get; private set; } = new();
-
         public Point Position => new (X, Y);
         public Point SpawnPoint { get; private set; }
         public int SpawnGrad { get; private set; }
+        public int Grad = 0;
 
         private int _drug_frames = 0;
         public int DrugTicks
@@ -47,21 +46,43 @@ namespace PacManWPF.Game.PGs
         }
 
         public bool IsDrugged => DrugTicks > 0;
-
-        public Rectangle CeilObject { get; private set; } = new Rectangle() { Tag = PacmanTag.INSTANCE };
+        // TODO Property Grad, CeilObjectRotate
+        public Image CeilObject { get; private set; } = new () { Tag = PacmanTag.INSTANCE, ClipToBounds = true };
 
 #nullable disable
         private Pacman()
         {
-            this.CeilObject.BeginAnimation(Rectangle.FillProperty, this.Animation);
+            ImageBehavior.SetAnimatedSource(this.CeilObject, ResourcesLoader.PacMan);
             MainWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
+            // this.CeilObject.BeginAnimation(Image.SourceProperty, this.Animation);
         }
 #nullable restore
+
+        public void UpdateLayout(int? Grad = null)
+        {
+            Grad ??= this.Grad;
+            var transform = Matrix.Identity;
+            transform.RotateAt(Grad.Value, 0.5, 0.5);
+            this.CeilObject.LayoutTransform = new MatrixTransform(transform);
+
+            if (Pacman.INSTANCE.IsDrugged)
+            {
+                this.CeilObject.RenderTransform = new ScaleTransform(2, 2);
+                this.CeilObject.RenderTransformOrigin = new(0.5, 0.5);
+            }
+            else
+            {
+                this.CeilObject.RenderTransform = null;
+                this.CeilObject.RenderTransformOrigin = new(0, 0);
+            }
+
+            this.Grad = Grad.Value;
+        }
 
         public void Respawn()
         {
             this.DrugTicks = 0;
-            this.Animation.Grad = this.SpawnGrad;
+            this.UpdateLayout(this.SpawnGrad);
 
             this.X = this.SpawnPoint.X;
             this.Y = this.SpawnPoint.Y;
@@ -78,7 +99,7 @@ namespace PacManWPF.Game.PGs
             this.SpawnPoint = this.Position;
             this.SpawnGrad = grad;
 
-            this.Animation.Grad = grad;
+            this.UpdateLayout(this.SpawnGrad);
 
             Grid.SetColumn(this.CeilObject, x);
             Grid.SetRow(this.CeilObject, y); 
@@ -136,7 +157,7 @@ namespace PacManWPF.Game.PGs
 
                     PacmanGame.INSTANCE.Points += (int)((FoodTag)ceil_type).FoodType;
 
-                    ceil.Fill = null;
+                    ceil.Source = null;
                     ceil.Tag = EmptyTag.INSTANCE;
                 }
                 else if (ceil_type.IsAGhost)
@@ -163,7 +184,7 @@ namespace PacManWPF.Game.PGs
                 Grid.SetRow(this.CeilObject, y);
             }
 
-            this.Animation.Grad = grad;
+            this.UpdateLayout(grad);
         }
 
 

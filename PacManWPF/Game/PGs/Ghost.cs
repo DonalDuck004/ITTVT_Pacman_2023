@@ -15,6 +15,8 @@ using PacManWPF.Game;
 using PacManWPF.Game.PGs.Movers.Abs;
 using PacManWPF.Game.PGs.Movers;
 using PacManWPF.Game.Worlds;
+using System.Windows.Media.Animation;
+using PacManWPF.Animations;
 
 namespace PacManWPF.Game.PGs
 {
@@ -22,7 +24,7 @@ namespace PacManWPF.Game.PGs
     public class Ghost : Abs.BasePG
     {
         // public ImageBrush? reset_ceil = null;
-        public ImageBrush Image;
+        public BitmapImage Image;
 
         public GhostColors Type { get; private set; }
         private BaseGhostMover? mover = null;
@@ -38,12 +40,11 @@ namespace PacManWPF.Game.PGs
         public bool NeedToGoToSpawn { get; private set; } = false;
         public bool InGate { get; private set; } = false;
 
-        public Rectangle CeilObject { get; private set; }
+        public Image CeilObject { get; private set; }
+
         public System.Drawing.Point SpawnPoint { get; private set; }
 
         public System.Drawing.Point EffectivePosition => new(Grid.GetColumn(this.CeilObject), Grid.GetRow(this.CeilObject));
-
-        private int RespawnTicks = 0;
 
         public override System.Drawing.Point Position
         {
@@ -61,8 +62,8 @@ namespace PacManWPF.Game.PGs
                                                   type is GhostColors.Pink ? ResourcesLoader.PinkGhost :
                                                   type is GhostColors.Red ?  ResourcesLoader.RedGhost : 
                                                                              ResourcesLoader.OrangeGhost);
-            this.CeilObject = new Rectangle() { Tag = new Tags.GhostTag(this),
-                                                Fill = this.Image};
+            this.CeilObject = new Image() { Tag = new Tags.GhostTag(this),
+                                            Source = this.Image};
             MainWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
         }
 
@@ -81,13 +82,12 @@ namespace PacManWPF.Game.PGs
         public void SetSchema(BaseGhostMover mover, System.Drawing.Point spawnPoint)
         {
             this.mover = mover;
-            this.RespawnTicks = 0;
             this.IsDied = false;
             this.InGate = true;
             this.Initialized = false;
             this.NeedToGoToSpawn = false;
             this.SpawnPoint = spawnPoint;
-            this.CeilObject.Fill = this.Image;
+            this.CeilObject.Source = this.Image;
             Grid.SetZIndex(this.CeilObject, 3);
 
             Grid.SetColumn(this.CeilObject, spawnPoint.X);
@@ -96,18 +96,18 @@ namespace PacManWPF.Game.PGs
 
         public void Kill()
         {
-            if (this.IsDied is false)
-                this.RespawnTicks = 50;
+            var controller = SoundEffectsPlayer.Play(SoundEffectsPlayer.EAT_GHOST);
 
-            SoundEffectsPlayer.Play(SoundEffectsPlayer.EAT_GHOST).OnDone(() =>
-                                    SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_GO_BACK, () => this.IsDied));
+            if (this.IsDied is false)
+                controller.OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_GO_BACK, () => this.IsDied));
+
 
             this.IsDied = true;
-            this.CeilObject.Fill = ResourcesLoader.GhostEyes;
+            this.CeilObject.Source = ResourcesLoader.GhostEyes;
             Grid.SetZIndex(this.CeilObject, 1);
         }
 
-       
+        bool reversed = false;
         public void Tick(ref bool PacmanHitted)
         {
             Debug.Assert(this.mover is not null);
@@ -134,25 +134,14 @@ namespace PacManWPF.Game.PGs
             }
 
 
-            if (this.IsDied)
-            {
-                this.RespawnTicks -= 1;
-                if (this.RespawnTicks == 0)
-                {
-                    Grid.SetZIndex(this.CeilObject, 3);
-                    this.IsDied = false;
-                    this.CeilObject.Fill = this.Image;
-                }
-            }
-
-            if (!this.IsDied && !Pacman.INSTANCE.IsDrugged && !ReferenceEquals(this.CeilObject.Fill, this.Image))
+            if (!this.IsDied && !Pacman.INSTANCE.IsDrugged && !ReferenceEquals(this.CeilObject.Source, this.Image))
             {
                 Grid.SetZIndex(this.CeilObject, 3);
-                this.CeilObject.Fill = this.Image;
-            }else if (Pacman.INSTANCE.IsDrugged && !this.IsDied && !ReferenceEquals(this.CeilObject.Fill, ResourcesLoader.ScaryGhost))
+                this.CeilObject.Source = this.Image;
+            }else if (Pacman.INSTANCE.IsDrugged && !this.IsDied && !ReferenceEquals(this.CeilObject.Source, ResourcesLoader.ScaryGhost))
             {
                 Grid.SetZIndex(this.CeilObject, 1);
-                this.CeilObject.Fill = ResourcesLoader.ScaryGhost;
+                this.CeilObject.Source = ResourcesLoader.ScaryGhost;
             }
 
 
@@ -172,6 +161,8 @@ namespace PacManWPF.Game.PGs
                 this.NeedToGoToSpawn = true;
             }
 
+
+            reversed = !reversed;
             HandleCollisions(ref PacmanHitted);
         }
 

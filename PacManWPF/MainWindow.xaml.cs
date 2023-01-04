@@ -9,7 +9,6 @@ using PacManWPF.Game.PGs;
 using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
 using PacManWPF.Game;
-using System.Linq;
 
 namespace PacManWPF
 {
@@ -24,18 +23,15 @@ namespace PacManWPF
 
         public int total_points;
 
-        private Semaphore mutex = new Semaphore(1, 1);
-
         private DateTime last_call = DateTime.Now;
 
         private DispatcherTimer game_ticker = new DispatcherTimer(DispatcherPriority.Input)
         {
-            Interval = new TimeSpan(TimeSpan.TicksPerSecond / 12),
+            Interval = new (TimeSpan.TicksPerSecond / 12),
         };
 
         private GhostTickTypes tick_seq = GhostTickTypes.Scaried;
         
-
 
         public MainWindow()
         {
@@ -69,6 +65,9 @@ namespace PacManWPF
                 CloseMenu();
                 return;
             }
+
+            if (!PacmanGame.INSTANCE.Initizialized)
+                return;
 
             int dest_x = Pacman.INSTANCE.X;
             int dest_y = Pacman.INSTANCE.Y;
@@ -108,22 +107,13 @@ namespace PacManWPF
 
             this.last_call = DateTime.Now;
 
-            try
-            {
-                this.mutex.WaitOne();
-                bool PacmanHitted = false;
-                Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted);
+            bool PacmanHitted = false;
+            Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted);
 
-                if (PacmanGame.INSTANCE.GameOver)
-                    this.GameOver();
-                else if (PacmanHitted)
-                    PacmanGame.INSTANCE.Respawn();
-            }
-            finally
-            {
-                this.mutex.Release();
-            }
-            
+            if (PacmanGame.INSTANCE.GameOver)
+                this.GameOver();
+            else if (PacmanHitted)
+                PacmanGame.INSTANCE.Respawn();
         }
 
         public void CloseMenu()
@@ -140,43 +130,38 @@ namespace PacManWPF
 
         private void OnGameTick(object? sender, EventArgs e)
         {
-            if (PacmanGame.INSTANCE.Frozen)
+            if (PacmanGame.INSTANCE.Frozen || !PacmanGame.INSTANCE.Initizialized)
                 return;
 
 
-            this.mutex.WaitOne();
             if (!this.game_ticker.IsEnabled)
                 return;
 
-            try
-            {
-                bool was_drugged = Pacman.INSTANCE.IsDrugged;
+            bool was_drugged = Pacman.INSTANCE.IsDrugged;
 
 
-                this.tick_seq = (GhostTickTypes)(((int)tick_seq + 1) % 3);
+            this.tick_seq = (GhostTickTypes)(((int)tick_seq + 1) % 3);
                 
-                PacmanGame.INSTANCE.Tick(this.tick_seq);
+            PacmanGame.INSTANCE.Tick(this.tick_seq);
 
 
-                if (PacmanGame.INSTANCE.GameOver)
-                {
-                    this.GameOver();
-                    return;
-                }
-
-                if (was_drugged)
-                    Pacman.INSTANCE.DrugTicks--;
-
-                if (PacmanGame.INSTANCE.Won)
-                    this.Won();
-
-                PacmanGame.INSTANCE.SpawnFood();
-
-            }
-            finally
+            if (PacmanGame.INSTANCE.GameOver)
             {
-                this.mutex.Release();
+                this.GameOver();
+                return;
             }
+
+            if (was_drugged)
+            {
+                Pacman.INSTANCE.DrugTicks--;
+                Pacman.INSTANCE.UpdateLayout();
+            }
+
+            if (PacmanGame.INSTANCE.Won)
+                this.Won();
+
+            PacmanGame.INSTANCE.SpawnFood();
+
         }
 
         public void Won()
@@ -220,7 +205,6 @@ namespace PacManWPF
             if (this.worlds_box.SelectedIndex == -1) 
                 return;
 
-            this.mutex.WaitOne();
             this.FreezeGame();
             this.world_label.Content = WorldLoader.Worlds[this.worlds_box.SelectedIndex].Name;
             this.game_won_label.Content = this.world_label.Content;
@@ -228,7 +212,6 @@ namespace PacManWPF
             this.game_tab.IsSelected = true;
             this.CloseMenu();
             GC.Collect();
-            this.mutex.Release();
         }
 
     }

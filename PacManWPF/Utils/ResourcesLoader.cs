@@ -63,9 +63,7 @@ namespace PacManWPF.Utils
         public const string STRAWBERRY_PATH = @"Images\Strawberry.png";
         public const string PEACH_PATH = @"Images\Peach.png";
         public const string GATE_PATH = @"Images\Gate.png";
-        public const string PACMAN_PATH = @"Images\pacman_open.png";
-        public const string PACMAN_P_CLOSED_PATH = @"Images\pacman_partially_closed.png";
-        public const string PACMAN_CLOSED_PATH = @"Images\pacman_closed.png";
+        public const string PACMAN_PATH = @"Images\pacman.gif";
         public const string PAC_DOT_PATH = @"Images\PacDot.png";
         public const string SCARY_GHOST_PATH = @"Images\dead_ghost.png";
         public const string GALAXIAN_PATH = @"Images\Galaxian.png";
@@ -74,48 +72,56 @@ namespace PacManWPF.Utils
         public const string BELL_PATH = @"Images\Bell.png";
         public const string KEY_PATH = @"Images\Key.png";
 
-        private static Dictionary<CacheKey, ImageBrush> walls_cache = new();
+        private static Dictionary<CacheKey, BitmapImage> walls_cache = new();
 
-        public static string[] PacManAnimationPaths = { PACMAN_PATH, PACMAN_P_CLOSED_PATH, PACMAN_CLOSED_PATH };
+        private static Dictionary<string, BitmapImage> cache = new();
 
+        public static BitmapImage GhostEyes = GetImage(GHOST_EYES_PATH);
 
-        private static Dictionary<string, ImageBrush> cache = new();
+        public static BitmapImage PacMan = GetImage(PACMAN_PATH);
 
-        public static ImageBrush GhostEyes = GetImage(GHOST_EYES_PATH);
+        public static BitmapImage ScaryGhost = GetImage(SCARY_GHOST_PATH);
 
+        public static BitmapImage PacDot = GetImage(PAC_DOT_PATH);
 
-        public static ImageBrush PacMan =  GetImage(PACMAN_PATH);
+        public static BitmapImage Peach = GetImage(PEACH_PATH);
 
+        public static BitmapImage PowerPellet = GetImage(POWER_PELLET_PATH);
 
-        public static ImageBrush ScaryGhost = GetImage(SCARY_GHOST_PATH);
+        public static BitmapImage Cherry = GetImage(CHERRY_PATH);
 
-        public static ImageBrush PacDot = GetImage(PAC_DOT_PATH);
+        public static BitmapImage Galaxian = GetImage(GALAXIAN_PATH);
 
-        public static ImageBrush Peach = GetImage(PEACH_PATH);
+        public static BitmapImage Apple = GetImage(APPLE_PATH);
 
-        public static ImageBrush PowerPellet = GetImage(POWER_PELLET_PATH);
+        public static BitmapImage Melon = GetImage(MELON_PATH);
 
-        public static ImageBrush Cherry = GetImage(CHERRY_PATH);
+        public static BitmapImage Bell = GetImage(BELL_PATH);
 
-        public static ImageBrush Galaxian = GetImage(GALAXIAN_PATH);
+        public static BitmapImage Key = GetImage(KEY_PATH);
 
-        public static ImageBrush Apple = GetImage(APPLE_PATH);
+        public static BitmapImage Strawberry = GetImage(STRAWBERRY_PATH);
 
-        public static ImageBrush Melon = GetImage(MELON_PATH);
+        public static BitmapImage Gate = GetImage(GATE_PATH);
 
-        public static ImageBrush Bell = GetImage(BELL_PATH);
+        public static BitmapImage EmptyImage = new();
 
-        public static ImageBrush Key = GetImage(KEY_PATH);
-
-        public static ImageBrush Strawberry = GetImage(STRAWBERRY_PATH);
-
-        public static ImageBrush Gate = GetImage(GATE_PATH);
+        static ResourcesLoader()
+        {
+            Bitmap image = new(256, 256);
+            MemoryStream buff = new();
+            image.Save(buff, ImageFormat.Png);
+            buff.Position = 0;
+            ResourcesLoader.EmptyImage.BeginInit();
+            ResourcesLoader.EmptyImage.StreamSource = buff;
+            ResourcesLoader.EmptyImage.EndInit();
+        }
 
         public record CacheKey(Walls Block, ColorD PenColor);
        
-        public static ImageBrush GetImage(Walls Block, ColorD PenColor) => GetImage(new CacheKey(Block, PenColor));
+        public static BitmapImage GetImage(Walls Block, ColorD PenColor) => GetImage(new CacheKey(Block, PenColor));
 
-        public static ImageBrush GetImage(FoodTypes type)
+        public static BitmapImage GetImage(FoodTypes type)
         {
             if (type is FoodTypes.PacDot)
                 return PacDot;
@@ -140,7 +146,7 @@ namespace PacManWPF.Utils
         }
 
 
-        public static ImageBrush GetImage(CacheKey key)
+        public static BitmapImage GetImage(CacheKey key)
         {
             if (walls_cache.ContainsKey(key) && false)
                 return walls_cache[key];
@@ -330,16 +336,18 @@ namespace PacManWPF.Utils
             bitmapImage.StreamSource = buff;
             bitmapImage.EndInit();
 
-            return walls_cache[key] = new ImageBrush(bitmapImage);
+            return walls_cache[key] = bitmapImage;
         }
 
-        public static ImageBrush GetImage(string name)
+        public static BitmapImage GetImage(string name)
         {
             if (!cache.ContainsKey(name))
-                cache[name] = new ImageBrush()
-                {
-                    ImageSource = new BitmapImage(new Uri(name, UriKind.Relative)),
-                };
+            {
+                cache[name] = new BitmapImage();
+                cache[name].BeginInit();
+                cache[name].StreamSource = (Stream)new FileStream(name, FileMode.Open, FileAccess.Read);
+                cache[name].EndInit();
+            }
 
             return cache[name];
         }

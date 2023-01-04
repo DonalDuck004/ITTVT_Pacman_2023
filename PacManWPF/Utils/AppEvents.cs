@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Security.Policy;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 using PacManWPF.Game.Worlds;
 using PacManWPF.Utils;
 
@@ -116,6 +118,17 @@ namespace PacManWPF
         private void SetVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             SoundEffectsPlayer.SetVolume(e.NewValue);
+        }
+
+
+        private void SetGraphicsQuality(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            BitmapScalingMode[] options = { BitmapScalingMode.Unspecified, BitmapScalingMode.LowQuality, BitmapScalingMode.HighQuality, BitmapScalingMode.NearestNeighbor };
+            var opt = options[(int)e.NewValue];
+            foreach (var img in this.game_grid.Children.OfType<System.Windows.Controls.Image>())
+                RenderOptions.SetBitmapScalingMode(img, opt);
+
+            this.quality_label.Content = opt.ToString();
         }
 
         private void OpenGit(object sender, RoutedEventArgs e)
