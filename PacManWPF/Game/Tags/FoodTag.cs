@@ -1,5 +1,6 @@
 ﻿using PacManWPF.Animations;
 using PacManWPF.Game.PGs.Enums;
+using System;
 
 namespace PacManWPF.Game.Tags
 {
@@ -7,8 +8,9 @@ namespace PacManWPF.Game.Tags
     {
         public FoodTypes FoodType { get; init; }
         public SpecialFoodAnimation? animation { get; set; }
+        public Guid? guid { get; set; }
 
-        public FoodTag(FoodTypes type, SpecialFoodAnimation? animation = null)
+        public FoodTag(FoodTypes type, SpecialFoodAnimation? animation = null, Guid? guid = null)
         {
             this.IsAWall = false;
             this.IsFood = true;
@@ -17,6 +19,7 @@ namespace PacManWPF.Game.Tags
             this.IsGate = false;
             this.FoodType = type;
             this.animation = animation;
+            this.guid = guid;
         }
     }
 }

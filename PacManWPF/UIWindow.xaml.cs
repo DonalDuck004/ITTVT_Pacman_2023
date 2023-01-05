@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,6 +19,13 @@ namespace PacManWPF
 
         public static UIWindow INSTANCE => _INSTANCE ?? throw new Exception("No instance was found");
 
+        public static GhostTickTypes[] Seq = { GhostTickTypes.Alive, 
+                                               GhostTickTypes.Died,
+                                               GhostTickTypes.Scaried,
+                                               GhostTickTypes.Alive, 
+                                               GhostTickTypes.Died, 
+                                               GhostTickTypes.Died
+        };
 
         public int total_points;
 
@@ -41,6 +47,7 @@ namespace PacManWPF
             this.game_ticker.Tick += new EventHandler(OnGameTick);
         }
 
+        private Key? LastKey = null;
         public void DispatchKey(object sender, KeyEventArgs e)
         {
             e.Handled = true;
@@ -69,6 +76,9 @@ namespace PacManWPF
             if (!PacmanGame.INSTANCE.Initizialized)
                 return;
 
+            if (PacmanGame.INSTANCE.Frozen)
+                return;
+
             int dest_x = Pacman.INSTANCE.X;
             int dest_y = Pacman.INSTANCE.Y;
             int angular;
@@ -94,16 +104,14 @@ namespace PacManWPF
                 angular = 90;
             }
             else
-            {
-                e.Handled = false;
-                return;
-            }
-
-            if (PacmanGame.INSTANCE.Frozen)
                 return;
 
-            if (!Pacman.INSTANCE.IsDrugged && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / 8)) // TODO ANIMATION
+
+
+            if (e.Key == LastKey && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)))
                 return;
+            
+            LastKey = e.Key;
 
             this.last_call = DateTime.Now;
 
@@ -128,7 +136,6 @@ namespace PacManWPF
 
         }
 
-        GhostTickTypes[] seq = { GhostTickTypes.Alive, GhostTickTypes.Died, GhostTickTypes.Scaried, GhostTickTypes.Alive, GhostTickTypes.Died, GhostTickTypes.Died };
         private void OnGameTick(object? sender, EventArgs e)
         {
             if (PacmanGame.INSTANCE.Frozen || !PacmanGame.INSTANCE.Initizialized)
@@ -141,7 +148,7 @@ namespace PacManWPF
             bool was_drugged = Pacman.INSTANCE.IsDrugged;
 
 
-            PacmanGame.INSTANCE.Tick(seq[++tick_seq % seq.Length]);
+            PacmanGame.INSTANCE.Tick(Seq[++tick_seq % Seq.Length]);
 
 
             if (PacmanGame.INSTANCE.GameOver)
@@ -157,7 +164,6 @@ namespace PacManWPF
                 this.Won();
 
             PacmanGame.INSTANCE.SpawnFood();
-
         }
 
         public void Won()

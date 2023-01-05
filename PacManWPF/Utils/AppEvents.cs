@@ -21,6 +21,7 @@ namespace PacManWPF
         // https://learn.microsoft.com/it-it/windows/win32/menurc/wm-syscommand
         private double oldWidth;
         private double oldHeight;
+        public static readonly BitmapScalingMode[] GraphicOptions = { BitmapScalingMode.Unspecified, BitmapScalingMode.LowQuality, BitmapScalingMode.HighQuality, BitmapScalingMode.NearestNeighbor };
 
         public void AdaptToSize()
         {
@@ -117,18 +118,22 @@ namespace PacManWPF
 
         private void SetVolume(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            Game.RuntimeSettingsHandler.SetVolume((int)e.NewValue);
             SoundEffectsPlayer.SetVolume(e.NewValue);
         }
 
-
         private void SetGraphicsQuality(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            BitmapScalingMode[] options = { BitmapScalingMode.Unspecified, BitmapScalingMode.LowQuality, BitmapScalingMode.HighQuality, BitmapScalingMode.NearestNeighbor };
-            var opt = options[(int)e.NewValue];
+            var opt = GraphicOptions[(int)e.NewValue];
+            Game.RuntimeSettingsHandler.SetGraphic((int)e.NewValue);
+
             foreach (var img in this.game_grid.Children.OfType<System.Windows.Controls.Image>())
                 RenderOptions.SetBitmapScalingMode(img, opt);
 
-            this.quality_label.Content = opt.ToString();
+            if (this.quality_label is null) // Not yet loaded when reading settings
+                this.Loaded += (s, e) => this.quality_label!.Content = opt.ToString();
+            else
+                this.quality_label.Content = opt.ToString();
         }
 
         private void OpenGit(object sender, RoutedEventArgs e)
@@ -188,5 +193,16 @@ namespace PacManWPF
             // TODO Wait for scoredb thread
             Application.Current.Shutdown();
         }
+
+        private void SetAnimations(object sender, EventArgs e)
+        {
+            Game.RuntimeSettingsHandler.SetAnimations(true);
+        }
+
+        private void UnSetAnimations(object sender, EventArgs e)
+        {
+            Game.RuntimeSettingsHandler.SetAnimations(false);
+        }
+
     }
 }

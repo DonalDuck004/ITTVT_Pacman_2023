@@ -13,7 +13,7 @@ using PacManWPF.Utils;
 using PacManWPF.Animations;
 
 using Point = System.Drawing.Point;
-
+using System.Threading;
 
 namespace PacManWPF.Game
 {
@@ -154,6 +154,7 @@ namespace PacManWPF.Game
         {
             Debug.Assert(WorldLoader.CurrentWorld is not null);
             this.Seconds = 0;
+            UIWindow.INSTANCE.time_label.Content = "00:00:00";
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
             SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => {
@@ -189,24 +190,43 @@ namespace PacManWPF.Game
 
                 var ceil = ceils[rnd.Next(ceils.Length)];
                 var food = values[rnd.Next(2, values.Length)];
+                var guid = Guid.NewGuid();
                 ceil.Source = ResourcesLoader.GetImage(food);
-                Guid guid = Guid.NewGuid();
+                if (!RuntimeSettingsHandler.AnimationsEnabled)
+                {
+                    ceil.Tag = new Tags.FoodTag(food, null, guid);
+                    var timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(10) };
+                    timer.Tick += (s, e) => {
+                        timer.Stop();
+                        if (ceil.Tag.GetType() != typeof(Tags.FoodTag) || ((Tags.FoodTag)ceil.Tag).guid is null)
+                            return;
+
+                        Guid ID = ((Tags.FoodTag)ceil.Tag).guid!.Value;
+                        if (ID == guid)
+                        {
+                            ceil.Source = ResourcesLoader.EmptyImage;
+                            ceil.Tag = Tags.EmptyTag.INSTANCE;
+                        }
+                    };
+                    timer.Start();
+                    return;
+                }
+
                 var animation = new SpecialFoodAnimation();
-                animation.Id = guid;
-                ceil.Tag = new Tags.FoodTag(food, animation);
+                ceil.Tag = new Tags.FoodTag(food, animation, guid);
 
                 animation.Completed += (s, e) =>
                 {
-                    ceil.Opacity = 1.0;
-
-                    if (ceil.Tag.GetType() != typeof(Tags.FoodTag) || ((Tags.FoodTag)ceil.Tag).animation is null)
+                    if (ceil.Tag.GetType() != typeof(Tags.FoodTag) || ((Tags.FoodTag)ceil.Tag).animation is null || ((Tags.FoodTag)ceil.Tag).guid is null)
                         return;
-                    Guid ID = ((Tags.FoodTag)ceil.Tag).animation.Id;
+
+                    Guid ID = ((Tags.FoodTag)ceil.Tag).guid!.Value;
 
                     if (ID == guid)
                     {
+                        ceil.Opacity = 1.0;
                         ceil.Tag = Tags.EmptyTag.INSTANCE;
-                        ceil.Source = null;
+                        ceil.Source = ResourcesLoader.EmptyImage;
                     }
                 };
 

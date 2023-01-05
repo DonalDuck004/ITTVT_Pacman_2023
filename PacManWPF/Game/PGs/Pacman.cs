@@ -165,6 +165,7 @@ namespace PacManWPF.Game.PGs
                 }
             }
 
+            this.UpdateLayout(grad);
 
             if (can_pass)
             {
@@ -173,11 +174,49 @@ namespace PacManWPF.Game.PGs
 
                 Grid.SetColumn(this.CeilObject, dest.X);
                 Grid.SetRow(this.CeilObject, dest.Y);
+                this.HandleAnimation(grad);
             }
 
-            this.UpdateLayout(grad);
         }
 
+        private void HandleAnimation(int grad)
+        {
+            if (!RuntimeSettingsHandler.AnimationsEnabled)
+                return;
+
+            TimeSpan duration = new(TimeSpan.TicksPerSecond / (this.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV));
+            TranslateTransform trans = new();
+            TransformGroup group = new();
+            if (Pacman.INSTANCE.IsDrugged)
+            {
+                group.Children.Add(new ScaleTransform(2, 2));
+                this.CeilObject.RenderTransformOrigin = new(0.5, 0.5);
+            }else
+                this.CeilObject.RenderTransformOrigin = new(0, 0);
+            group.Children.Add(trans);
+
+            this.CeilObject.RenderTransform = group;
+            DoubleAnimation animation;
+
+
+            if (grad == 90) // Down
+            {
+                animation = new(-this.CeilObject.ActualHeight, 0, duration);
+                trans.BeginAnimation(TranslateTransform.YProperty, animation);
+            } else if (grad == 180) // <-
+            {
+                animation = new(this.CeilObject.ActualWidth, 0, duration);
+                trans.BeginAnimation(TranslateTransform.XProperty, animation);
+            } else if (grad == 270) // Up
+            {
+                animation = new(this.CeilObject.ActualHeight, 0, duration);
+                trans.BeginAnimation(TranslateTransform.YProperty, animation);
+            } else // ->
+            {
+                animation = new(-this.CeilObject.ActualWidth, 0, duration);
+                trans.BeginAnimation(TranslateTransform.XProperty, animation);
+            }
+        }
 
         public bool IsAt(Point point) => IsAt(point.X, point.Y);
 

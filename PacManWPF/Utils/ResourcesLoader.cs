@@ -80,7 +80,16 @@ namespace PacManWPF.Utils
         }
 
         public record CacheKey(Walls Block, ColorD PenColor);
-       
+
+        public static BitmapImage GetImage(GhostColors type)
+        {
+            return ResourcesLoader.GetImage(type is GhostColors.Cyan ? ResourcesLoader.CyanGhost :
+                                            type is GhostColors.Pink ? ResourcesLoader.PinkGhost :
+                                            type is GhostColors.Red  ? ResourcesLoader.RedGhost  :
+                                                                       ResourcesLoader.OrangeGhost);
+        }
+
+
         public static BitmapImage GetImage(Walls Block, ColorD PenColor) => GetImage(new CacheKey(Block, PenColor));
 
         public static BitmapImage GetImage(FoodTypes type)

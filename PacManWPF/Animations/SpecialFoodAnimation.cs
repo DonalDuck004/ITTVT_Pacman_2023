@@ -13,7 +13,6 @@ namespace PacManWPF.Animations
     {
         protected override Freezable CreateInstanceCore() => this;
         public override Type TargetPropertyType => typeof(double);
-        public Guid Id;
 
         private bool StopRequired = false;
         private bool InterruptRequired = false;

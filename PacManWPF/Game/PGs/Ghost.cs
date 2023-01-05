@@ -21,7 +21,7 @@ using PacManWPF.Animations;
 namespace PacManWPF.Game.PGs
 {
 
-    public class Ghost : Abs.BasePG
+    public class Ghost
     {
         // public ImageBrush? reset_ceil = null;
         public BitmapImage Image;
@@ -40,13 +40,14 @@ namespace PacManWPF.Game.PGs
         public bool NeedToGoToSpawn { get; private set; } = false;
         public bool InGate { get; private set; } = false;
 
+        public bool IsDied = false;
         public Image CeilObject { get; private set; }
 
         public System.Drawing.Point SpawnPoint { get; private set; }
 
         public System.Drawing.Point EffectivePosition => new(Grid.GetColumn(this.CeilObject), Grid.GetRow(this.CeilObject));
 
-        public override System.Drawing.Point Position
+        public System.Drawing.Point Position
         {
             get
             {
@@ -58,10 +59,7 @@ namespace PacManWPF.Game.PGs
         public Ghost(GhostColors type)
         {
             this.Type = type;
-            this.Image = ResourcesLoader.GetImage(type is GhostColors.Cyan ? ResourcesLoader.CyanGhost :
-                                                  type is GhostColors.Pink ? ResourcesLoader.PinkGhost :
-                                                  type is GhostColors.Red ?  ResourcesLoader.RedGhost : 
-                                                                             ResourcesLoader.OrangeGhost);
+            this.Image = ResourcesLoader.GetImage(type);
             this.CeilObject = new Image() { Tag = new Tags.GhostTag(this),
                                             Source = this.Image};
             UIWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
@@ -99,6 +97,8 @@ namespace PacManWPF.Game.PGs
         public void Kill()
         {
             var controller = SoundEffectsPlayer.Play(SoundEffectsPlayer.EAT_GHOST);
+            if (this.Initialized is false)
+                this.Initialized = true;
 
             if (this.IsDied is false)
                 controller.OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_GO_BACK, () => this.IsDied));
@@ -180,53 +180,49 @@ namespace PacManWPF.Game.PGs
 
         public void HandleAnimation(System.Drawing.Point from, System.Drawing.Point to)
         {
-            if (this.IsDied)
+            if (this.IsDied || from == to || !RuntimeSettingsHandler.AnimationsEnabled)
                 return;
 
             TimeSpan duration = new TimeSpan(Config.GAME_TICK * (!Pacman.INSTANCE.IsDrugged ?  3 : 5));
+            TranslateTransform trans = new TranslateTransform();
+            this.CeilObject.RenderTransform = trans;
+            DoubleAnimation animation;
+
             if (from.X - to.X == 1 && from.Y == to.Y) // <-
             {
-                TranslateTransform trans = new TranslateTransform();
-                this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualWidth, 0, duration);
+                animation = new(this.CeilObject.ActualWidth, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
-                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
-                trans.BeginAnimation(TranslateTransform.XProperty, anim2);
+                trans.BeginAnimation(TranslateTransform.XProperty, animation);
             }
             else if (from.X - to.X == -1 && from.Y == to.Y) // ->
             {
-                TranslateTransform trans = new TranslateTransform();
-                this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualWidth, 0, duration);
+                animation = new(-this.CeilObject.ActualWidth, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
-                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
-                trans.BeginAnimation(TranslateTransform.XProperty, anim2);
+                trans.BeginAnimation(TranslateTransform.XProperty, animation);
             }
             else if (from.Y - to.Y == 1 && from.X == to.X) // Up
             {
-                TranslateTransform trans = new TranslateTransform();
-                this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(this.CeilObject.ActualHeight, 0, duration);
+                animation = new(this.CeilObject.ActualHeight, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
-                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
-                trans.BeginAnimation(TranslateTransform.YProperty, anim2);
+                trans.BeginAnimation(TranslateTransform.YProperty, animation);
             }
-            else if (from.Y - to.Y == -1 && from.X == to.X) // Down
+            else //  if (from.Y - to.Y == -1 && from.X == to.X) // Down
             {
-                TranslateTransform trans = new TranslateTransform();
-                this.CeilObject.RenderTransform = trans;
-                DoubleAnimation anim2 = new DoubleAnimation(-this.CeilObject.ActualHeight, 0, duration);
+                animation = new(-this.CeilObject.ActualHeight, 0, duration);
 #if ANIMATION_DEBUG
                     this.AnimationDebugLock = true;
-                    anim2.Completed += (s, e) => { this.AnimationDebugLock = false; };
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
-                trans.BeginAnimation(TranslateTransform.YProperty, anim2);
+                trans.BeginAnimation(TranslateTransform.YProperty, animation);
             }
         }
 
