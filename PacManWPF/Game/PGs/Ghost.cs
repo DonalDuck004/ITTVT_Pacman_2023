@@ -28,7 +28,7 @@ namespace PacManWPF.Game.PGs
 
         public GhostColors Type { get; private set; }
         private BaseGhostMover? mover = null;
-
+        private static Random rnd = new();
 
         public static Ghost[] INSTANCES = new Ghost[4];
         public static Ghost RedGhost { get => Ghost.INSTANCES[0]; }
@@ -46,6 +46,7 @@ namespace PacManWPF.Game.PGs
         public System.Drawing.Point SpawnPoint { get; private set; }
 
         public System.Drawing.Point EffectivePosition => new(Grid.GetColumn(this.CeilObject), Grid.GetRow(this.CeilObject));
+        private int animation_f = rnd.Next(3, 5);
 
         public System.Drawing.Point Position
         {
@@ -59,7 +60,7 @@ namespace PacManWPF.Game.PGs
         public Ghost(GhostColors type)
         {
             this.Type = type;
-            this.Image = ResourcesLoader.GetImage(type);
+            this.Image = ResourcesLoader.GetImage(type, animation_f, (Direction)rnd.Next(4));
             this.CeilObject = new Image() { Tag = new Tags.GhostTag(this),
                                             Source = this.Image};
             UIWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
@@ -188,6 +189,13 @@ namespace PacManWPF.Game.PGs
             this.CeilObject.RenderTransform = trans;
             DoubleAnimation animation;
 
+            if (this.animation_f == 3)
+                this.animation_f = 4;
+            else
+                this.animation_f = 3;
+
+            Direction direction;
+
             if (from.X - to.X == 1 && from.Y == to.Y) // <-
             {
                 animation = new(this.CeilObject.ActualWidth, 0, duration);
@@ -195,6 +203,7 @@ namespace PacManWPF.Game.PGs
                     this.AnimationDebugLock = true;
                     animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
+                direction = Direction.Left;
                 trans.BeginAnimation(TranslateTransform.XProperty, animation);
             }
             else if (from.X - to.X == -1 && from.Y == to.Y) // ->
@@ -204,6 +213,7 @@ namespace PacManWPF.Game.PGs
                     this.AnimationDebugLock = true;
                     animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
+                direction = Direction.Right;
                 trans.BeginAnimation(TranslateTransform.XProperty, animation);
             }
             else if (from.Y - to.Y == 1 && from.X == to.X) // Up
@@ -213,6 +223,7 @@ namespace PacManWPF.Game.PGs
                     this.AnimationDebugLock = true;
                     animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
+                direction = Direction.Top;
                 trans.BeginAnimation(TranslateTransform.YProperty, animation);
             }
             else //  if (from.Y - to.Y == -1 && from.X == to.X) // Down
@@ -222,7 +233,14 @@ namespace PacManWPF.Game.PGs
                     this.AnimationDebugLock = true;
                     animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
 #endif
+                direction = Direction.Bottom;
                 trans.BeginAnimation(TranslateTransform.YProperty, animation);
+            }
+
+            if (!Pacman.INSTANCE.IsDrugged)
+            {
+                this.Image = ResourcesLoader.GetImage(this.Type, animation_f, direction);
+                this.CeilObject.Source = this.Image;
             }
         }
 

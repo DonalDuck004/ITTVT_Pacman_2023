@@ -18,14 +18,48 @@
         <None Remove="Assets\Images\Bell.png" />
         <None Remove="Assets\Images\Cherry.png" />
         <None Remove="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" />
+        <None Remove="Assets\Images\cyan_3_bottom.png" />
+        <None Remove="Assets\Images\cyan_3_left.png" />
+        <None Remove="Assets\Images\cyan_3_right.png" />
+        <None Remove="Assets\Images\cyan_3_top.png" />
+        <None Remove="Assets\Images\cyan_4_bottom.png" />
+        <None Remove="Assets\Images\cyan_4_left.png" />
+        <None Remove="Assets\Images\cyan_4_right.png" />
+        <None Remove="Assets\Images\cyan_4_top.png" />
+        <None Remove="Assets\Images\download.png" />
         <None Remove="Assets\Images\folder.png" />
         <None Remove="Assets\Images\Galaxian.png" />
+        <None Remove="Assets\Images\Kaze94.png" />
         <None Remove="Assets\Images\Key.png" />
         <None Remove="Assets\Images\Melon.png" />
+        <None Remove="Assets\Images\orange_3_bottom.png" />
+        <None Remove="Assets\Images\orange_3_left.png" />
+        <None Remove="Assets\Images\orange_3_right.png" />
+        <None Remove="Assets\Images\orange_3_top.png" />
+        <None Remove="Assets\Images\orange_4_bottom.png" />
+        <None Remove="Assets\Images\orange_4_left.png" />
+        <None Remove="Assets\Images\orange_4_right.png" />
+        <None Remove="Assets\Images\orange_4_top.png" />
         <None Remove="Assets\Images\PacDot.png" />
         <None Remove="Assets\Images\pacman.png" />
         <None Remove="Assets\Images\Peach.png" />
+        <None Remove="Assets\Images\pink_3_bottom.png" />
+        <None Remove="Assets\Images\pink_3_left.png" />
+        <None Remove="Assets\Images\pink_3_right.png" />
+        <None Remove="Assets\Images\pink_3_top.png" />
+        <None Remove="Assets\Images\pink_4_bottom.png" />
+        <None Remove="Assets\Images\pink_4_left.png" />
+        <None Remove="Assets\Images\pink_4_right.png" />
+        <None Remove="Assets\Images\pink_4_top.png" />
         <None Remove="Assets\Images\PowerPellet.png" />
+        <None Remove="Assets\Images\red_3_bottom.png" />
+        <None Remove="Assets\Images\red_3_left.png" />
+        <None Remove="Assets\Images\red_3_right.png" />
+        <None Remove="Assets\Images\red_3_top.png" />
+        <None Remove="Assets\Images\red_4_bottom.png" />
+        <None Remove="Assets\Images\red_4_left.png" />
+        <None Remove="Assets\Images\red_4_right.png" />
+        <None Remove="Assets\Images\red_4_top.png" />
         <None Remove="Assets\Images\settings.png" />
         <None Remove="Assets\Images\Strawberry.png" />
         <None Remove="Assets\Sounds\chomp.wav" />
@@ -40,6 +74,51 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <TargetPath>%(RecursiveDir)\%(Filename)%(Extension)</TargetPath>
     </ContentWithTargetPath>
+</ItemGroup>
+<ItemGroup>
+  <ContentWithTargetPath Remove="Assets\Images\download.png" />
+  <ContentWithTargetPath Remove="Assets\Images\Kaze94.png" />
+</ItemGroup>
+<ItemGroup>
+  <Resource Include="Assets\Images\red_3_right.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+</ItemGroup>
+<ItemGroup>
+  <Resource Include="Assets\Images\cyan_4_right.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+</ItemGroup>
+<ItemGroup>
+  <Reference Include="PacmanOnlineMapsWPF">
+    <HintPath>..\..\..\source\repos\PacmanOnlineMaps\PacmanOnlineMapsWPF\bin\Release\net7.0-windows\PacmanOnlineMapsWPF.dll</HintPath>
+  </Reference>
+</ItemGroup>
+<ItemGroup>
+  <Resource Include="Assets\Images\cyan_3_bottom.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\cyan_3_left.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\cyan_3_right.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\cyan_3_top.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\cyan_4_bottom.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\cyan_4_left.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\cyan_4_top.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
+  <Resource Include="Assets\Images\download.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
 </ItemGroup>
     <ItemGroup>
         <Resource Include="Assets\Fonts\ARCADECLASSIC.TTF" />
@@ -58,9 +137,6 @@
         <Resource Include="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Assets\Images\cyan.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
         <Resource Include="Assets\Images\dead_ghost.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
@@ -73,14 +149,38 @@
         <Resource Include="Assets\Images\Galaxian.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
+        <Resource Include="Assets\Images\Kaze94.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
         <Resource Include="Assets\Images\Key.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\Melon.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Assets\Images\orange.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Resource Include="Assets\Images\orange_3_bottom.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_3_left.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_3_right.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_3_top.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_4_bottom.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_4_left.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_4_right.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\orange_4_top.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\PacDot.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -94,14 +194,56 @@
         <Resource Include="Assets\Images\Peach.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Assets\Images\pink.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <Resource Include="Assets\Images\pink_3_bottom.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_3_left.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_3_right.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_3_top.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_4_bottom.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_4_left.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_4_right.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\pink_4_top.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\PowerPellet.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\red.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_3_bottom.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_3_left.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_3_top.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_4_bottom.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_4_left.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_4_right.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\red_4_top.png">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\settings.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

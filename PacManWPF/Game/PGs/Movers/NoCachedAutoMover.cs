@@ -3,31 +3,29 @@
 
 namespace PacManWPF.Game.PGs.Movers
 {
-    public class NoCachedAutoMover : Abs.BaseGhostMover
+    public class NoCachedAutoMover : AutoMover
     {
-
-        protected Point Position;
-        protected Point StartPoint;
-
-        public NoCachedAutoMover(string hash, Point StartPoint, Ghost ghost) : base(ghost)
+        public NoCachedAutoMover(string hash, Point StartPoint, Ghost ghost) : base(hash, StartPoint, ghost)
         {
-            this.StartPoint = StartPoint;
-            this.Position = StartPoint;
         }
-
-        public override Point GetStartPoint() => this.StartPoint;
-
-        public override Point GetPos() => this.Position;
-
-        protected bool BaseNextFrame() => base.NextFrame();
 
         public override bool NextFrame()
         {
-            if (base.NextFrame() is false)
+            if (this.BaseNextFrame() is false)
                 return false;
 
-            var way = GetWay(this.ghost.EffectivePosition, Pacman.INSTANCE.Position);
-            this.Position = way.PopFirstNode().Point;
+
+            if (!Pacman.INSTANCE.IsDrugged)
+            {
+                var way = GetWay(this.ghost.EffectivePosition, Pacman.INSTANCE.Position);
+                this.Position = way.PopFirstNode().Point;
+                this.stalking_way = null;
+            }
+            else{
+                if (this.stalking_way == null || this.stalking_way.CountBefore == 0 || this.Position != this.ghost.EffectivePosition)
+                    this.stalking_way = GetWay(this.ghost.EffectivePosition, PacmanGame.INSTANCE.FreeAreas[rnd.Next(PacmanGame.INSTANCE.FreeAreas.Count)]);
+                this.Position = this.stalking_way.PopFirstNode().Point;
+            }
 
             return true;
         }

@@ -128,14 +128,12 @@ namespace PacManWPF.Game.Worlds
                             throw new Exception();
                     }
 
-#pragma warning disable CS8604
-#pragma warning disable CS8600
                     if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)) || typeof(NoCachedAutoMover) == schema_type)
                     {
-                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type,
+                        ghost.SetSchema((BaseGhostMover?)Activator.CreateInstance(schema_type,
                                                                                  Convert.ToHexString(md5),
                                                                                  new Point(sr.ReadInt32(), sr.ReadInt32()),
-                                                                                 ghost),
+                                                                                 ghost)!,
                                         SpawnPointOf(ghost));
                     }
                     else if (schema_type.IsSubclassOf(typeof(SchemaBasedMover)))
@@ -143,10 +141,8 @@ namespace PacManWPF.Game.Worlds
                         var schema = new Point[sr.ReadInt32()];
                         for (int i = 0; i < schema.Length; i++)
                             schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
-                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost), SpawnPointOf(ghost));
+                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost)!, SpawnPointOf(ghost));
                     }  
-#pragma warning restore CS8604
-#pragma warning restore CS8600
 
                 }
             }

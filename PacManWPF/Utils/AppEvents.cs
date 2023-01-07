@@ -146,6 +146,11 @@ namespace PacManWPF
             Process.Start(new ProcessStartInfo("https://t.me/DonalDuck004") { UseShellExecute = true });
         }
 
+        private void OpenKaze(object sender, RoutedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo("https://t.me/Kaze94") { UseShellExecute = true });
+        }
+
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
             FillWorldsBox();
@@ -204,5 +209,9 @@ namespace PacManWPF
             Game.RuntimeSettingsHandler.SetAnimations(false);
         }
 
+        private void OpenExt(object sender, RoutedEventArgs e)
+        {
+            new PacmanOnlineMaps.PlugWindow().ShowDialog();
+        }
     }
 }

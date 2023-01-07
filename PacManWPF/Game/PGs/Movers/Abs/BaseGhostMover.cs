@@ -230,7 +230,6 @@ namespace PacManWPF.Game.PGs.Movers.Abs
                 return false;
             }
 
-
             return true;
         }
 

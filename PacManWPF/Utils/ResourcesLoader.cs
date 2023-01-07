@@ -7,18 +7,21 @@ using System.Windows.Media.Imaging;
 using ColorD = System.Drawing.Color;
 using Pen = System.Drawing.Pen;
 using PacManWPF.Game.PGs.Enums;
-
+using System.Diagnostics;
 
 namespace PacManWPF.Utils
 {
 
+    public enum Direction
+    {
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+
     static class ResourcesLoader
     {
-        public const string CyanGhost = @"Images\cyan.png";
-        public const string PinkGhost = @"Images\pink.png";
-        public const string RedGhost = @"Images\red.png";
-        public const string OrangeGhost = @"Images\orange.png";
-
         public const string GHOST_EYES_PATH = @"Images\eyes.png";
         public const string POWER_PELLET_PATH = @"Images\PowerPellet.png";
         public const string CHERRY_PATH = @"Images\Cherry.png";
@@ -81,12 +84,13 @@ namespace PacManWPF.Utils
 
         public record CacheKey(Walls Block, ColorD PenColor);
 
-        public static BitmapImage GetImage(GhostColors type)
+        public static BitmapImage GetImage(GhostColors type, int f, Direction direction)
         {
-            return ResourcesLoader.GetImage(type is GhostColors.Cyan ? ResourcesLoader.CyanGhost :
-                                            type is GhostColors.Pink ? ResourcesLoader.PinkGhost :
-                                            type is GhostColors.Red  ? ResourcesLoader.RedGhost  :
-                                                                       ResourcesLoader.OrangeGhost);
+            Debug.Assert(f == 3 || f == 4);
+            string color = type.ToString().ToLower();
+            string dir = direction.ToString().ToLower();
+
+            return ResourcesLoader.GetImage(@$"Images\{color}_{f}_{dir}.png");
         }
 
 
