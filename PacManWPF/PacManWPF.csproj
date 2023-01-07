@@ -221,9 +221,6 @@
         <Resource Include="Assets\Images\PowerPellet.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
-        <Resource Include="Assets\Images\red.png">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </Resource>
         <Resource Include="Assets\Images\red_3_bottom.png">
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
