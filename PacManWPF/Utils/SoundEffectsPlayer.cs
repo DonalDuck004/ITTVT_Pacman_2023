@@ -25,7 +25,7 @@ namespace PacManWPF.Utils
         public static string GHOST_SIREN = "Sounds/ghost_siren.wav";
 
         internal static List<SoundEffect> INSTANCES = new();
-        public static double Volume { get; private set; } = 1; //  Game.RuntimeSettingsHandler.INSTANCE.Volume;
+        public static double Volume { get; private set; } = 1;
 
         private static Dictionary<string, SoundEffect> Tracks = new();
 
