@@ -673,9 +673,7 @@
         <TabItem Header="StartScreen" Visibility="Collapsed" TabIndex="3" Name="start_game_tab" IsSelected="True">
             <DockPanel>
                 <DockPanel.Background>
-                    <ImageBrush ImageSource="Assets/Images/bg.png" Stretch="Uniform">
-                        
-                    </ImageBrush>
+                    <ImageBrush ImageSource="Assets/Images/bg.png" Stretch="Uniform"></ImageBrush>
                 </DockPanel.Background>
                 <Grid Margin="0, 0, 0, 6">
                     <Grid.RowDefinitions>
