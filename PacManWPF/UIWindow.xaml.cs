@@ -9,6 +9,7 @@ using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
 using PacManWPF.Game;
 using System.Linq;
+using System.Threading;
 
 namespace PacManWPF
 {
@@ -17,6 +18,8 @@ namespace PacManWPF
     public partial class UIWindow : Window
     {
         private static UIWindow? _INSTANCE = null;
+        // todo public static List<Thread>
+        private Thread? KeyListener = null;
 
         public static UIWindow INSTANCE => _INSTANCE ?? throw new Exception("No instance was found");
 
@@ -48,6 +51,61 @@ namespace PacManWPF
             this.game_ticker.Tick += new EventHandler(OnGameTick);
         }
 
+        public void MovementListener()
+        {
+            Key? key;
+            int dest_x, dest_y, angular;
+
+            while (true)// (this._stop_required)
+            {
+                key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null);
+
+                if (!PacmanGame.INSTANCE.Initizialized || PacmanGame.INSTANCE.Frozen || key is null)
+                    continue;
+
+                if (DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)))
+                    continue;
+
+                dest_x = Pacman.INSTANCE.X;
+                dest_y = Pacman.INSTANCE.Y;
+
+                if (key is Key.Right)
+                {
+                    dest_x++;
+                    angular = 0;
+                }
+                else if (key is Key.Left)
+                {
+                    dest_x--;
+                    angular = 180;
+                }
+                else if (key is Key.Up)
+                {
+                    dest_y--;
+                    angular = 270;
+                }
+                else // if (key is Key.Down)
+                {
+                    dest_y++;
+                    angular = 90;
+                }
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    bool PacmanHitted = false;
+                    if (!Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted))
+                        return;
+
+                    this.last_call = DateTime.Now;
+
+                    if (PacmanGame.INSTANCE.GameOver)
+                        this.GameOver();
+                    else if (PacmanHitted)
+                        PacmanGame.INSTANCE.Respawn();
+                });
+            }
+        }
+
         public void DispatchKey(object sender, KeyEventArgs e)
         {
             e.Handled = true;
@@ -73,53 +131,6 @@ namespace PacManWPF
                 return;
             }
 
-            if (!PacmanGame.INSTANCE.Initizialized)
-                return;
-
-            if (PacmanGame.INSTANCE.Frozen)
-                return;
-
-            int dest_x = Pacman.INSTANCE.X;
-            int dest_y = Pacman.INSTANCE.Y;
-            int angular;
-
-            if (e.Key is Key.Right)
-            {
-                dest_x++;
-                angular = 0;
-            }
-            else if (e.Key is Key.Left)
-            {
-                dest_x--;
-                angular = 180;
-            }
-            else if (e.Key is Key.Up)
-            {
-                dest_y--;
-                angular = 270;
-            }
-            else if (e.Key is Key.Down)
-            {
-                dest_y++;
-                angular = 90;
-            }
-            else
-                return;
-
-
-            if (DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)))
-                return;
-
-            bool PacmanHitted = false;
-            if (!Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted))
-                return;
-
-            this.last_call = DateTime.Now;
-
-            if (PacmanGame.INSTANCE.GameOver)
-                this.GameOver();
-            else if (PacmanHitted)
-                PacmanGame.INSTANCE.Respawn();
         }
 
         public void CloseMenu()
@@ -210,9 +221,13 @@ namespace PacManWPF
             this.game_won_label.Content = this.world_label.Content;
             WorldLoader.Worlds[this.worlds_box.SelectedIndex].Apply();
             this.game_tab.IsSelected = true;
+            if (this.KeyListener is null)
+            {
+                this.KeyListener = new Thread(MovementListener);
+                this.KeyListener.Start();
+            }
             this.CloseMenu();
             GC.Collect(2, GCCollectionMode.Aggressive, true, true);
         }
-
     }
 }
