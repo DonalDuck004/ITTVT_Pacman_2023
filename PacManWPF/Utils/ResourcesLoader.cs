@@ -69,7 +69,7 @@ namespace PacManWPF.Utils
 
         public static BitmapImage Gate = GetImage(GATE_PATH);
 
-        public static BitmapImage EmptyImage = new();
+        public static BitmapImage EmptyImage;
 
         static ResourcesLoader()
         {
@@ -77,6 +77,8 @@ namespace PacManWPF.Utils
             MemoryStream buff = new();
             image.Save(buff, ImageFormat.Png);
             buff.Position = 0;
+
+            ResourcesLoader.EmptyImage = new();
             ResourcesLoader.EmptyImage.BeginInit();
             ResourcesLoader.EmptyImage.StreamSource = buff;
             ResourcesLoader.EmptyImage.EndInit();
@@ -120,10 +122,10 @@ namespace PacManWPF.Utils
                 return Key;
         }
 
-
+        
         public static BitmapImage GetImage(CacheKey key)
         {
-            if (walls_cache.ContainsKey(key) && false)
+            if (walls_cache.ContainsKey(key))
                 return walls_cache[key];
 
             Bitmap image = new(256, 256);

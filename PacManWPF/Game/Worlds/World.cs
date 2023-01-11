@@ -38,7 +38,7 @@ namespace PacManWPF.Game.Worlds
             //Chunk tmp;
 
             // background.Size = new Size(Config.CHUNK_WC * Config.ChunkSquare, Config.CHUNK_HC * Config.ChunkSquare);
-            using (BinaryReader sr = new BinaryReader(new FileStream(filename, FileMode.Open, FileAccess.Read)))
+            using (BinaryReader sr = new (new FileStream(filename, FileMode.Open, FileAccess.Read)))
             {
                 PacmanGame.INSTANCE.InitGame(pacman_x: sr.ReadInt32(),
                                              pacman_y: sr.ReadInt32(),

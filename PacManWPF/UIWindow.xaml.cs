@@ -8,7 +8,6 @@ using PacManWPF.Game.PGs;
 using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
 using PacManWPF.Game;
-using System.Linq;
 using System.Threading;
 
 namespace PacManWPF
@@ -58,7 +57,8 @@ namespace PacManWPF
 
             while (true)// (this._stop_required)
             {
-                key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null);
+                key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null, 
+                    (DispatcherPriority)5);
 
                 if (!PacmanGame.INSTANCE.Initizialized || PacmanGame.INSTANCE.Frozen || key is null)
                     continue;
@@ -102,7 +102,9 @@ namespace PacManWPF
                         this.GameOver();
                     else if (PacmanHitted)
                         PacmanGame.INSTANCE.Respawn();
-                });
+                }, DispatcherPriority.Render);
+
+                Thread.Yield();
             }
         }
 

@@ -158,8 +158,7 @@ namespace PacManWPF.Game.PGs
                         break;
 
                     default:
-                        if (((FoodTag)food_ceil.Tag).animation is not null)
-                            ((FoodTag)food_ceil.Tag).animation!.Stop();
+                        ((FoodTag)food_ceil.Tag).animation?.Stop();
                         SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
                         break;
                 }
