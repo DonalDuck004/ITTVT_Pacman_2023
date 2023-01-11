@@ -8,6 +8,7 @@ using PacManWPF.Game.PGs;
 using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
 using PacManWPF.Game;
+using System.Linq;
 
 namespace PacManWPF
 {
@@ -47,7 +48,6 @@ namespace PacManWPF
             this.game_ticker.Tick += new EventHandler(OnGameTick);
         }
 
-        private Key? LastKey = null;
         public void DispatchKey(object sender, KeyEventArgs e)
         {
             e.Handled = true;
@@ -107,16 +107,14 @@ namespace PacManWPF
                 return;
 
 
-
-            if (e.Key == LastKey && DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)))
+            if (DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)))
                 return;
-            
-            LastKey = e.Key;
-
-            this.last_call = DateTime.Now;
 
             bool PacmanHitted = false;
-            Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted);
+            if (!Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted))
+                return;
+
+            this.last_call = DateTime.Now;
 
             if (PacmanGame.INSTANCE.GameOver)
                 this.GameOver();

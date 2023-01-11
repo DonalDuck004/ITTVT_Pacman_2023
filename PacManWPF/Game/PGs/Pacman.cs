@@ -107,12 +107,14 @@ namespace PacManWPF.Game.PGs
         }
 
 
-        public void MoveTo(int x, int y, int grad, ref bool PacmanHitted)
+        public bool MoveTo(int x, int y, int grad, ref bool PacmanHitted)
         {
             var dest = new Point(x, y).Fix();
 
             bool can_pass = true;
             BaseTag ceil_type;
+            Image? food_ceil = null;
+
             foreach (var ceil in PacmanGame.INSTANCE.CeilsAt(dest.X, dest.Y))
             {
                 ceil_type = (BaseTag)ceil.Tag;
@@ -123,34 +125,7 @@ namespace PacManWPF.Game.PGs
                     break;
                 }
                 else if (ceil_type.IsFood)
-                {
-                    switch(((FoodTag)ceil_type).FoodType)
-                    {
-                        case Enums.FoodTypes.PacDot:
-                            SoundEffectsPlayer.PlayNoOverlap(SoundEffectsPlayer.CHOMP);
-                            PacmanGame.INSTANCE.PacDots++;
-                            break;
-
-                        case Enums.FoodTypes.PowerPellet:
-                            var play = !this.IsDrugged;
-
-                            this.DrugTicks += Config.DRUG_TICKS;
-                            if (play)
-                                SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.POWER_PELLET, () => this.IsDrugged).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !this.IsDrugged));
-                            break;
-
-                        default:
-                            if (((FoodTag)ceil_type).animation is not null)
-                                ((FoodTag)ceil_type).animation!.Stop();
-                            SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
-                            break;
-                    }
-
-                    PacmanGame.INSTANCE.Points += (int)((FoodTag)ceil_type).FoodType;
-
-                    ceil.Source = ResourcesLoader.EmptyImage;
-                    ceil.Tag = EmptyTag.INSTANCE;
-                }
+                    food_ceil = ceil;
                 else if (ceil_type.IsAGhost)
                 {
                     if (this.IsDrugged || ((GhostTag)ceil_type).ghost.IsDied)
@@ -165,6 +140,36 @@ namespace PacManWPF.Game.PGs
                 }
             }
 
+            if (food_ceil is not null)
+            {
+                switch (((FoodTag)food_ceil.Tag).FoodType)
+                {
+                    case Enums.FoodTypes.PacDot:
+                        SoundEffectsPlayer.PlayNoOverlap(SoundEffectsPlayer.CHOMP);
+                        PacmanGame.INSTANCE.PacDots++;
+                        break;
+
+                    case Enums.FoodTypes.PowerPellet:
+                        var play = !this.IsDrugged;
+
+                        this.DrugTicks += Config.DRUG_TICKS;
+                        if (play)
+                            SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.POWER_PELLET, () => this.IsDrugged).OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !this.IsDrugged));
+                        break;
+
+                    default:
+                        if (((FoodTag)food_ceil.Tag).animation is not null)
+                            ((FoodTag)food_ceil.Tag).animation!.Stop();
+                        SoundEffectsPlayer.Play(SoundEffectsPlayer.CHOMP_FRUIT);
+                        break;
+                }
+
+                PacmanGame.INSTANCE.Points += (int)((FoodTag)food_ceil.Tag).FoodType;
+
+                food_ceil.Source = ResourcesLoader.EmptyImage;
+                food_ceil.Tag = EmptyTag.INSTANCE;
+            }
+
             this.UpdateLayout(grad);
 
             if (can_pass)
@@ -177,6 +182,7 @@ namespace PacManWPF.Game.PGs
                 this.HandleAnimation(grad);
             }
 
+            return can_pass;
         }
 
         private void HandleAnimation(int grad)

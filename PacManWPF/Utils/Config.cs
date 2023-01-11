@@ -9,8 +9,8 @@ namespace PacManWPF.Utils
         public const int CHUNK_WC = 33;
         public const int CHUNK_HC = 15;
 
-        public const int PACMAN_MOVE_DIV = 6;
-        public const int PACMAN_PP_MOVE_DIV = PACMAN_MOVE_DIV * 3;
+        public const int PACMAN_MOVE_DIV = 8;
+        public const int PACMAN_PP_MOVE_DIV = 21;
 
         public const long GAME_TICK = TimeSpan.TicksPerSecond / 14;
 
