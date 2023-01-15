@@ -13,17 +13,13 @@ using System.Threading.Tasks.Dataflow;
 using System.Collections;
 using Microsoft;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading;
 
 namespace PacManWPF.Game.PGs.Movers.Abs
 {
 
     public abstract class BaseGhostMover : IGhostMover
     {
-        protected class WP
-        {
-            public ChainNode? Done = null;
-        }
-
         protected record GhostState(bool Died, bool PacmanDrugged, bool InGate, bool initialized, bool needToGoToSpawn);
 
         protected Ghost ghost;
@@ -39,23 +35,33 @@ namespace PacManWPF.Game.PGs.Movers.Abs
 
         protected ChainNode? goto_way = null;
 
-        protected virtual async Task NearPointsAsync(AsyncQueue<ChainNode> queue,
-                                                     ChainNode from, 
-                                                     Point to,
-                                                     WP wp) // bypass compiler ref block, due unsafe reasons
+        protected ChainNode? done = null;
 
+        protected virtual void NearPoints(ChainNode from,
+                                          Point to)
         {
+
+
+            Queue<ChainNode> o = new();
+            o.Enqueue(from);
             ChainNode item;
+            List<Point> near;
             Point tmp;
-            queue.Enqueue(from);
-
-            List<Point> near = new();
-
-            while (!queue.IsEmpty)
+            
+            while (true)
             {
-                item = await queue.DequeueAsync();
-                if (wp.Done is not null && (item.CountBefore + 1) >= wp.Done!.CountBefore)
+                try
+                {
+                    item = o.Dequeue();
+                }catch (InvalidOperationException)
+                {
+                    return;
+                }
+
+                if (this.done is not null && this.done.CountBefore <= (item.CountBefore + 1))
                     continue;
+
+                near = new();
 
                 if (PacmanGame.INSTANCE.FreeAreas.Contains(tmp = new Point(item.Point.X - 1, item.Point.Y).Fix()) && !item.Contains(tmp))
                     near.Add(tmp);
@@ -73,16 +79,13 @@ namespace PacManWPF.Game.PGs.Movers.Abs
                 {
                     if (x == to)
                     {
-                        if (wp.Done is null || wp.Done.CountBefore > (item.CountBefore  + 1))
-                            wp.Done = new ChainNode() { Point = x, Previus = item };
+                        if (done is null || done.CountBefore > (item.CountBefore + 1))
+                            done = new ChainNode() { Point = x, Previus = item };
                     }
                     else
-                        queue.Enqueue(new ChainNode() { Point = x, Previus = item });
+                        o.Enqueue(new ChainNode() { Point = x, Previus = item });
                 }
-
-                near.Clear();
             }
-            return;
         }
 
 
@@ -111,12 +114,21 @@ namespace PacManWPF.Game.PGs.Movers.Abs
                 if (route == to)
                     return new() { Point = route, Previus = null };
 
-            AsyncQueue<ChainNode> queue = new();
-            WP wp = new();
+            this.done = null;
+            var ths = new Thread[routes.Count];
 
-            Task.WaitAll(routes.Select(x => NearPointsAsync(queue, new ChainNode() { Point = x, Previus = null }, to, wp)).ToArray());
+            for (int i = 0; i < ths.Length; i++)
+            {
+                ths[i] = new Thread(new ParameterizedThreadStart((idx) => this.NearPoints(new ChainNode() { Point = routes[(int)idx!], Previus = null }, to)));
+                ths[i].Start(i);
+            }
 
-            return wp.Done!;
+            for (int i = 0; i < ths.Length; i++)
+            {
+                ths[i].Join();
+            }
+
+            return this.done!;
         }
 
         protected virtual void CalculateWay(Point to)

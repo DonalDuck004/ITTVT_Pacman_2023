@@ -36,5 +36,20 @@ namespace PacManWPF.Utils
 
             return new string(filler, len - src.Length) + src;
         }
+
+        public static Direction GetDirection(this System.Drawing.Point from, System.Drawing.Point dest)
+        {
+            if (from.X == dest.X && (from.Y - 1 == dest.Y || from.Y == 0 && dest.Y == Config.CHUNK_HC - 1))
+                return Direction.Top;
+
+            if (from.X == dest.X && (from.Y + 1 == dest.Y || from.Y == Config.CHUNK_HC - 1 && dest.Y == 0))
+                return Direction.Bottom;
+
+            if (from.Y == dest.Y && (from.X - 1 == dest.X || from.X == 0 && dest.X == Config.CHUNK_WC - 1))
+                return Direction.Left;
+
+            // if (from.X == dest.X && (from.Y == dest.Y + 1 || from.Y == Config.CHUNK_WC - 1 && dest.Y == 0))
+            return Direction.Right;
+        }
     }
 }

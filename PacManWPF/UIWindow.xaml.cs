@@ -54,11 +54,12 @@ namespace PacManWPF
         {
             Key? key;
             int dest_x, dest_y, angular;
-
-            while (true)// (this._stop_required)
+            try
             {
-                key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null, 
-                    (DispatcherPriority)5);
+                while (true) {// (this._stop_required)
+
+                    key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null, (DispatcherPriority)5);
+
 
                 if (!PacmanGame.INSTANCE.Initizialized || PacmanGame.INSTANCE.Frozen || key is null)
                     continue;
@@ -105,6 +106,10 @@ namespace PacManWPF
                 }, DispatcherPriority.Render);
 
                 Thread.Yield();
+            }                }
+            catch (System.Threading.Tasks.TaskCanceledException)
+            {
+                return;
             }
         }
 

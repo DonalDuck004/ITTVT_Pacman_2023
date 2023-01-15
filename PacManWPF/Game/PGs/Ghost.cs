@@ -194,47 +194,42 @@ namespace PacManWPF.Game.PGs
             else
                 this.animation_f = 3;
 
-            Direction direction;
+            Direction direction = from.GetDirection(to);
+            switch (direction)
+            {
+                case Direction.Left:
+                    animation = new(this.CeilObject.ActualWidth, 0, duration);
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                    trans.BeginAnimation(TranslateTransform.XProperty, animation);
+                    break;
+                case Direction.Right:
+                    animation = new(-this.CeilObject.ActualWidth, 0, duration);
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                    trans.BeginAnimation(TranslateTransform.XProperty, animation);
+                    break;
+                case Direction.Top:
+                    animation = new(this.CeilObject.ActualHeight, 0, duration);
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                    trans.BeginAnimation(TranslateTransform.YProperty, animation);
+                    break;
+                default:
+                    animation = new(-this.CeilObject.ActualHeight, 0, duration);
+#if ANIMATION_DEBUG
+                    this.AnimationDebugLock = true;
+                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
+#endif
+                    trans.BeginAnimation(TranslateTransform.YProperty, animation);
+                    break;
 
-            if (from.X - to.X == 1 && from.Y == to.Y) // <-
-            {
-                animation = new(this.CeilObject.ActualWidth, 0, duration);
-#if ANIMATION_DEBUG
-                    this.AnimationDebugLock = true;
-                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
-#endif
-                direction = Direction.Left;
-                trans.BeginAnimation(TranslateTransform.XProperty, animation);
-            }
-            else if (from.X - to.X == -1 && from.Y == to.Y) // ->
-            {
-                animation = new(-this.CeilObject.ActualWidth, 0, duration);
-#if ANIMATION_DEBUG
-                    this.AnimationDebugLock = true;
-                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
-#endif
-                direction = Direction.Right;
-                trans.BeginAnimation(TranslateTransform.XProperty, animation);
-            }
-            else if (from.Y - to.Y == 1 && from.X == to.X) // Up
-            {
-                animation = new(this.CeilObject.ActualHeight, 0, duration);
-#if ANIMATION_DEBUG
-                    this.AnimationDebugLock = true;
-                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
-#endif
-                direction = Direction.Top;
-                trans.BeginAnimation(TranslateTransform.YProperty, animation);
-            }
-            else //  if (from.Y - to.Y == -1 && from.X == to.X) // Down
-            {
-                animation = new(-this.CeilObject.ActualHeight, 0, duration);
-#if ANIMATION_DEBUG
-                    this.AnimationDebugLock = true;
-                    animation.Completed += (s, e) => { this.AnimationDebugLock = false; };
-#endif
-                direction = Direction.Bottom;
-                trans.BeginAnimation(TranslateTransform.YProperty, animation);
             }
 
             if (!Pacman.INSTANCE.IsDrugged)

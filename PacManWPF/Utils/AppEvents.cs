@@ -196,7 +196,7 @@ namespace PacManWPF
         {
             SoundEffectsPlayer.StopAll();
             // TODO Wait for scoredb thread
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private void SetAnimations(object sender, EventArgs e)
