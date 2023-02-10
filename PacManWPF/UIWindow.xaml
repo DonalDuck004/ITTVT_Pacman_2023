@@ -687,7 +687,7 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Height="500" Width="600" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
+                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Height="500" Width="550" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
                     <Grid Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="OpenWorldsFolder">
                         <Grid.RowDefinitions>
                             <RowDefinition></RowDefinition>
