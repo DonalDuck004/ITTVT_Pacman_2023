@@ -1,0 +1,38 @@
+﻿<Window x:Class="WorldsBuilderWPF.InputWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldsBuilderWPF"
+        mc:Ignorable="d"
+        Title="Window1" MaxHeight="140" MaxWidth="300" MinHeight="140" MinWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="40"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Titolo" Grid.Column="0"></Label>
+                <TextBox Name="title_box" Grid.Column="1"></TextBox>
+            </Grid>
+        </DockPanel>
+        <DockPanel Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Content="Tags" Grid.Column="0"></Label>
+                <TextBox x:Name="tags_box" Grid.Column="1"></TextBox>
+            </Grid>
+        </DockPanel>
+        <Button Content="Conferma" Grid.Row="2" Click="Button_Click" Width="120px" Margin="0,10,0,10"></Button>
+    </Grid>
+    
+</Window>

@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WorldsBuilderWPF": {
+      "commandName": "Project",
+      "hotReloadEnabled": true
+    }
+  }
+}

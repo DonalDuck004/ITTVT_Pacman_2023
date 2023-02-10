@@ -1,0 +1,30 @@
+﻿<Window x:Class="WorldsBuilderWPF.PacmanDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldsBuilderWPF"
+        mc:Ignorable="d"
+        Title="Pacman Position" MaxHeight="140" MaxWidth="300" MinHeight="140" MinWidth="300" Closed="OnClose">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel Grid.Column="0" VerticalAlignment="Center">
+            <Label Content="Pacman X" VerticalAlignment="Center"></Label>
+            <TextBox PreviewTextInput="NumberValidation" Width="48" VerticalAlignment="Center" Name="wp_X"></TextBox>
+        </WrapPanel>
+        <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+            <Label Content="Pacman Y" VerticalAlignment="Center"></Label>
+            <TextBox PreviewTextInput="NumberValidation" Width="48" VerticalAlignment="Center" Name="wp_Y"></TextBox>
+        </WrapPanel>
+        <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="CloseBtn" Content="Chiudi" Width="128" Click="OnCloseButton"></Button>
+        </WrapPanel>
+    </Grid>
+</Window>

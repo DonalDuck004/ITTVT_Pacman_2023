@@ -1,0 +1,615 @@
+﻿<Window x:Class="WorldsBuilderWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorldsBuilderWPF"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Background="Black" KeyDown="OnKeyDown" MouseLeftButtonDown="OutFocus" >
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="32"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <WrapPanel Background="Red">
+                <Image x:Name="Pacman" MouseLeftButtonDown="PacmanSetPos">
+                    <Image.Source>
+                        <BitmapImage UriSource="Assets\Images\pacman.png"></BitmapImage>
+                    </Image.Source>
+                </Image>
+                <Image x:Name="Red" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Red}">
+                    <Image.Source>
+                        <BitmapImage UriSource="Assets\Images\Red.png"></BitmapImage>
+                    </Image.Source>
+                </Image>
+                <Image x:Name="Pink" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Pink}">
+                    <Image.Source>
+                        <BitmapImage UriSource="Assets\Images\Pink.png"></BitmapImage>
+                    </Image.Source>
+                </Image>
+                <Image x:Name="Orange" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Cyan}">
+                    <Image.Source>
+                        <BitmapImage UriSource="Assets\Images\Cyan.png"></BitmapImage>
+                    </Image.Source>
+                </Image>
+                <Image x:Name="Cyan" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Orange}">
+                    <Image.Source>
+                        <BitmapImage UriSource="Assets\Images\Orange.png"></BitmapImage>
+                    </Image.Source>
+                </Image>
+            </WrapPanel>
+        </DockPanel>
+        <DockPanel Grid.Row="1" Background="DeepSkyBlue">
+            <Grid x:Name="game_grid" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black" MouseLeftButtonDown="ClickEvent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <!--#region Grid-->
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="0"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="1"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="2"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="3"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="4"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="5"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="6"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="7"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="8"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="9"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="10"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="11"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="12"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="13"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="0" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="1" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="2" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="3" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="4" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="5" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="6" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="7" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="8" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="9" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="10" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="11" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="12" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="13" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="14" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="15" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="16" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="17" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="18" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="19" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="20" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="21" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="22" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="23" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="24" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="25" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="26" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="27" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="28" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="29" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="30" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="31" Grid.Row="14"></Image>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Grid.Column="32" Grid.Row="14"></Image>
+                <!--#endregion-->
+            </Grid>
+        </DockPanel>
+        <DockPanel Background="AliceBlue" Name="BottomWrapper" Grid.Row="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="96"></ColumnDefinition>
+                    <ColumnDefinition Width="96"></ColumnDefinition>
+                    <ColumnDefinition Width="96"></ColumnDefinition>
+                    <ColumnDefinition Width="96"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <WrapPanel Grid.Column="0" x:Name="viewer" Orientation="Vertical"></WrapPanel>
+                <Button Content="Nuovo muro" Grid.Column="1" Click="Button_Click"/>
+                <Button Content="Carica online" Grid.Column="2" Click="UpLoad"/>
+                <Button Content="Apri" Grid.Column="3" Click="OnLoadClick"/>
+                <Button Content="Salva" Grid.Column="4" Click="SaveBtn"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>
