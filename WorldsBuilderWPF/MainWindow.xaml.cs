@@ -26,6 +26,7 @@ using System.Text;
 using System.Text.Json;
 using System.Windows.Media.Media3D;
 using System.IO.Pipes;
+using System.Security.Policy;
 
 namespace WorldsBuilderWPF
 {
@@ -76,15 +77,15 @@ namespace WorldsBuilderWPF
     public class GhostData
     {
         public Image image;
-        public int schema_type;
+        public GhostEngines engine;
         public List<System.Drawing.Point>? positions;
 
-        public GhostData(Image image, 
-                        int schema_type, 
+        public GhostData(Image image,
+                        GhostEngines engine, 
                         List<System.Drawing.Point>? positions)
         {
             this.image = image;
-            this.schema_type = schema_type;
+            this.engine = engine;
             this.positions = positions;
         }
     }
@@ -103,6 +104,7 @@ namespace WorldsBuilderWPF
         WrapPanel? currentWP = null;
         Image PacmanCeil;
 
+        public static MainWindow INSTANCE;
 
         public record CacheKey(Walls Block, Color PenColor);
         private static Dictionary<CacheKey, BitmapImage> cache = new();
@@ -123,6 +125,7 @@ namespace WorldsBuilderWPF
 
         public MainWindow()
         {
+            MainWindow.INSTANCE = this;
             InitializeComponent();
             game_ceils = this.game_grid.Children.OfType<Image>().Split(33).ToArray();
 
@@ -164,26 +167,26 @@ namespace WorldsBuilderWPF
             Grid.SetColumn(this.PacmanCeil, 0);
             Grid.SetZIndex(this.PacmanCeil, 1);
 
-            this.ghosts[0] = new(new(), 3, null); // TODO creare oggetto Image, mettere sopra
+            this.ghosts[0] = new(new(), GhostEngines.NoCachedAutoMover, null); // TODO creare oggetto Image, mettere sopra
             this.ghosts[0].image.Source = Red.Source;
             this.ghosts[0].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[0].image);
             Grid.SetColumn(this.ghosts[0].image, 1);
 
 
-            this.ghosts[1] = new(new(), 3, null);
+            this.ghosts[1] = new(new(), GhostEngines.NoCachedAutoMover, null);
             this.ghosts[1].image.Source = Pink.Source;
             this.ghosts[1].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[1].image);
             Grid.SetColumn(this.ghosts[1].image, 2);
 
-            this.ghosts[2] = new(new(), 3, null);
+            this.ghosts[2] = new(new(), GhostEngines.NoCachedAutoMover, null);
             this.ghosts[2].image.Source = Cyan.Source;
             this.ghosts[2].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[2].image);
             Grid.SetColumn(this.ghosts[2].image, 3);
 
-            this.ghosts[3] = new(new(), 3, null);
+            this.ghosts[3] = new(new(), GhostEngines.NoCachedAutoMover, null);
             this.ghosts[3].image.Source = Orange.Source;
             this.ghosts[3].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[3].image);
@@ -453,7 +456,7 @@ namespace WorldsBuilderWPF
         {
             if (PacmanDialog.SINGLETON is not null)
             {
-                PacmanDialog.SINGLETON.Activate();
+                PacmanDialog.SINGLETON.Reload();
                 return;
             }
 
@@ -470,6 +473,10 @@ namespace WorldsBuilderWPF
                 Grid.SetColumn(this.PacmanCeil, (int)PacmanDialog.SINGLETON.X);
                 Grid.SetRow(this.PacmanCeil, (int)PacmanDialog.SINGLETON.Y);
             }
+            var transform = Matrix.Identity;
+            transform.RotateAt(PacmanDialog.SINGLETON.D * 90, 0.5, 0.5);
+            this.PacmanCeil.LayoutTransform = new MatrixTransform(transform);
+
             PacmanDialog.SINGLETON.Activate();
 #nullable restore
         }
@@ -597,7 +604,7 @@ namespace WorldsBuilderWPF
 
         public void OnGhostDialogClosed(GhostDialog ghost)
         {
-            this.ghosts[(int)ghost.Color].schema_type = ghost.logic_type;
+            this.ghosts[(int)ghost.Color].engine = ghost.CurrentEngine;
             this.ghosts[(int)ghost.Color].positions = ghost.positions;
         }
 
@@ -754,9 +761,9 @@ namespace WorldsBuilderWPF
 
             foreach (var ghost in this.ghosts)
             {
-                result.AddRange(BitConverter.GetBytes(ghost.schema_type));
+                result.AddRange(BitConverter.GetBytes((int)ghost.engine));
 
-                if (ghost.schema_type != 3)
+                if (ghost.engine is not GhostEngines.CachedAutoMover && ghost.engine is not GhostEngines.NoCachedAutoMover)
                 {
                     Debug.Assert(ghost.positions is not null);
                     result.AddRange(BitConverter.GetBytes(ghost.positions.Count));
@@ -787,7 +794,7 @@ namespace WorldsBuilderWPF
             BinaryWriter stream = new(new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write));
             stream.Write(Grid.GetColumn(this.PacmanCeil));
             stream.Write(Grid.GetRow(this.PacmanCeil));
-            stream.Write(1); // Rotation
+            stream.Write(PacmanDialog.SINGLETON is null ? 0 : PacmanDialog.SINGLETON.D);
 
             foreach (var field in this.game_grid.Children.OfType<Image>())
             {
@@ -823,9 +830,9 @@ namespace WorldsBuilderWPF
 
             foreach (var ghost in this.ghosts)
             {
-                stream.Write(ghost.schema_type);
+                stream.Write((int)ghost.engine);
 
-                if (ghost.schema_type != 3)
+                if (ghost.engine is not GhostEngines.CachedAutoMover && ghost.engine is not GhostEngines.NoCachedAutoMover)
                 {
                     Debug.Assert(ghost.positions is not null);
                     stream.Write(ghost.positions.Count);

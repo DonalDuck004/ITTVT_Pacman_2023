@@ -5,13 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldsBuilderWPF"
         mc:Ignorable="d"
-        Title="Pacman Position" MaxHeight="140" MaxWidth="300" MinHeight="140" MinWidth="300" Closed="OnClose">
+        Title="Pacman Position" MaxHeight="140" MaxWidth="450" MinHeight="140" MinWidth="300" Closing="OnClose" KeyDown="OnKeydown">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
@@ -24,6 +25,15 @@
             <TextBox PreviewTextInput="NumberValidation" Width="48" VerticalAlignment="Center" Name="wp_Y"></TextBox>
         </WrapPanel>
         <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Label Content="Rotazione" VerticalAlignment="Center"></Label>
+            <ComboBox SelectedIndex="0" x:Name="rotation" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                <ComboBoxItem Content="0°"></ComboBoxItem>
+                <ComboBoxItem Content="90°"></ComboBoxItem>
+                <ComboBoxItem Content="180°"></ComboBoxItem>
+                <ComboBoxItem Content="270°"></ComboBoxItem>
+            </ComboBox>
+        </WrapPanel>       
+        <WrapPanel Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="CloseBtn" Content="Chiudi" Width="128" Click="OnCloseButton"></Button>
         </WrapPanel>
     </Grid>

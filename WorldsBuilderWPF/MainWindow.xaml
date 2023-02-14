@@ -605,8 +605,8 @@
                     <ColumnDefinition Width="96"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel Grid.Column="0" x:Name="viewer" Orientation="Vertical"></WrapPanel>
-                <Button Content="Nuovo muro" Grid.Column="1" Click="Button_Click"/>
-                <Button Content="Carica online" Grid.Column="2" Click="UpLoad"/>
+                <Button Content="Nuovo  muro" Grid.Column="1" Click="Button_Click"/>
+                <Button Content="Carica  online" Grid.Column="2" Click="UpLoad"/>
                 <Button Content="Apri" Grid.Column="3" Click="OnLoadClick"/>
                 <Button Content="Salva" Grid.Column="4" Click="SaveBtn"/>
             </Grid>

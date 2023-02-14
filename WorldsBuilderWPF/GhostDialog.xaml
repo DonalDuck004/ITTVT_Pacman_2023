@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldsBuilderWPF"
         mc:Ignorable="d"
-        Title="" MaxHeight="370" MaxWidth="500" MinHeight="370" MinWidth="500" Closed="OnClose">
+        Title="" MaxHeight="370" MaxWidth="500" MinHeight="370" MinWidth="500" Closed="OnClose" KeyDown="OnKeydown">
     <DockPanel>
         <GroupBox Height="32" DockPanel.Dock="Top">
             <DockPanel>
@@ -19,13 +19,8 @@
                         <Image x:Name="StopRecImg" Source="Assets\Images\Stop.png" MouseLeftButtonDown="StopRec"></Image>
                     </WrapPanel>
                     <WrapPanel HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Center" Name="RadioButtonsWP">
-                        <RadioButton Content="Cyclic" VerticalAlignment="Center" Click="RadioButtonClicked"></RadioButton>
-                        <Separator Width="10" Background="Transparent"></Separator>
-                        <RadioButton Content="NextToBack" VerticalAlignment="Center" Click="RadioButtonClicked"></RadioButton>
-                        <Separator Width="10" Background="Transparent"></Separator>
-                        <RadioButton Content="OneTime" VerticalAlignment="Center" Click="RadioButtonClicked"></RadioButton>
-                        <Separator Width="10" Background="Transparent"></Separator>
-                        <RadioButton Content="Auto" VerticalAlignment="Center" Click="RadioButtonClicked" IsChecked="True"></RadioButton>
+                        <ComboBox Width="200" Name="engines" SelectionChanged="OnEngineChanged">
+                        </ComboBox>
                     </WrapPanel>
                 </Grid>
             </DockPanel>

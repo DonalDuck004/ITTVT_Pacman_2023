@@ -26,6 +26,14 @@ namespace WorldsBuilderWPF
     /// </summary>
     /// 
 
+    public enum GhostEngines
+    {
+        CachedAutoMover,
+        Cyclic,
+        NextToBack,
+        NoCachedAutoMover,
+        OneTime
+    }
 
     public partial class GhostDialog : Window
     {
@@ -46,8 +54,7 @@ namespace WorldsBuilderWPF
         {
             Interval = new TimeSpan(TimeSpan.TicksPerSecond / 2)
         };
-
-        public int logic_type = 3;
+        public GhostEngines CurrentEngine => (GhostEngines)((ComboBoxItem)this.engines.SelectedItem).Tag;
         private Action<GhostDialog> cbk;
 
         public GhostDialog(GhostColors color, Action<GhostDialog> cbk)
@@ -62,6 +69,10 @@ namespace WorldsBuilderWPF
             this.RecAnimator.Tick += new EventHandler(OnRecTick);
             this.rec_img = StartRecImg.Source;
             this.cbk = cbk;
+            foreach (var item in (GhostEngines[])Enum.GetValues(typeof(GhostEngines)))
+                this.engines.Items.Add(new ComboBoxItem() { Content = item.ToString(), Tag = item });
+
+            this.engines.SelectedIndex = 0;
         }
 
         private void OnRecTick(object? sender, EventArgs e)
@@ -114,13 +125,14 @@ namespace WorldsBuilderWPF
 
         private void StartRec(object sender, MouseButtonEventArgs e)
         {
-            if (this.logic_type == 3)
+            if (this.CurrentEngine is GhostEngines.CachedAutoMover || this.CurrentEngine is GhostEngines.CachedAutoMover )
             {
                 MessageBox.Show("Non puoi registrare in modalita auto");
                 return;
             }
 
             this.Listening = true;
+            MainWindow.INSTANCE.Activate();
 
             if (!RecAnimator.IsEnabled)
                 RecAnimator.Start();
@@ -133,21 +145,17 @@ namespace WorldsBuilderWPF
             this.StartRecImg.Source = this.rec_img;
         }
 
-        private void RadioButtonClicked(object sender, RoutedEventArgs e)
+        private void OnEngineChanged(object sender, RoutedEventArgs e)
         {
-            RadioButton[] controls = RadioButtonsWP.Children.OfType<RadioButton>().ToArray();
+            this.positions.Clear();
+            foreach(var control in matrix.Children.OfType<Rectangle>())
+                control.Fill = new SolidColorBrush(Colors.Red);
+        }
 
-            for (logic_type = 0; controls[logic_type].IsChecked is not true; logic_type++)
-                ;
-
-            logic_type = logic_type == 0 ? 0 : logic_type - 1;
-            if (logic_type == 3)
-            {
-                this.positions.Clear();
-                foreach(var control in matrix.Children.OfType<Rectangle>())
-                    control.Fill = new SolidColorBrush(Colors.Red);
-            }
-
+        private void OnKeydown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is Key.Escape)
+                this.Close();
         }
     }
 }

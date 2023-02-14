@@ -29,33 +29,33 @@
                 <GroupBox Grid.Row="0" Header="External">
                     <WrapPanel Margin="0, 10, 0, 0">
                         <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="top_flag" Click="CheckBoxClicked" Content="Top"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="left_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="right_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="bottom_flag" Click="CheckBoxClicked"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="left_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="right_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="bottom_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Internal">
                     <WrapPanel Margin="0, 10, 0, 0">
                         <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="small_top_flag" Click="CheckBoxClicked" Content="Top"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="small_left_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="small_right_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="small_bottom_flag" Click="CheckBoxClicked"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="small_left_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="small_right_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="small_bottom_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="2" Header="External Curve">
                     <WrapPanel Margin="0, 10, 0, 0">
-                        <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="curve_top_flag" Click="CheckBoxClicked" Content="Top"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="curve_left_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="curve_right_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="curve_bottom_flag" Click="CheckBoxClicked"></CheckBox>
+                        <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="curve_top_flag" Click="CheckBoxClicked" Content="Top" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="curve_left_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="curve_right_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="curve_bottom_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                     </WrapPanel>
                 </GroupBox>
                 <GroupBox Grid.Row="3" Header="Internal Curve">
                     <WrapPanel Margin="0, 10, 0, 0">
-                        <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="small_curve_top_flag" Click="CheckBoxClicked" Content="Top"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="small_curve_left_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="small_curve_right_flag" Click="CheckBoxClicked"></CheckBox>
-                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="small_curve_bottom_flag" Click="CheckBoxClicked"></CheckBox>
+                        <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="small_curve_top_flag" Click="CheckBoxClicked" Content="Top" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="small_curve_left_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="small_curve_right_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
+                        <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="small_curve_bottom_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                     </WrapPanel>
                 </GroupBox>
             </Grid>
@@ -69,7 +69,7 @@
                 </Grid.ColumnDefinitions>
                 <Button Content="Colore" Grid.Column="0" Click="ColorChoice" Width="100" Height="30"></Button>
                 <Button Content="Pulisci" Click="ClearPreview" Grid.Column="1" Width="100" Height="30"></Button>
-                <Button Content="Aggiungi e Chiudi" Click="ButtonClick" Grid.Column="2" Width="100" Height="30"></Button>
+                <Button Content="Aggiungi  e  Chiudi" Click="ButtonClick" Grid.Column="2" Width="120" Height="30"></Button>
             </Grid>
         </DockPanel>
         <DockPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="2">

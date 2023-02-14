@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+
 
 namespace WorldsBuilderWPF
 {
@@ -22,6 +15,7 @@ namespace WorldsBuilderWPF
     {
         public int? X;
         public int? Y;
+        public int D => this.rotation.SelectedIndex;
 
         public static PacmanDialog? SINGLETON { get; private set; } = null;
         private Action cbk;
@@ -34,6 +28,7 @@ namespace WorldsBuilderWPF
             InitializeComponent();
             PacmanDialog.SINGLETON = this;
             this.cbk = cbk;
+            this.rotation.SelectedIndex = 0;
         }
 
         public void SetPos(int X, int Y)
@@ -61,10 +56,18 @@ namespace WorldsBuilderWPF
 
         private void OnCloseButton(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            this.Hide();
         }
 
-        private void OnClose(object sender, EventArgs e)
+        public void Reload()
+        {
+            wp_Y.Text = Y.ToString();
+            wp_X.Text = X.ToString();
+            this.Show();
+            this.Activate();
+        }
+
+        private void OnClose(object sender, CancelEventArgs e)
         {
             if (wp_X.Text != "")
                 X = int.Parse(wp_X.Text);
@@ -77,7 +80,14 @@ namespace WorldsBuilderWPF
                 Y = null;
 
             cbk.Invoke();
-            PacmanDialog.SINGLETON = null;
+            this.Hide();
+            e.Cancel = true;
+        }
+
+        private void OnKeydown(object sender, KeyEventArgs e)
+        {
+            if (e.Key is Key.Escape)
+                this.Close();
         }
     }
 }
