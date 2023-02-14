@@ -80,6 +80,11 @@
   <ContentWithTargetPath Remove="Assets\Images\Kaze94.png" />
 </ItemGroup>
 <ItemGroup>
+  <Reference Include="PacmanOnlineMapsWPF">
+    <HintPath>..\PacmanOnlineMapsWPF\bin\Release\net7.0-windows\PacmanOnlineMapsWPF.dll</HintPath>
+  </Reference>
+</ItemGroup>
+<ItemGroup>
   <Resource Include="Assets\Images\red_3_right.png">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Resource>
@@ -88,11 +93,6 @@
   <Resource Include="Assets\Images\cyan_4_right.png">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Resource>
-</ItemGroup>
-<ItemGroup>
-  <Reference Include="PacmanOnlineMapsWPF">
-    <HintPath>..\..\..\source\repos\PacmanOnlineMaps\PacmanOnlineMapsWPF\bin\Release\net7.0-windows\PacmanOnlineMapsWPF.dll</HintPath>
-  </Reference>
 </ItemGroup>
 <ItemGroup>
   <Resource Include="Assets\Images\cyan_3_bottom.png">
@@ -258,6 +258,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
         <Resource Include="Assets\Images\Git.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Resource>
+        <Resource Include="Assets\Images\download.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Resource>
     </ItemGroup>

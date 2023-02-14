@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacManWPF", "PacManWPF\PacM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WorldsBuilderWPF", "WorldsBuilderWPF\WorldsBuilderWPF.csproj", "{ACB2DFFA-9F3A-4EE9-BA3F-6AB8F8549AE8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacmanOnlineMapsWPF", "PacmanOnlineMapsWPF\PacmanOnlineMapsWPF.csproj", "{A7D18F94-8E7F-4FD9-AAA9-70F12D0B7E21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{ACB2DFFA-9F3A-4EE9-BA3F-6AB8F8549AE8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACB2DFFA-9F3A-4EE9-BA3F-6AB8F8549AE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACB2DFFA-9F3A-4EE9-BA3F-6AB8F8549AE8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D18F94-8E7F-4FD9-AAA9-70F12D0B7E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D18F94-8E7F-4FD9-AAA9-70F12D0B7E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D18F94-8E7F-4FD9-AAA9-70F12D0B7E21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D18F94-8E7F-4FD9-AAA9-70F12D0B7E21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
