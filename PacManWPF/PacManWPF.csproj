@@ -29,6 +29,7 @@
         <None Remove="Assets\Images\download.png" />
         <None Remove="Assets\Images\folder.png" />
         <None Remove="Assets\Images\Galaxian.png" />
+        <None Remove="Assets\Images\gate.png" />
         <None Remove="Assets\Images\Kaze94.png" />
         <None Remove="Assets\Images\Key.png" />
         <None Remove="Assets\Images\Melon.png" />
@@ -76,15 +77,14 @@
     </ContentWithTargetPath>
 </ItemGroup>
 <ItemGroup>
-  <ContentWithTargetPath Remove="Assets\Images\download.png" />
-  <ContentWithTargetPath Remove="Assets\Images\Kaze94.png" />
-</ItemGroup>
-<ItemGroup>
   <Reference Include="PacmanOnlineMapsWPF">
     <HintPath>..\PacmanOnlineMapsWPF\bin\Release\net7.0-windows\PacmanOnlineMapsWPF.dll</HintPath>
   </Reference>
 </ItemGroup>
 <ItemGroup>
+  <Resource Include="Assets\Images\gate.png">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+  </Resource>
   <Resource Include="Assets\Images\red_3_right.png">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Resource>
