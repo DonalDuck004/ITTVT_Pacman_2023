@@ -2,11 +2,16 @@
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Sockets;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Security.Policy;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
+using PacManWPF.Game;
 using PacManWPF.Game.Worlds;
 using PacManWPF.Utils;
 
@@ -209,9 +214,51 @@ namespace PacManWPF
             Game.RuntimeSettingsHandler.SetAnimations(false);
         }
 
+
+        Assembly asm = null;
+
+        private void LoadAsm()
+        {
+            string path = RuntimeSettingsHandler.ONLINE_DLL;
+            try
+            {
+                asm = Assembly.LoadFile(path);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("DLL Non Trovato", $"{path} non trovato.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void HandleOnlineExc(Exception e)
+        {
+            try
+            {
+                throw e;
+            }catch (HttpRequestException)
+            {
+                MessageBox.Show("Impossibile collegarsi al server...");
+            }
+        }
+
         private void OpenExt(object sender, RoutedEventArgs e)
         {
-            new PacmanOnlineMaps.PlugWindow().ShowDialog();
+            if (asm is null)
+                LoadAsm();
+
+            if (asm is null)
+                return;
+
+
+            Type t = asm.GetType("PacmanOnlineMaps.PlugWindow")!;
+            var methodInfo = t.GetMethod("ShowDialog")!;
+            try
+            {
+                methodInfo.Invoke(Activator.CreateInstance(t), new object[] { });
+            }catch(TargetInvocationException exc)
+            {
+                HandleOnlineExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
+            }
         }
     }
 }

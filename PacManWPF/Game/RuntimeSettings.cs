@@ -17,7 +17,6 @@ namespace PacManWPF.Game
         public double Volume { get; internal set; } = 1;
         [JsonInclude]
         public int GraphicMode { get; internal set; } = 0;
-
         [JsonInclude]
         public bool AnimationsEnabled { get; internal set; } = true;
     }
@@ -25,7 +24,9 @@ namespace PacManWPF.Game
     static class RuntimeSettingsHandler
     {
         public static RuntimeSettings INSTANCE { get; private set; }
-        public const string CONFIG_NAME = "Config.json";
+        public static string EXE_PATH { get; } = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+        public static string CONFIG_NAME { get; } = Path.Combine(EXE_PATH, "Config.json");
+        public static string ONLINE_DLL { get; } = Path.Combine(EXE_PATH, "PacmanOnlineMapsWPF.dll");
 
         public static double Volume => INSTANCE.Volume;
         public static double XAML_Volume => INSTANCE.Volume * 100;
@@ -37,7 +38,6 @@ namespace PacManWPF.Game
         static RuntimeSettingsHandler(){
             RuntimeSettingsHandler.INSTANCE = RuntimeSettingsHandler.Load();
         }
-
 
         public static void SetVolume(int val) => SetVolume((double)val / 100);
 
