@@ -240,15 +240,20 @@ namespace PacManWPF.Game
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
             SoundEffectsPlayer.Play(SoundEffectsPlayer.GAME_OVER).OnDone(() =>
-                SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => { 
-                    this.Initizialized = true; 
-                    SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
-                })
+                {
+                    Pacman.INSTANCE.Respawn();
+                    for (int i = 0; i < Ghost.INSTANCES.Length; i++)
+                        Ghost.INSTANCES[i].Respawn();
+                    
+                    SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() =>
+                    {
+                        this.Initizialized = true;
+                        SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
+                    });
+                }
             );
 
-            Pacman.INSTANCE.Respawn();
-            for (int i = 0; i < Ghost.INSTANCES.Length; i++)
-                Ghost.INSTANCES[i].Respawn();
+
         }
     }
 }

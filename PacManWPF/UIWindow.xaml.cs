@@ -46,8 +46,10 @@ namespace PacManWPF
         {
             UIWindow._INSTANCE = this;
             InitializeComponent();
-            this.AdaptToSize();
             this.game_ticker.Tick += new EventHandler(OnGameTick);
+
+            if (RuntimeSettingsHandler.MaximizedStartup)
+                this.WindowState = WindowState.Maximized;
         }
 
         public void MovementListener()

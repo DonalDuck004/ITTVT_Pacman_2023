@@ -5,20 +5,27 @@
              StartupUri="UIWindow.xaml">
     <Application.Resources>
         <Style TargetType="Label">
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="FontFamily" Value="Assets/Fonts/ARCADECLASSIC.TTF #ArcadeClassic"></Setter>
+            <Setter Property="Foreground" Value="Yellow"></Setter>
         </Style>
         <Style TargetType="RadioButton">
             <Setter Property="FontFamily" Value="Assets/Fonts/ARCADECLASSIC.TTF #ArcadeClassic"></Setter>
             <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
         <Style TargetType="Button">
+            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Background" Value="Yellow"></Setter>
             <Setter Property="Cursor" Value="Hand"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="FontFamily" Value="Assets/Fonts/ARCADECLASSIC.TTF #ArcadeClassic"></Setter>
         </Style>
         <Style TargetType="ListBoxItem">
             <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
         <Style TargetType="CheckBox">
-            <Setter Property="FontFamily" Value="Assets/Fonts/ARCADECLASSIC.TTF #ArcadeClassic"></Setter>
             <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
     </Application.Resources>

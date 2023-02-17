@@ -104,7 +104,9 @@ namespace WorldsBuilderWPF
         WrapPanel? currentWP = null;
         Image PacmanCeil;
 
-        public static MainWindow INSTANCE;
+#pragma warning disable CS8618
+        public static MainWindow INSTANCE { get; private set; }
+#pragma warning restore CS8618
 
         public record CacheKey(Walls Block, Color PenColor);
         private static Dictionary<CacheKey, BitmapImage> cache = new();
@@ -451,7 +453,6 @@ namespace WorldsBuilderWPF
 
         private void Setter(object sender, RoutedEventArgs e) => ChoiceFiller((Image)sender);
 
-
         private void PacmanSetPos(object sender, MouseButtonEventArgs e)
         {
             if (PacmanDialog.SINGLETON is not null)
@@ -479,11 +480,6 @@ namespace WorldsBuilderWPF
 
             PacmanDialog.SINGLETON.Activate();
 #nullable restore
-        }
-
-
-        private void Test(object sender, RoutedEventArgs e)
-        {
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

@@ -5,567 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PacManWPF"
         xmlns:game="clr-namespace:PacManWPF.Game"
-        mc:Ignorable="d " Loaded="OnLoad" PreviewKeyDown="DispatchKey" Closed="OnClosed"
-        Title="Pacman" Width="1024" Height="480" Background="DeepSkyBlue">
+        mc:Ignorable="d " PreviewKeyDown="DispatchKey" Closed="OnClosed"
+        Title="Pacman" Width="1480" Height="720" Background="Black">
     <Window.Icon>
         <BitmapImage UriSource="Assets/Images/pacman.png"></BitmapImage>
     </Window.Icon>
-    <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" Width="1024" Height="480" BorderBrush="Transparent" Name="app_pages">
+    <TabControl  Margin="-0.51,-4.51,0,0"  Background="Black" BorderBrush="Transparent" Name="app_pages" VerticalAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center">
         <TabItem Header="GameTab" Name="game_tab" TabIndex="0" Visibility="Collapsed">
-            <DockPanel Background="Black">
-                <Grid x:Name="game_grid" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="Bottom">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-
-                    </Grid.RowDefinitions>
-                    <!--#region Grid-->
-                    <Image Grid.Column="0" Grid.Row="0"></Image>
-                    <Image Grid.Column="1" Grid.Row="0"></Image>
-                    <Image Grid.Column="2" Grid.Row="0"></Image>
-                    <Image Grid.Column="3" Grid.Row="0"></Image>
-                    <Image Grid.Column="4" Grid.Row="0"></Image>
-                    <Image Grid.Column="5" Grid.Row="0"></Image>
-                    <Image Grid.Column="6" Grid.Row="0"></Image>
-                    <Image Grid.Column="7" Grid.Row="0"></Image>
-                    <Image Grid.Column="8" Grid.Row="0"></Image>
-                    <Image Grid.Column="9" Grid.Row="0"></Image>
-                    <Image Grid.Column="10" Grid.Row="0"></Image>
-                    <Image Grid.Column="11" Grid.Row="0"></Image>
-                    <Image Grid.Column="12" Grid.Row="0"></Image>
-                    <Image Grid.Column="13" Grid.Row="0"></Image>
-                    <Image Grid.Column="14" Grid.Row="0"></Image>
-                    <Image Grid.Column="15" Grid.Row="0"></Image>
-                    <Image Grid.Column="16" Grid.Row="0"></Image>
-                    <Image Grid.Column="17" Grid.Row="0"></Image>
-                    <Image Grid.Column="18" Grid.Row="0"></Image>
-                    <Image Grid.Column="19" Grid.Row="0"></Image>
-                    <Image Grid.Column="20" Grid.Row="0"></Image>
-                    <Image Grid.Column="21" Grid.Row="0"></Image>
-                    <Image Grid.Column="22" Grid.Row="0"></Image>
-                    <Image Grid.Column="23" Grid.Row="0"></Image>
-                    <Image Grid.Column="24" Grid.Row="0"></Image>
-                    <Image Grid.Column="25" Grid.Row="0"></Image>
-                    <Image Grid.Column="26" Grid.Row="0"></Image>
-                    <Image Grid.Column="27" Grid.Row="0"></Image>
-                    <Image Grid.Column="28" Grid.Row="0"></Image>
-                    <Image Grid.Column="29" Grid.Row="0"></Image>
-                    <Image Grid.Column="30" Grid.Row="0"></Image>
-                    <Image Grid.Column="31" Grid.Row="0"></Image>
-                    <Image Grid.Column="32" Grid.Row="0"></Image>
-                    <Image Grid.Column="0" Grid.Row="1"></Image>
-                    <Image Grid.Column="1" Grid.Row="1"></Image>
-                    <Image Grid.Column="2" Grid.Row="1"></Image>
-                    <Image Grid.Column="3" Grid.Row="1"></Image>
-                    <Image Grid.Column="4" Grid.Row="1"></Image>
-                    <Image Grid.Column="5" Grid.Row="1"></Image>
-                    <Image Grid.Column="6" Grid.Row="1"></Image>
-                    <Image Grid.Column="7" Grid.Row="1"></Image>
-                    <Image Grid.Column="8" Grid.Row="1"></Image>
-                    <Image Grid.Column="9" Grid.Row="1"></Image>
-                    <Image Grid.Column="10" Grid.Row="1"></Image>
-                    <Image Grid.Column="11" Grid.Row="1"></Image>
-                    <Image Grid.Column="12" Grid.Row="1"></Image>
-                    <Image Grid.Column="13" Grid.Row="1"></Image>
-                    <Image Grid.Column="14" Grid.Row="1"></Image>
-                    <Image Grid.Column="15" Grid.Row="1"></Image>
-                    <Image Grid.Column="16" Grid.Row="1"></Image>
-                    <Image Grid.Column="17" Grid.Row="1"></Image>
-                    <Image Grid.Column="18" Grid.Row="1"></Image>
-                    <Image Grid.Column="19" Grid.Row="1"></Image>
-                    <Image Grid.Column="20" Grid.Row="1"></Image>
-                    <Image Grid.Column="21" Grid.Row="1"></Image>
-                    <Image Grid.Column="22" Grid.Row="1"></Image>
-                    <Image Grid.Column="23" Grid.Row="1"></Image>
-                    <Image Grid.Column="24" Grid.Row="1"></Image>
-                    <Image Grid.Column="25" Grid.Row="1"></Image>
-                    <Image Grid.Column="26" Grid.Row="1"></Image>
-                    <Image Grid.Column="27" Grid.Row="1"></Image>
-                    <Image Grid.Column="28" Grid.Row="1"></Image>
-                    <Image Grid.Column="29" Grid.Row="1"></Image>
-                    <Image Grid.Column="30" Grid.Row="1"></Image>
-                    <Image Grid.Column="31" Grid.Row="1"></Image>
-                    <Image Grid.Column="32" Grid.Row="1"></Image>
-                    <Image Grid.Column="0" Grid.Row="2"></Image>
-                    <Image Grid.Column="1" Grid.Row="2"></Image>
-                    <Image Grid.Column="2" Grid.Row="2"></Image>
-                    <Image Grid.Column="3" Grid.Row="2"></Image>
-                    <Image Grid.Column="4" Grid.Row="2"></Image>
-                    <Image Grid.Column="5" Grid.Row="2"></Image>
-                    <Image Grid.Column="6" Grid.Row="2"></Image>
-                    <Image Grid.Column="7" Grid.Row="2"></Image>
-                    <Image Grid.Column="8" Grid.Row="2"></Image>
-                    <Image Grid.Column="9" Grid.Row="2"></Image>
-                    <Image Grid.Column="10" Grid.Row="2"></Image>
-                    <Image Grid.Column="11" Grid.Row="2"></Image>
-                    <Image Grid.Column="12" Grid.Row="2"></Image>
-                    <Image Grid.Column="13" Grid.Row="2"></Image>
-                    <Image Grid.Column="14" Grid.Row="2"></Image>
-                    <Image Grid.Column="15" Grid.Row="2"></Image>
-                    <Image Grid.Column="16" Grid.Row="2"></Image>
-                    <Image Grid.Column="17" Grid.Row="2"></Image>
-                    <Image Grid.Column="18" Grid.Row="2"></Image>
-                    <Image Grid.Column="19" Grid.Row="2"></Image>
-                    <Image Grid.Column="20" Grid.Row="2"></Image>
-                    <Image Grid.Column="21" Grid.Row="2"></Image>
-                    <Image Grid.Column="22" Grid.Row="2"></Image>
-                    <Image Grid.Column="23" Grid.Row="2"></Image>
-                    <Image Grid.Column="24" Grid.Row="2"></Image>
-                    <Image Grid.Column="25" Grid.Row="2"></Image>
-                    <Image Grid.Column="26" Grid.Row="2"></Image>
-                    <Image Grid.Column="27" Grid.Row="2"></Image>
-                    <Image Grid.Column="28" Grid.Row="2"></Image>
-                    <Image Grid.Column="29" Grid.Row="2"></Image>
-                    <Image Grid.Column="30" Grid.Row="2"></Image>
-                    <Image Grid.Column="31" Grid.Row="2"></Image>
-                    <Image Grid.Column="32" Grid.Row="2"></Image>
-                    <Image Grid.Column="0" Grid.Row="3"></Image>
-                    <Image Grid.Column="1" Grid.Row="3"></Image>
-                    <Image Grid.Column="2" Grid.Row="3"></Image>
-                    <Image Grid.Column="3" Grid.Row="3"></Image>
-                    <Image Grid.Column="4" Grid.Row="3"></Image>
-                    <Image Grid.Column="5" Grid.Row="3"></Image>
-                    <Image Grid.Column="6" Grid.Row="3"></Image>
-                    <Image Grid.Column="7" Grid.Row="3"></Image>
-                    <Image Grid.Column="8" Grid.Row="3"></Image>
-                    <Image Grid.Column="9" Grid.Row="3"></Image>
-                    <Image Grid.Column="10" Grid.Row="3"></Image>
-                    <Image Grid.Column="11" Grid.Row="3"></Image>
-                    <Image Grid.Column="12" Grid.Row="3"></Image>
-                    <Image Grid.Column="13" Grid.Row="3"></Image>
-                    <Image Grid.Column="14" Grid.Row="3"></Image>
-                    <Image Grid.Column="15" Grid.Row="3"></Image>
-                    <Image Grid.Column="16" Grid.Row="3"></Image>
-                    <Image Grid.Column="17" Grid.Row="3"></Image>
-                    <Image Grid.Column="18" Grid.Row="3"></Image>
-                    <Image Grid.Column="19" Grid.Row="3"></Image>
-                    <Image Grid.Column="20" Grid.Row="3"></Image>
-                    <Image Grid.Column="21" Grid.Row="3"></Image>
-                    <Image Grid.Column="22" Grid.Row="3"></Image>
-                    <Image Grid.Column="23" Grid.Row="3"></Image>
-                    <Image Grid.Column="24" Grid.Row="3"></Image>
-                    <Image Grid.Column="25" Grid.Row="3"></Image>
-                    <Image Grid.Column="26" Grid.Row="3"></Image>
-                    <Image Grid.Column="27" Grid.Row="3"></Image>
-                    <Image Grid.Column="28" Grid.Row="3"></Image>
-                    <Image Grid.Column="29" Grid.Row="3"></Image>
-                    <Image Grid.Column="30" Grid.Row="3"></Image>
-                    <Image Grid.Column="31" Grid.Row="3"></Image>
-                    <Image Grid.Column="32" Grid.Row="3"></Image>
-                    <Image Grid.Column="0" Grid.Row="4"></Image>
-                    <Image Grid.Column="1" Grid.Row="4"></Image>
-                    <Image Grid.Column="2" Grid.Row="4"></Image>
-                    <Image Grid.Column="3" Grid.Row="4"></Image>
-                    <Image Grid.Column="4" Grid.Row="4"></Image>
-                    <Image Grid.Column="5" Grid.Row="4"></Image>
-                    <Image Grid.Column="6" Grid.Row="4"></Image>
-                    <Image Grid.Column="7" Grid.Row="4"></Image>
-                    <Image Grid.Column="8" Grid.Row="4"></Image>
-                    <Image Grid.Column="9" Grid.Row="4"></Image>
-                    <Image Grid.Column="10" Grid.Row="4"></Image>
-                    <Image Grid.Column="11" Grid.Row="4"></Image>
-                    <Image Grid.Column="12" Grid.Row="4"></Image>
-                    <Image Grid.Column="13" Grid.Row="4"></Image>
-                    <Image Grid.Column="14" Grid.Row="4"></Image>
-                    <Image Grid.Column="15" Grid.Row="4"></Image>
-                    <Image Grid.Column="16" Grid.Row="4"></Image>
-                    <Image Grid.Column="17" Grid.Row="4"></Image>
-                    <Image Grid.Column="18" Grid.Row="4"></Image>
-                    <Image Grid.Column="19" Grid.Row="4"></Image>
-                    <Image Grid.Column="20" Grid.Row="4"></Image>
-                    <Image Grid.Column="21" Grid.Row="4"></Image>
-                    <Image Grid.Column="22" Grid.Row="4"></Image>
-                    <Image Grid.Column="23" Grid.Row="4"></Image>
-                    <Image Grid.Column="24" Grid.Row="4"></Image>
-                    <Image Grid.Column="25" Grid.Row="4"></Image>
-                    <Image Grid.Column="26" Grid.Row="4"></Image>
-                    <Image Grid.Column="27" Grid.Row="4"></Image>
-                    <Image Grid.Column="28" Grid.Row="4"></Image>
-                    <Image Grid.Column="29" Grid.Row="4"></Image>
-                    <Image Grid.Column="30" Grid.Row="4"></Image>
-                    <Image Grid.Column="31" Grid.Row="4"></Image>
-                    <Image Grid.Column="32" Grid.Row="4"></Image>
-                    <Image Grid.Column="0" Grid.Row="5"></Image>
-                    <Image Grid.Column="1" Grid.Row="5"></Image>
-                    <Image Grid.Column="2" Grid.Row="5"></Image>
-                    <Image Grid.Column="3" Grid.Row="5"></Image>
-                    <Image Grid.Column="4" Grid.Row="5"></Image>
-                    <Image Grid.Column="5" Grid.Row="5"></Image>
-                    <Image Grid.Column="6" Grid.Row="5"></Image>
-                    <Image Grid.Column="7" Grid.Row="5"></Image>
-                    <Image Grid.Column="8" Grid.Row="5"></Image>
-                    <Image Grid.Column="9" Grid.Row="5"></Image>
-                    <Image Grid.Column="10" Grid.Row="5"></Image>
-                    <Image Grid.Column="11" Grid.Row="5"></Image>
-                    <Image Grid.Column="12" Grid.Row="5"></Image>
-                    <Image Grid.Column="13" Grid.Row="5"></Image>
-                    <Image Grid.Column="14" Grid.Row="5"></Image>
-                    <Image Grid.Column="15" Grid.Row="5"></Image>
-                    <Image Grid.Column="16" Grid.Row="5"></Image>
-                    <Image Grid.Column="17" Grid.Row="5"></Image>
-                    <Image Grid.Column="18" Grid.Row="5"></Image>
-                    <Image Grid.Column="19" Grid.Row="5"></Image>
-                    <Image Grid.Column="20" Grid.Row="5"></Image>
-                    <Image Grid.Column="21" Grid.Row="5"></Image>
-                    <Image Grid.Column="22" Grid.Row="5"></Image>
-                    <Image Grid.Column="23" Grid.Row="5"></Image>
-                    <Image Grid.Column="24" Grid.Row="5"></Image>
-                    <Image Grid.Column="25" Grid.Row="5"></Image>
-                    <Image Grid.Column="26" Grid.Row="5"></Image>
-                    <Image Grid.Column="27" Grid.Row="5"></Image>
-                    <Image Grid.Column="28" Grid.Row="5"></Image>
-                    <Image Grid.Column="29" Grid.Row="5"></Image>
-                    <Image Grid.Column="30" Grid.Row="5"></Image>
-                    <Image Grid.Column="31" Grid.Row="5"></Image>
-                    <Image Grid.Column="32" Grid.Row="5"></Image>
-                    <Image Grid.Column="0" Grid.Row="6"></Image>
-                    <Image Grid.Column="1" Grid.Row="6"></Image>
-                    <Image Grid.Column="2" Grid.Row="6"></Image>
-                    <Image Grid.Column="3" Grid.Row="6"></Image>
-                    <Image Grid.Column="4" Grid.Row="6"></Image>
-                    <Image Grid.Column="5" Grid.Row="6"></Image>
-                    <Image Grid.Column="6" Grid.Row="6"></Image>
-                    <Image Grid.Column="7" Grid.Row="6"></Image>
-                    <Image Grid.Column="8" Grid.Row="6"></Image>
-                    <Image Grid.Column="9" Grid.Row="6"></Image>
-                    <Image Grid.Column="10" Grid.Row="6"></Image>
-                    <Image Grid.Column="11" Grid.Row="6"></Image>
-                    <Image Grid.Column="12" Grid.Row="6"></Image>
-                    <Image Grid.Column="13" Grid.Row="6"></Image>
-                    <Image Grid.Column="14" Grid.Row="6"></Image>
-                    <Image Grid.Column="15" Grid.Row="6"></Image>
-                    <Image Grid.Column="16" Grid.Row="6"></Image>
-                    <Image Grid.Column="17" Grid.Row="6"></Image>
-                    <Image Grid.Column="18" Grid.Row="6"></Image>
-                    <Image Grid.Column="19" Grid.Row="6"></Image>
-                    <Image Grid.Column="20" Grid.Row="6"></Image>
-                    <Image Grid.Column="21" Grid.Row="6"></Image>
-                    <Image Grid.Column="22" Grid.Row="6"></Image>
-                    <Image Grid.Column="23" Grid.Row="6"></Image>
-                    <Image Grid.Column="24" Grid.Row="6"></Image>
-                    <Image Grid.Column="25" Grid.Row="6"></Image>
-                    <Image Grid.Column="26" Grid.Row="6"></Image>
-                    <Image Grid.Column="27" Grid.Row="6"></Image>
-                    <Image Grid.Column="28" Grid.Row="6"></Image>
-                    <Image Grid.Column="29" Grid.Row="6"></Image>
-                    <Image Grid.Column="30" Grid.Row="6"></Image>
-                    <Image Grid.Column="31" Grid.Row="6"></Image>
-                    <Image Grid.Column="32" Grid.Row="6"></Image>
-                    <Image Grid.Column="0" Grid.Row="7"></Image>
-                    <Image Grid.Column="1" Grid.Row="7"></Image>
-                    <Image Grid.Column="2" Grid.Row="7"></Image>
-                    <Image Grid.Column="3" Grid.Row="7"></Image>
-                    <Image Grid.Column="4" Grid.Row="7"></Image>
-                    <Image Grid.Column="5" Grid.Row="7"></Image>
-                    <Image Grid.Column="6" Grid.Row="7"></Image>
-                    <Image Grid.Column="7" Grid.Row="7"></Image>
-                    <Image Grid.Column="8" Grid.Row="7"></Image>
-                    <Image Grid.Column="9" Grid.Row="7"></Image>
-                    <Image Grid.Column="10" Grid.Row="7"></Image>
-                    <Image Grid.Column="11" Grid.Row="7"></Image>
-                    <Image Grid.Column="12" Grid.Row="7"></Image>
-                    <Image Grid.Column="13" Grid.Row="7"></Image>
-                    <Image Grid.Column="14" Grid.Row="7"></Image>
-                    <Image Grid.Column="15" Grid.Row="7"></Image>
-                    <Image Grid.Column="16" Grid.Row="7"></Image>
-                    <Image Grid.Column="17" Grid.Row="7"></Image>
-                    <Image Grid.Column="18" Grid.Row="7"></Image>
-                    <Image Grid.Column="19" Grid.Row="7"></Image>
-                    <Image Grid.Column="20" Grid.Row="7"></Image>
-                    <Image Grid.Column="21" Grid.Row="7"></Image>
-                    <Image Grid.Column="22" Grid.Row="7"></Image>
-                    <Image Grid.Column="23" Grid.Row="7"></Image>
-                    <Image Grid.Column="24" Grid.Row="7"></Image>
-                    <Image Grid.Column="25" Grid.Row="7"></Image>
-                    <Image Grid.Column="26" Grid.Row="7"></Image>
-                    <Image Grid.Column="27" Grid.Row="7"></Image>
-                    <Image Grid.Column="28" Grid.Row="7"></Image>
-                    <Image Grid.Column="29" Grid.Row="7"></Image>
-                    <Image Grid.Column="30" Grid.Row="7"></Image>
-                    <Image Grid.Column="31" Grid.Row="7"></Image>
-                    <Image Grid.Column="32" Grid.Row="7"></Image>
-                    <Image Grid.Column="0" Grid.Row="8"></Image>
-                    <Image Grid.Column="1" Grid.Row="8"></Image>
-                    <Image Grid.Column="2" Grid.Row="8"></Image>
-                    <Image Grid.Column="3" Grid.Row="8"></Image>
-                    <Image Grid.Column="4" Grid.Row="8"></Image>
-                    <Image Grid.Column="5" Grid.Row="8"></Image>
-                    <Image Grid.Column="6" Grid.Row="8"></Image>
-                    <Image Grid.Column="7" Grid.Row="8"></Image>
-                    <Image Grid.Column="8" Grid.Row="8"></Image>
-                    <Image Grid.Column="9" Grid.Row="8"></Image>
-                    <Image Grid.Column="10" Grid.Row="8"></Image>
-                    <Image Grid.Column="11" Grid.Row="8"></Image>
-                    <Image Grid.Column="12" Grid.Row="8"></Image>
-                    <Image Grid.Column="13" Grid.Row="8"></Image>
-                    <Image Grid.Column="14" Grid.Row="8"></Image>
-                    <Image Grid.Column="15" Grid.Row="8"></Image>
-                    <Image Grid.Column="16" Grid.Row="8"></Image>
-                    <Image Grid.Column="17" Grid.Row="8"></Image>
-                    <Image Grid.Column="18" Grid.Row="8"></Image>
-                    <Image Grid.Column="19" Grid.Row="8"></Image>
-                    <Image Grid.Column="20" Grid.Row="8"></Image>
-                    <Image Grid.Column="21" Grid.Row="8"></Image>
-                    <Image Grid.Column="22" Grid.Row="8"></Image>
-                    <Image Grid.Column="23" Grid.Row="8"></Image>
-                    <Image Grid.Column="24" Grid.Row="8"></Image>
-                    <Image Grid.Column="25" Grid.Row="8"></Image>
-                    <Image Grid.Column="26" Grid.Row="8"></Image>
-                    <Image Grid.Column="27" Grid.Row="8"></Image>
-                    <Image Grid.Column="28" Grid.Row="8"></Image>
-                    <Image Grid.Column="29" Grid.Row="8"></Image>
-                    <Image Grid.Column="30" Grid.Row="8"></Image>
-                    <Image Grid.Column="31" Grid.Row="8"></Image>
-                    <Image Grid.Column="32" Grid.Row="8"></Image>
-                    <Image Grid.Column="0" Grid.Row="9"></Image>
-                    <Image Grid.Column="1" Grid.Row="9"></Image>
-                    <Image Grid.Column="2" Grid.Row="9"></Image>
-                    <Image Grid.Column="3" Grid.Row="9"></Image>
-                    <Image Grid.Column="4" Grid.Row="9"></Image>
-                    <Image Grid.Column="5" Grid.Row="9"></Image>
-                    <Image Grid.Column="6" Grid.Row="9"></Image>
-                    <Image Grid.Column="7" Grid.Row="9"></Image>
-                    <Image Grid.Column="8" Grid.Row="9"></Image>
-                    <Image Grid.Column="9" Grid.Row="9"></Image>
-                    <Image Grid.Column="10" Grid.Row="9"></Image>
-                    <Image Grid.Column="11" Grid.Row="9"></Image>
-                    <Image Grid.Column="12" Grid.Row="9"></Image>
-                    <Image Grid.Column="13" Grid.Row="9"></Image>
-                    <Image Grid.Column="14" Grid.Row="9"></Image>
-                    <Image Grid.Column="15" Grid.Row="9"></Image>
-                    <Image Grid.Column="16" Grid.Row="9"></Image>
-                    <Image Grid.Column="17" Grid.Row="9"></Image>
-                    <Image Grid.Column="18" Grid.Row="9"></Image>
-                    <Image Grid.Column="19" Grid.Row="9"></Image>
-                    <Image Grid.Column="20" Grid.Row="9"></Image>
-                    <Image Grid.Column="21" Grid.Row="9"></Image>
-                    <Image Grid.Column="22" Grid.Row="9"></Image>
-                    <Image Grid.Column="23" Grid.Row="9"></Image>
-                    <Image Grid.Column="24" Grid.Row="9"></Image>
-                    <Image Grid.Column="25" Grid.Row="9"></Image>
-                    <Image Grid.Column="26" Grid.Row="9"></Image>
-                    <Image Grid.Column="27" Grid.Row="9"></Image>
-                    <Image Grid.Column="28" Grid.Row="9"></Image>
-                    <Image Grid.Column="29" Grid.Row="9"></Image>
-                    <Image Grid.Column="30" Grid.Row="9"></Image>
-                    <Image Grid.Column="31" Grid.Row="9"></Image>
-                    <Image Grid.Column="32" Grid.Row="9"></Image>
-                    <Image Grid.Column="0" Grid.Row="10"></Image>
-                    <Image Grid.Column="1" Grid.Row="10"></Image>
-                    <Image Grid.Column="2" Grid.Row="10"></Image>
-                    <Image Grid.Column="3" Grid.Row="10"></Image>
-                    <Image Grid.Column="4" Grid.Row="10"></Image>
-                    <Image Grid.Column="5" Grid.Row="10"></Image>
-                    <Image Grid.Column="6" Grid.Row="10"></Image>
-                    <Image Grid.Column="7" Grid.Row="10"></Image>
-                    <Image Grid.Column="8" Grid.Row="10"></Image>
-                    <Image Grid.Column="9" Grid.Row="10"></Image>
-                    <Image Grid.Column="10" Grid.Row="10"></Image>
-                    <Image Grid.Column="11" Grid.Row="10"></Image>
-                    <Image Grid.Column="12" Grid.Row="10"></Image>
-                    <Image Grid.Column="13" Grid.Row="10"></Image>
-                    <Image Grid.Column="14" Grid.Row="10"></Image>
-                    <Image Grid.Column="15" Grid.Row="10"></Image>
-                    <Image Grid.Column="16" Grid.Row="10"></Image>
-                    <Image Grid.Column="17" Grid.Row="10"></Image>
-                    <Image Grid.Column="18" Grid.Row="10"></Image>
-                    <Image Grid.Column="19" Grid.Row="10"></Image>
-                    <Image Grid.Column="20" Grid.Row="10"></Image>
-                    <Image Grid.Column="21" Grid.Row="10"></Image>
-                    <Image Grid.Column="22" Grid.Row="10"></Image>
-                    <Image Grid.Column="23" Grid.Row="10"></Image>
-                    <Image Grid.Column="24" Grid.Row="10"></Image>
-                    <Image Grid.Column="25" Grid.Row="10"></Image>
-                    <Image Grid.Column="26" Grid.Row="10"></Image>
-                    <Image Grid.Column="27" Grid.Row="10"></Image>
-                    <Image Grid.Column="28" Grid.Row="10"></Image>
-                    <Image Grid.Column="29" Grid.Row="10"></Image>
-                    <Image Grid.Column="30" Grid.Row="10"></Image>
-                    <Image Grid.Column="31" Grid.Row="10"></Image>
-                    <Image Grid.Column="32" Grid.Row="10"></Image>
-                    <Image Grid.Column="0" Grid.Row="11"></Image>
-                    <Image Grid.Column="1" Grid.Row="11"></Image>
-                    <Image Grid.Column="2" Grid.Row="11"></Image>
-                    <Image Grid.Column="3" Grid.Row="11"></Image>
-                    <Image Grid.Column="4" Grid.Row="11"></Image>
-                    <Image Grid.Column="5" Grid.Row="11"></Image>
-                    <Image Grid.Column="6" Grid.Row="11"></Image>
-                    <Image Grid.Column="7" Grid.Row="11"></Image>
-                    <Image Grid.Column="8" Grid.Row="11"></Image>
-                    <Image Grid.Column="9" Grid.Row="11"></Image>
-                    <Image Grid.Column="10" Grid.Row="11"></Image>
-                    <Image Grid.Column="11" Grid.Row="11"></Image>
-                    <Image Grid.Column="12" Grid.Row="11"></Image>
-                    <Image Grid.Column="13" Grid.Row="11"></Image>
-                    <Image Grid.Column="14" Grid.Row="11"></Image>
-                    <Image Grid.Column="15" Grid.Row="11"></Image>
-                    <Image Grid.Column="16" Grid.Row="11"></Image>
-                    <Image Grid.Column="17" Grid.Row="11"></Image>
-                    <Image Grid.Column="18" Grid.Row="11"></Image>
-                    <Image Grid.Column="19" Grid.Row="11"></Image>
-                    <Image Grid.Column="20" Grid.Row="11"></Image>
-                    <Image Grid.Column="21" Grid.Row="11"></Image>
-                    <Image Grid.Column="22" Grid.Row="11"></Image>
-                    <Image Grid.Column="23" Grid.Row="11"></Image>
-                    <Image Grid.Column="24" Grid.Row="11"></Image>
-                    <Image Grid.Column="25" Grid.Row="11"></Image>
-                    <Image Grid.Column="26" Grid.Row="11"></Image>
-                    <Image Grid.Column="27" Grid.Row="11"></Image>
-                    <Image Grid.Column="28" Grid.Row="11"></Image>
-                    <Image Grid.Column="29" Grid.Row="11"></Image>
-                    <Image Grid.Column="30" Grid.Row="11"></Image>
-                    <Image Grid.Column="31" Grid.Row="11"></Image>
-                    <Image Grid.Column="32" Grid.Row="11"></Image>
-                    <Image Grid.Column="0" Grid.Row="12"></Image>
-                    <Image Grid.Column="1" Grid.Row="12"></Image>
-                    <Image Grid.Column="2" Grid.Row="12"></Image>
-                    <Image Grid.Column="3" Grid.Row="12"></Image>
-                    <Image Grid.Column="4" Grid.Row="12"></Image>
-                    <Image Grid.Column="5" Grid.Row="12"></Image>
-                    <Image Grid.Column="6" Grid.Row="12"></Image>
-                    <Image Grid.Column="7" Grid.Row="12"></Image>
-                    <Image Grid.Column="8" Grid.Row="12"></Image>
-                    <Image Grid.Column="9" Grid.Row="12"></Image>
-                    <Image Grid.Column="10" Grid.Row="12"></Image>
-                    <Image Grid.Column="11" Grid.Row="12"></Image>
-                    <Image Grid.Column="12" Grid.Row="12"></Image>
-                    <Image Grid.Column="13" Grid.Row="12"></Image>
-                    <Image Grid.Column="14" Grid.Row="12"></Image>
-                    <Image Grid.Column="15" Grid.Row="12"></Image>
-                    <Image Grid.Column="16" Grid.Row="12"></Image>
-                    <Image Grid.Column="17" Grid.Row="12"></Image>
-                    <Image Grid.Column="18" Grid.Row="12"></Image>
-                    <Image Grid.Column="19" Grid.Row="12"></Image>
-                    <Image Grid.Column="20" Grid.Row="12"></Image>
-                    <Image Grid.Column="21" Grid.Row="12"></Image>
-                    <Image Grid.Column="22" Grid.Row="12"></Image>
-                    <Image Grid.Column="23" Grid.Row="12"></Image>
-                    <Image Grid.Column="24" Grid.Row="12"></Image>
-                    <Image Grid.Column="25" Grid.Row="12"></Image>
-                    <Image Grid.Column="26" Grid.Row="12"></Image>
-                    <Image Grid.Column="27" Grid.Row="12"></Image>
-                    <Image Grid.Column="28" Grid.Row="12"></Image>
-                    <Image Grid.Column="29" Grid.Row="12"></Image>
-                    <Image Grid.Column="30" Grid.Row="12"></Image>
-                    <Image Grid.Column="31" Grid.Row="12"></Image>
-                    <Image Grid.Column="32" Grid.Row="12"></Image>
-                    <Image Grid.Column="0" Grid.Row="13"></Image>
-                    <Image Grid.Column="1" Grid.Row="13"></Image>
-                    <Image Grid.Column="2" Grid.Row="13"></Image>
-                    <Image Grid.Column="3" Grid.Row="13"></Image>
-                    <Image Grid.Column="4" Grid.Row="13"></Image>
-                    <Image Grid.Column="5" Grid.Row="13"></Image>
-                    <Image Grid.Column="6" Grid.Row="13"></Image>
-                    <Image Grid.Column="7" Grid.Row="13"></Image>
-                    <Image Grid.Column="8" Grid.Row="13"></Image>
-                    <Image Grid.Column="9" Grid.Row="13"></Image>
-                    <Image Grid.Column="10" Grid.Row="13"></Image>
-                    <Image Grid.Column="11" Grid.Row="13"></Image>
-                    <Image Grid.Column="12" Grid.Row="13"></Image>
-                    <Image Grid.Column="13" Grid.Row="13"></Image>
-                    <Image Grid.Column="14" Grid.Row="13"></Image>
-                    <Image Grid.Column="15" Grid.Row="13"></Image>
-                    <Image Grid.Column="16" Grid.Row="13"></Image>
-                    <Image Grid.Column="17" Grid.Row="13"></Image>
-                    <Image Grid.Column="18" Grid.Row="13"></Image>
-                    <Image Grid.Column="19" Grid.Row="13"></Image>
-                    <Image Grid.Column="20" Grid.Row="13"></Image>
-                    <Image Grid.Column="21" Grid.Row="13"></Image>
-                    <Image Grid.Column="22" Grid.Row="13"></Image>
-                    <Image Grid.Column="23" Grid.Row="13"></Image>
-                    <Image Grid.Column="24" Grid.Row="13"></Image>
-                    <Image Grid.Column="25" Grid.Row="13"></Image>
-                    <Image Grid.Column="26" Grid.Row="13"></Image>
-                    <Image Grid.Column="27" Grid.Row="13"></Image>
-                    <Image Grid.Column="28" Grid.Row="13"></Image>
-                    <Image Grid.Column="29" Grid.Row="13"></Image>
-                    <Image Grid.Column="30" Grid.Row="13"></Image>
-                    <Image Grid.Column="31" Grid.Row="13"></Image>
-                    <Image Grid.Column="32" Grid.Row="13"></Image>
-                    <Image Grid.Column="0" Grid.Row="14"></Image>
-                    <Image Grid.Column="1" Grid.Row="14"></Image>
-                    <Image Grid.Column="2" Grid.Row="14"></Image>
-                    <Image Grid.Column="3" Grid.Row="14"></Image>
-                    <Image Grid.Column="4" Grid.Row="14"></Image>
-                    <Image Grid.Column="5" Grid.Row="14"></Image>
-                    <Image Grid.Column="6" Grid.Row="14"></Image>
-                    <Image Grid.Column="7" Grid.Row="14"></Image>
-                    <Image Grid.Column="8" Grid.Row="14"></Image>
-                    <Image Grid.Column="9" Grid.Row="14"></Image>
-                    <Image Grid.Column="10" Grid.Row="14"></Image>
-                    <Image Grid.Column="11" Grid.Row="14"></Image>
-                    <Image Grid.Column="12" Grid.Row="14"></Image>
-                    <Image Grid.Column="13" Grid.Row="14"></Image>
-                    <Image Grid.Column="14" Grid.Row="14"></Image>
-                    <Image Grid.Column="15" Grid.Row="14"></Image>
-                    <Image Grid.Column="16" Grid.Row="14"></Image>
-                    <Image Grid.Column="17" Grid.Row="14"></Image>
-                    <Image Grid.Column="18" Grid.Row="14"></Image>
-                    <Image Grid.Column="19" Grid.Row="14"></Image>
-                    <Image Grid.Column="20" Grid.Row="14"></Image>
-                    <Image Grid.Column="21" Grid.Row="14"></Image>
-                    <Image Grid.Column="22" Grid.Row="14"></Image>
-                    <Image Grid.Column="23" Grid.Row="14"></Image>
-                    <Image Grid.Column="24" Grid.Row="14"></Image>
-                    <Image Grid.Column="25" Grid.Row="14"></Image>
-                    <Image Grid.Column="26" Grid.Row="14"></Image>
-                    <Image Grid.Column="27" Grid.Row="14"></Image>
-                    <Image Grid.Column="28" Grid.Row="14"></Image>
-                    <Image Grid.Column="29" Grid.Row="14"></Image>
-                    <Image Grid.Column="30" Grid.Row="14"></Image>
-                    <Image Grid.Column="31" Grid.Row="14"></Image>
-                    <Image Grid.Column="32" Grid.Row="14"></Image>
-                    <!--#endregion-->
-                </Grid>
-                <Grid x:Name="game_bar">
+            <StackPanel Background="Black">
+                <Grid x:Name="game_bar" MaxHeight="34">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
@@ -573,16 +21,16 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label Name="points_label" Content="000" Foreground="Yellow" FontSize="15" Height="30" Grid.Column="0"></Label>
+                    <Label Name="points_label" Content="000" FontSize="15" Height="30" Grid.Column="0"></Label>
                     <WrapPanel Name="lifes_wp" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
-                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
-                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" VerticalAlignment="Center"></Image>
+                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
+                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
+                        <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
                     </WrapPanel>
-                    <Label FontSize="18" Name="world_label" Content="Sample" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"></Label>
-                    <Label FontSize="18" Name="time_label" Content="00:00:00" Foreground="Yellow" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Label>
+                    <Label FontSize="18" Name="world_label" Content="Sample" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"></Label>
+                    <Label FontSize="18" Name="time_label" Content="00:00:00" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Label>
                     <WrapPanel Grid.Column="4" HorizontalAlignment="Right" Name="drug_wrap" VerticalAlignment="Center">
-                        <Label Name="drug_ticks_label" Content="test" Foreground="Yellow" HorizontalAlignment="Center"></Label>
+                        <Label Name="drug_ticks_label" Content="test" HorizontalAlignment="Center"></Label>
                         <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Right" Stretch="Uniform">
                             <Rectangle.Fill>
                                 <ImageBrush ImageSource="Assets\Images\PowerPellet.png"/>
@@ -590,13 +38,40 @@
                         </Rectangle>
                     </WrapPanel>
                 </Grid>
-            </DockPanel>
-        </TabItem>
-        <TabItem Header="PauseTab" Name="pause_menu_tab" TabIndex="1" Visibility="Collapsed">
-            <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" Width="490" Height="245" HorizontalAlignment="Center" >
-                <StackPanel Background="Black" Width="480" Height="240">
-                    <Grid>
+                <Border Background="DeepSkyBlue" BorderThickness="2" BorderBrush="DeepSkyBlue">
+                    <Grid x:Name="game_grid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black">
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                             <ColumnDefinition></ColumnDefinition>
                         </Grid.ColumnDefinitions>
@@ -604,53 +79,588 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Label Content="PAUSA" Foreground="Yellow" FontSize="20" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
-                        <StackPanel Grid.Row="1" Grid.Column="0">
-                            <Label Margin="0,10,0,0"  Content="Mondi" Foreground="Yellow" HorizontalAlignment="Left" HorizontalContentAlignment="Center"/>
-                            <ListBox Foreground="White" Background="#FF000137" HorizontalAlignment="Stretch" Height="123" Name="worlds_box" SelectionChanged="OnWorldSelected"></ListBox>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Button Content="Aggiorna" Click="DropWorldsCache" Grid.Column="0"></Button>
-                                <Button Content="Ottieni nuovi mondi" Grid.Column="1"  Click="OpenExt"></Button>
-                            </Grid>
-                        </StackPanel>
-                        <StackPanel Grid.Row="1" Grid.Column="1" >
-                            <Label Margin="0,10,0,0" Content="Impostazioni" Foreground="Yellow" HorizontalAlignment="Left"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="70"></ColumnDefinition>
-                                    <ColumnDefinition></ColumnDefinition>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                </Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
 
-                                <Label Margin="1,0,0,0" Grid.Row="0" Grid.Column="0" Content="Volume" Foreground="Yellow" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                                <Slider Grid.Row="0" Grid.Column="1" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="SetVolume" Maximum="100" Minimum="0" Value="{x:Static game:RuntimeSettingsHandler.XAML_Volume}"/>
-                                <Label Margin="1,0,0,0" Grid.Row="1" Grid.Column="0" Content="Grafica" Foreground="Yellow" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
-                                <Slider Grid.Row="1" Grid.Column="1" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="SetGraphicsQuality"  Maximum="3" Minimum="0" IsSnapToTickEnabled="True" Ticks="0,1,2,3" Value="{x:Static game:RuntimeSettingsHandler.XAML_GraphicMode}"/>
-                                <Label Grid.Row="2" Grid.Column="1" Content="UNSPECIFIED" Foreground="Yellow" VerticalAlignment="Center" HorizontalAlignment="Left" Name="quality_label"></Label>
-                                <CheckBox Grid.Row="3" Grid.ColumnSpan="2" Content="Animations" Foreground="Yellow" VerticalAlignment="Center" IsChecked="{x:Static game:RuntimeSettingsHandler.XAML_AnimationsEnabled}" Checked="SetAnimations" Unchecked="UnSetAnimations"></CheckBox>
+                        </Grid.RowDefinitions>
+                        <!--#region Grid-->
+                        <Image Grid.Column="0" Grid.Row="0"></Image>
+                        <Image Grid.Column="1" Grid.Row="0"></Image>
+                        <Image Grid.Column="2" Grid.Row="0"></Image>
+                        <Image Grid.Column="3" Grid.Row="0"></Image>
+                        <Image Grid.Column="4" Grid.Row="0"></Image>
+                        <Image Grid.Column="5" Grid.Row="0"></Image>
+                        <Image Grid.Column="6" Grid.Row="0"></Image>
+                        <Image Grid.Column="7" Grid.Row="0"></Image>
+                        <Image Grid.Column="8" Grid.Row="0"></Image>
+                        <Image Grid.Column="9" Grid.Row="0"></Image>
+                        <Image Grid.Column="10" Grid.Row="0"></Image>
+                        <Image Grid.Column="11" Grid.Row="0"></Image>
+                        <Image Grid.Column="12" Grid.Row="0"></Image>
+                        <Image Grid.Column="13" Grid.Row="0"></Image>
+                        <Image Grid.Column="14" Grid.Row="0"></Image>
+                        <Image Grid.Column="15" Grid.Row="0"></Image>
+                        <Image Grid.Column="16" Grid.Row="0"></Image>
+                        <Image Grid.Column="17" Grid.Row="0"></Image>
+                        <Image Grid.Column="18" Grid.Row="0"></Image>
+                        <Image Grid.Column="19" Grid.Row="0"></Image>
+                        <Image Grid.Column="20" Grid.Row="0"></Image>
+                        <Image Grid.Column="21" Grid.Row="0"></Image>
+                        <Image Grid.Column="22" Grid.Row="0"></Image>
+                        <Image Grid.Column="23" Grid.Row="0"></Image>
+                        <Image Grid.Column="24" Grid.Row="0"></Image>
+                        <Image Grid.Column="25" Grid.Row="0"></Image>
+                        <Image Grid.Column="26" Grid.Row="0"></Image>
+                        <Image Grid.Column="27" Grid.Row="0"></Image>
+                        <Image Grid.Column="28" Grid.Row="0"></Image>
+                        <Image Grid.Column="29" Grid.Row="0"></Image>
+                        <Image Grid.Column="30" Grid.Row="0"></Image>
+                        <Image Grid.Column="31" Grid.Row="0"></Image>
+                        <Image Grid.Column="32" Grid.Row="0"></Image>
+                        <Image Grid.Column="0" Grid.Row="1"></Image>
+                        <Image Grid.Column="1" Grid.Row="1"></Image>
+                        <Image Grid.Column="2" Grid.Row="1"></Image>
+                        <Image Grid.Column="3" Grid.Row="1"></Image>
+                        <Image Grid.Column="4" Grid.Row="1"></Image>
+                        <Image Grid.Column="5" Grid.Row="1"></Image>
+                        <Image Grid.Column="6" Grid.Row="1"></Image>
+                        <Image Grid.Column="7" Grid.Row="1"></Image>
+                        <Image Grid.Column="8" Grid.Row="1"></Image>
+                        <Image Grid.Column="9" Grid.Row="1"></Image>
+                        <Image Grid.Column="10" Grid.Row="1"></Image>
+                        <Image Grid.Column="11" Grid.Row="1"></Image>
+                        <Image Grid.Column="12" Grid.Row="1"></Image>
+                        <Image Grid.Column="13" Grid.Row="1"></Image>
+                        <Image Grid.Column="14" Grid.Row="1"></Image>
+                        <Image Grid.Column="15" Grid.Row="1"></Image>
+                        <Image Grid.Column="16" Grid.Row="1"></Image>
+                        <Image Grid.Column="17" Grid.Row="1"></Image>
+                        <Image Grid.Column="18" Grid.Row="1"></Image>
+                        <Image Grid.Column="19" Grid.Row="1"></Image>
+                        <Image Grid.Column="20" Grid.Row="1"></Image>
+                        <Image Grid.Column="21" Grid.Row="1"></Image>
+                        <Image Grid.Column="22" Grid.Row="1"></Image>
+                        <Image Grid.Column="23" Grid.Row="1"></Image>
+                        <Image Grid.Column="24" Grid.Row="1"></Image>
+                        <Image Grid.Column="25" Grid.Row="1"></Image>
+                        <Image Grid.Column="26" Grid.Row="1"></Image>
+                        <Image Grid.Column="27" Grid.Row="1"></Image>
+                        <Image Grid.Column="28" Grid.Row="1"></Image>
+                        <Image Grid.Column="29" Grid.Row="1"></Image>
+                        <Image Grid.Column="30" Grid.Row="1"></Image>
+                        <Image Grid.Column="31" Grid.Row="1"></Image>
+                        <Image Grid.Column="32" Grid.Row="1"></Image>
+                        <Image Grid.Column="0" Grid.Row="2"></Image>
+                        <Image Grid.Column="1" Grid.Row="2"></Image>
+                        <Image Grid.Column="2" Grid.Row="2"></Image>
+                        <Image Grid.Column="3" Grid.Row="2"></Image>
+                        <Image Grid.Column="4" Grid.Row="2"></Image>
+                        <Image Grid.Column="5" Grid.Row="2"></Image>
+                        <Image Grid.Column="6" Grid.Row="2"></Image>
+                        <Image Grid.Column="7" Grid.Row="2"></Image>
+                        <Image Grid.Column="8" Grid.Row="2"></Image>
+                        <Image Grid.Column="9" Grid.Row="2"></Image>
+                        <Image Grid.Column="10" Grid.Row="2"></Image>
+                        <Image Grid.Column="11" Grid.Row="2"></Image>
+                        <Image Grid.Column="12" Grid.Row="2"></Image>
+                        <Image Grid.Column="13" Grid.Row="2"></Image>
+                        <Image Grid.Column="14" Grid.Row="2"></Image>
+                        <Image Grid.Column="15" Grid.Row="2"></Image>
+                        <Image Grid.Column="16" Grid.Row="2"></Image>
+                        <Image Grid.Column="17" Grid.Row="2"></Image>
+                        <Image Grid.Column="18" Grid.Row="2"></Image>
+                        <Image Grid.Column="19" Grid.Row="2"></Image>
+                        <Image Grid.Column="20" Grid.Row="2"></Image>
+                        <Image Grid.Column="21" Grid.Row="2"></Image>
+                        <Image Grid.Column="22" Grid.Row="2"></Image>
+                        <Image Grid.Column="23" Grid.Row="2"></Image>
+                        <Image Grid.Column="24" Grid.Row="2"></Image>
+                        <Image Grid.Column="25" Grid.Row="2"></Image>
+                        <Image Grid.Column="26" Grid.Row="2"></Image>
+                        <Image Grid.Column="27" Grid.Row="2"></Image>
+                        <Image Grid.Column="28" Grid.Row="2"></Image>
+                        <Image Grid.Column="29" Grid.Row="2"></Image>
+                        <Image Grid.Column="30" Grid.Row="2"></Image>
+                        <Image Grid.Column="31" Grid.Row="2"></Image>
+                        <Image Grid.Column="32" Grid.Row="2"></Image>
+                        <Image Grid.Column="0" Grid.Row="3"></Image>
+                        <Image Grid.Column="1" Grid.Row="3"></Image>
+                        <Image Grid.Column="2" Grid.Row="3"></Image>
+                        <Image Grid.Column="3" Grid.Row="3"></Image>
+                        <Image Grid.Column="4" Grid.Row="3"></Image>
+                        <Image Grid.Column="5" Grid.Row="3"></Image>
+                        <Image Grid.Column="6" Grid.Row="3"></Image>
+                        <Image Grid.Column="7" Grid.Row="3"></Image>
+                        <Image Grid.Column="8" Grid.Row="3"></Image>
+                        <Image Grid.Column="9" Grid.Row="3"></Image>
+                        <Image Grid.Column="10" Grid.Row="3"></Image>
+                        <Image Grid.Column="11" Grid.Row="3"></Image>
+                        <Image Grid.Column="12" Grid.Row="3"></Image>
+                        <Image Grid.Column="13" Grid.Row="3"></Image>
+                        <Image Grid.Column="14" Grid.Row="3"></Image>
+                        <Image Grid.Column="15" Grid.Row="3"></Image>
+                        <Image Grid.Column="16" Grid.Row="3"></Image>
+                        <Image Grid.Column="17" Grid.Row="3"></Image>
+                        <Image Grid.Column="18" Grid.Row="3"></Image>
+                        <Image Grid.Column="19" Grid.Row="3"></Image>
+                        <Image Grid.Column="20" Grid.Row="3"></Image>
+                        <Image Grid.Column="21" Grid.Row="3"></Image>
+                        <Image Grid.Column="22" Grid.Row="3"></Image>
+                        <Image Grid.Column="23" Grid.Row="3"></Image>
+                        <Image Grid.Column="24" Grid.Row="3"></Image>
+                        <Image Grid.Column="25" Grid.Row="3"></Image>
+                        <Image Grid.Column="26" Grid.Row="3"></Image>
+                        <Image Grid.Column="27" Grid.Row="3"></Image>
+                        <Image Grid.Column="28" Grid.Row="3"></Image>
+                        <Image Grid.Column="29" Grid.Row="3"></Image>
+                        <Image Grid.Column="30" Grid.Row="3"></Image>
+                        <Image Grid.Column="31" Grid.Row="3"></Image>
+                        <Image Grid.Column="32" Grid.Row="3"></Image>
+                        <Image Grid.Column="0" Grid.Row="4"></Image>
+                        <Image Grid.Column="1" Grid.Row="4"></Image>
+                        <Image Grid.Column="2" Grid.Row="4"></Image>
+                        <Image Grid.Column="3" Grid.Row="4"></Image>
+                        <Image Grid.Column="4" Grid.Row="4"></Image>
+                        <Image Grid.Column="5" Grid.Row="4"></Image>
+                        <Image Grid.Column="6" Grid.Row="4"></Image>
+                        <Image Grid.Column="7" Grid.Row="4"></Image>
+                        <Image Grid.Column="8" Grid.Row="4"></Image>
+                        <Image Grid.Column="9" Grid.Row="4"></Image>
+                        <Image Grid.Column="10" Grid.Row="4"></Image>
+                        <Image Grid.Column="11" Grid.Row="4"></Image>
+                        <Image Grid.Column="12" Grid.Row="4"></Image>
+                        <Image Grid.Column="13" Grid.Row="4"></Image>
+                        <Image Grid.Column="14" Grid.Row="4"></Image>
+                        <Image Grid.Column="15" Grid.Row="4"></Image>
+                        <Image Grid.Column="16" Grid.Row="4"></Image>
+                        <Image Grid.Column="17" Grid.Row="4"></Image>
+                        <Image Grid.Column="18" Grid.Row="4"></Image>
+                        <Image Grid.Column="19" Grid.Row="4"></Image>
+                        <Image Grid.Column="20" Grid.Row="4"></Image>
+                        <Image Grid.Column="21" Grid.Row="4"></Image>
+                        <Image Grid.Column="22" Grid.Row="4"></Image>
+                        <Image Grid.Column="23" Grid.Row="4"></Image>
+                        <Image Grid.Column="24" Grid.Row="4"></Image>
+                        <Image Grid.Column="25" Grid.Row="4"></Image>
+                        <Image Grid.Column="26" Grid.Row="4"></Image>
+                        <Image Grid.Column="27" Grid.Row="4"></Image>
+                        <Image Grid.Column="28" Grid.Row="4"></Image>
+                        <Image Grid.Column="29" Grid.Row="4"></Image>
+                        <Image Grid.Column="30" Grid.Row="4"></Image>
+                        <Image Grid.Column="31" Grid.Row="4"></Image>
+                        <Image Grid.Column="32" Grid.Row="4"></Image>
+                        <Image Grid.Column="0" Grid.Row="5"></Image>
+                        <Image Grid.Column="1" Grid.Row="5"></Image>
+                        <Image Grid.Column="2" Grid.Row="5"></Image>
+                        <Image Grid.Column="3" Grid.Row="5"></Image>
+                        <Image Grid.Column="4" Grid.Row="5"></Image>
+                        <Image Grid.Column="5" Grid.Row="5"></Image>
+                        <Image Grid.Column="6" Grid.Row="5"></Image>
+                        <Image Grid.Column="7" Grid.Row="5"></Image>
+                        <Image Grid.Column="8" Grid.Row="5"></Image>
+                        <Image Grid.Column="9" Grid.Row="5"></Image>
+                        <Image Grid.Column="10" Grid.Row="5"></Image>
+                        <Image Grid.Column="11" Grid.Row="5"></Image>
+                        <Image Grid.Column="12" Grid.Row="5"></Image>
+                        <Image Grid.Column="13" Grid.Row="5"></Image>
+                        <Image Grid.Column="14" Grid.Row="5"></Image>
+                        <Image Grid.Column="15" Grid.Row="5"></Image>
+                        <Image Grid.Column="16" Grid.Row="5"></Image>
+                        <Image Grid.Column="17" Grid.Row="5"></Image>
+                        <Image Grid.Column="18" Grid.Row="5"></Image>
+                        <Image Grid.Column="19" Grid.Row="5"></Image>
+                        <Image Grid.Column="20" Grid.Row="5"></Image>
+                        <Image Grid.Column="21" Grid.Row="5"></Image>
+                        <Image Grid.Column="22" Grid.Row="5"></Image>
+                        <Image Grid.Column="23" Grid.Row="5"></Image>
+                        <Image Grid.Column="24" Grid.Row="5"></Image>
+                        <Image Grid.Column="25" Grid.Row="5"></Image>
+                        <Image Grid.Column="26" Grid.Row="5"></Image>
+                        <Image Grid.Column="27" Grid.Row="5"></Image>
+                        <Image Grid.Column="28" Grid.Row="5"></Image>
+                        <Image Grid.Column="29" Grid.Row="5"></Image>
+                        <Image Grid.Column="30" Grid.Row="5"></Image>
+                        <Image Grid.Column="31" Grid.Row="5"></Image>
+                        <Image Grid.Column="32" Grid.Row="5"></Image>
+                        <Image Grid.Column="0" Grid.Row="6"></Image>
+                        <Image Grid.Column="1" Grid.Row="6"></Image>
+                        <Image Grid.Column="2" Grid.Row="6"></Image>
+                        <Image Grid.Column="3" Grid.Row="6"></Image>
+                        <Image Grid.Column="4" Grid.Row="6"></Image>
+                        <Image Grid.Column="5" Grid.Row="6"></Image>
+                        <Image Grid.Column="6" Grid.Row="6"></Image>
+                        <Image Grid.Column="7" Grid.Row="6"></Image>
+                        <Image Grid.Column="8" Grid.Row="6"></Image>
+                        <Image Grid.Column="9" Grid.Row="6"></Image>
+                        <Image Grid.Column="10" Grid.Row="6"></Image>
+                        <Image Grid.Column="11" Grid.Row="6"></Image>
+                        <Image Grid.Column="12" Grid.Row="6"></Image>
+                        <Image Grid.Column="13" Grid.Row="6"></Image>
+                        <Image Grid.Column="14" Grid.Row="6"></Image>
+                        <Image Grid.Column="15" Grid.Row="6"></Image>
+                        <Image Grid.Column="16" Grid.Row="6"></Image>
+                        <Image Grid.Column="17" Grid.Row="6"></Image>
+                        <Image Grid.Column="18" Grid.Row="6"></Image>
+                        <Image Grid.Column="19" Grid.Row="6"></Image>
+                        <Image Grid.Column="20" Grid.Row="6"></Image>
+                        <Image Grid.Column="21" Grid.Row="6"></Image>
+                        <Image Grid.Column="22" Grid.Row="6"></Image>
+                        <Image Grid.Column="23" Grid.Row="6"></Image>
+                        <Image Grid.Column="24" Grid.Row="6"></Image>
+                        <Image Grid.Column="25" Grid.Row="6"></Image>
+                        <Image Grid.Column="26" Grid.Row="6"></Image>
+                        <Image Grid.Column="27" Grid.Row="6"></Image>
+                        <Image Grid.Column="28" Grid.Row="6"></Image>
+                        <Image Grid.Column="29" Grid.Row="6"></Image>
+                        <Image Grid.Column="30" Grid.Row="6"></Image>
+                        <Image Grid.Column="31" Grid.Row="6"></Image>
+                        <Image Grid.Column="32" Grid.Row="6"></Image>
+                        <Image Grid.Column="0" Grid.Row="7"></Image>
+                        <Image Grid.Column="1" Grid.Row="7"></Image>
+                        <Image Grid.Column="2" Grid.Row="7"></Image>
+                        <Image Grid.Column="3" Grid.Row="7"></Image>
+                        <Image Grid.Column="4" Grid.Row="7"></Image>
+                        <Image Grid.Column="5" Grid.Row="7"></Image>
+                        <Image Grid.Column="6" Grid.Row="7"></Image>
+                        <Image Grid.Column="7" Grid.Row="7"></Image>
+                        <Image Grid.Column="8" Grid.Row="7"></Image>
+                        <Image Grid.Column="9" Grid.Row="7"></Image>
+                        <Image Grid.Column="10" Grid.Row="7"></Image>
+                        <Image Grid.Column="11" Grid.Row="7"></Image>
+                        <Image Grid.Column="12" Grid.Row="7"></Image>
+                        <Image Grid.Column="13" Grid.Row="7"></Image>
+                        <Image Grid.Column="14" Grid.Row="7"></Image>
+                        <Image Grid.Column="15" Grid.Row="7"></Image>
+                        <Image Grid.Column="16" Grid.Row="7"></Image>
+                        <Image Grid.Column="17" Grid.Row="7"></Image>
+                        <Image Grid.Column="18" Grid.Row="7"></Image>
+                        <Image Grid.Column="19" Grid.Row="7"></Image>
+                        <Image Grid.Column="20" Grid.Row="7"></Image>
+                        <Image Grid.Column="21" Grid.Row="7"></Image>
+                        <Image Grid.Column="22" Grid.Row="7"></Image>
+                        <Image Grid.Column="23" Grid.Row="7"></Image>
+                        <Image Grid.Column="24" Grid.Row="7"></Image>
+                        <Image Grid.Column="25" Grid.Row="7"></Image>
+                        <Image Grid.Column="26" Grid.Row="7"></Image>
+                        <Image Grid.Column="27" Grid.Row="7"></Image>
+                        <Image Grid.Column="28" Grid.Row="7"></Image>
+                        <Image Grid.Column="29" Grid.Row="7"></Image>
+                        <Image Grid.Column="30" Grid.Row="7"></Image>
+                        <Image Grid.Column="31" Grid.Row="7"></Image>
+                        <Image Grid.Column="32" Grid.Row="7"></Image>
+                        <Image Grid.Column="0" Grid.Row="8"></Image>
+                        <Image Grid.Column="1" Grid.Row="8"></Image>
+                        <Image Grid.Column="2" Grid.Row="8"></Image>
+                        <Image Grid.Column="3" Grid.Row="8"></Image>
+                        <Image Grid.Column="4" Grid.Row="8"></Image>
+                        <Image Grid.Column="5" Grid.Row="8"></Image>
+                        <Image Grid.Column="6" Grid.Row="8"></Image>
+                        <Image Grid.Column="7" Grid.Row="8"></Image>
+                        <Image Grid.Column="8" Grid.Row="8"></Image>
+                        <Image Grid.Column="9" Grid.Row="8"></Image>
+                        <Image Grid.Column="10" Grid.Row="8"></Image>
+                        <Image Grid.Column="11" Grid.Row="8"></Image>
+                        <Image Grid.Column="12" Grid.Row="8"></Image>
+                        <Image Grid.Column="13" Grid.Row="8"></Image>
+                        <Image Grid.Column="14" Grid.Row="8"></Image>
+                        <Image Grid.Column="15" Grid.Row="8"></Image>
+                        <Image Grid.Column="16" Grid.Row="8"></Image>
+                        <Image Grid.Column="17" Grid.Row="8"></Image>
+                        <Image Grid.Column="18" Grid.Row="8"></Image>
+                        <Image Grid.Column="19" Grid.Row="8"></Image>
+                        <Image Grid.Column="20" Grid.Row="8"></Image>
+                        <Image Grid.Column="21" Grid.Row="8"></Image>
+                        <Image Grid.Column="22" Grid.Row="8"></Image>
+                        <Image Grid.Column="23" Grid.Row="8"></Image>
+                        <Image Grid.Column="24" Grid.Row="8"></Image>
+                        <Image Grid.Column="25" Grid.Row="8"></Image>
+                        <Image Grid.Column="26" Grid.Row="8"></Image>
+                        <Image Grid.Column="27" Grid.Row="8"></Image>
+                        <Image Grid.Column="28" Grid.Row="8"></Image>
+                        <Image Grid.Column="29" Grid.Row="8"></Image>
+                        <Image Grid.Column="30" Grid.Row="8"></Image>
+                        <Image Grid.Column="31" Grid.Row="8"></Image>
+                        <Image Grid.Column="32" Grid.Row="8"></Image>
+                        <Image Grid.Column="0" Grid.Row="9"></Image>
+                        <Image Grid.Column="1" Grid.Row="9"></Image>
+                        <Image Grid.Column="2" Grid.Row="9"></Image>
+                        <Image Grid.Column="3" Grid.Row="9"></Image>
+                        <Image Grid.Column="4" Grid.Row="9"></Image>
+                        <Image Grid.Column="5" Grid.Row="9"></Image>
+                        <Image Grid.Column="6" Grid.Row="9"></Image>
+                        <Image Grid.Column="7" Grid.Row="9"></Image>
+                        <Image Grid.Column="8" Grid.Row="9"></Image>
+                        <Image Grid.Column="9" Grid.Row="9"></Image>
+                        <Image Grid.Column="10" Grid.Row="9"></Image>
+                        <Image Grid.Column="11" Grid.Row="9"></Image>
+                        <Image Grid.Column="12" Grid.Row="9"></Image>
+                        <Image Grid.Column="13" Grid.Row="9"></Image>
+                        <Image Grid.Column="14" Grid.Row="9"></Image>
+                        <Image Grid.Column="15" Grid.Row="9"></Image>
+                        <Image Grid.Column="16" Grid.Row="9"></Image>
+                        <Image Grid.Column="17" Grid.Row="9"></Image>
+                        <Image Grid.Column="18" Grid.Row="9"></Image>
+                        <Image Grid.Column="19" Grid.Row="9"></Image>
+                        <Image Grid.Column="20" Grid.Row="9"></Image>
+                        <Image Grid.Column="21" Grid.Row="9"></Image>
+                        <Image Grid.Column="22" Grid.Row="9"></Image>
+                        <Image Grid.Column="23" Grid.Row="9"></Image>
+                        <Image Grid.Column="24" Grid.Row="9"></Image>
+                        <Image Grid.Column="25" Grid.Row="9"></Image>
+                        <Image Grid.Column="26" Grid.Row="9"></Image>
+                        <Image Grid.Column="27" Grid.Row="9"></Image>
+                        <Image Grid.Column="28" Grid.Row="9"></Image>
+                        <Image Grid.Column="29" Grid.Row="9"></Image>
+                        <Image Grid.Column="30" Grid.Row="9"></Image>
+                        <Image Grid.Column="31" Grid.Row="9"></Image>
+                        <Image Grid.Column="32" Grid.Row="9"></Image>
+                        <Image Grid.Column="0" Grid.Row="10"></Image>
+                        <Image Grid.Column="1" Grid.Row="10"></Image>
+                        <Image Grid.Column="2" Grid.Row="10"></Image>
+                        <Image Grid.Column="3" Grid.Row="10"></Image>
+                        <Image Grid.Column="4" Grid.Row="10"></Image>
+                        <Image Grid.Column="5" Grid.Row="10"></Image>
+                        <Image Grid.Column="6" Grid.Row="10"></Image>
+                        <Image Grid.Column="7" Grid.Row="10"></Image>
+                        <Image Grid.Column="8" Grid.Row="10"></Image>
+                        <Image Grid.Column="9" Grid.Row="10"></Image>
+                        <Image Grid.Column="10" Grid.Row="10"></Image>
+                        <Image Grid.Column="11" Grid.Row="10"></Image>
+                        <Image Grid.Column="12" Grid.Row="10"></Image>
+                        <Image Grid.Column="13" Grid.Row="10"></Image>
+                        <Image Grid.Column="14" Grid.Row="10"></Image>
+                        <Image Grid.Column="15" Grid.Row="10"></Image>
+                        <Image Grid.Column="16" Grid.Row="10"></Image>
+                        <Image Grid.Column="17" Grid.Row="10"></Image>
+                        <Image Grid.Column="18" Grid.Row="10"></Image>
+                        <Image Grid.Column="19" Grid.Row="10"></Image>
+                        <Image Grid.Column="20" Grid.Row="10"></Image>
+                        <Image Grid.Column="21" Grid.Row="10"></Image>
+                        <Image Grid.Column="22" Grid.Row="10"></Image>
+                        <Image Grid.Column="23" Grid.Row="10"></Image>
+                        <Image Grid.Column="24" Grid.Row="10"></Image>
+                        <Image Grid.Column="25" Grid.Row="10"></Image>
+                        <Image Grid.Column="26" Grid.Row="10"></Image>
+                        <Image Grid.Column="27" Grid.Row="10"></Image>
+                        <Image Grid.Column="28" Grid.Row="10"></Image>
+                        <Image Grid.Column="29" Grid.Row="10"></Image>
+                        <Image Grid.Column="30" Grid.Row="10"></Image>
+                        <Image Grid.Column="31" Grid.Row="10"></Image>
+                        <Image Grid.Column="32" Grid.Row="10"></Image>
+                        <Image Grid.Column="0" Grid.Row="11"></Image>
+                        <Image Grid.Column="1" Grid.Row="11"></Image>
+                        <Image Grid.Column="2" Grid.Row="11"></Image>
+                        <Image Grid.Column="3" Grid.Row="11"></Image>
+                        <Image Grid.Column="4" Grid.Row="11"></Image>
+                        <Image Grid.Column="5" Grid.Row="11"></Image>
+                        <Image Grid.Column="6" Grid.Row="11"></Image>
+                        <Image Grid.Column="7" Grid.Row="11"></Image>
+                        <Image Grid.Column="8" Grid.Row="11"></Image>
+                        <Image Grid.Column="9" Grid.Row="11"></Image>
+                        <Image Grid.Column="10" Grid.Row="11"></Image>
+                        <Image Grid.Column="11" Grid.Row="11"></Image>
+                        <Image Grid.Column="12" Grid.Row="11"></Image>
+                        <Image Grid.Column="13" Grid.Row="11"></Image>
+                        <Image Grid.Column="14" Grid.Row="11"></Image>
+                        <Image Grid.Column="15" Grid.Row="11"></Image>
+                        <Image Grid.Column="16" Grid.Row="11"></Image>
+                        <Image Grid.Column="17" Grid.Row="11"></Image>
+                        <Image Grid.Column="18" Grid.Row="11"></Image>
+                        <Image Grid.Column="19" Grid.Row="11"></Image>
+                        <Image Grid.Column="20" Grid.Row="11"></Image>
+                        <Image Grid.Column="21" Grid.Row="11"></Image>
+                        <Image Grid.Column="22" Grid.Row="11"></Image>
+                        <Image Grid.Column="23" Grid.Row="11"></Image>
+                        <Image Grid.Column="24" Grid.Row="11"></Image>
+                        <Image Grid.Column="25" Grid.Row="11"></Image>
+                        <Image Grid.Column="26" Grid.Row="11"></Image>
+                        <Image Grid.Column="27" Grid.Row="11"></Image>
+                        <Image Grid.Column="28" Grid.Row="11"></Image>
+                        <Image Grid.Column="29" Grid.Row="11"></Image>
+                        <Image Grid.Column="30" Grid.Row="11"></Image>
+                        <Image Grid.Column="31" Grid.Row="11"></Image>
+                        <Image Grid.Column="32" Grid.Row="11"></Image>
+                        <Image Grid.Column="0" Grid.Row="12"></Image>
+                        <Image Grid.Column="1" Grid.Row="12"></Image>
+                        <Image Grid.Column="2" Grid.Row="12"></Image>
+                        <Image Grid.Column="3" Grid.Row="12"></Image>
+                        <Image Grid.Column="4" Grid.Row="12"></Image>
+                        <Image Grid.Column="5" Grid.Row="12"></Image>
+                        <Image Grid.Column="6" Grid.Row="12"></Image>
+                        <Image Grid.Column="7" Grid.Row="12"></Image>
+                        <Image Grid.Column="8" Grid.Row="12"></Image>
+                        <Image Grid.Column="9" Grid.Row="12"></Image>
+                        <Image Grid.Column="10" Grid.Row="12"></Image>
+                        <Image Grid.Column="11" Grid.Row="12"></Image>
+                        <Image Grid.Column="12" Grid.Row="12"></Image>
+                        <Image Grid.Column="13" Grid.Row="12"></Image>
+                        <Image Grid.Column="14" Grid.Row="12"></Image>
+                        <Image Grid.Column="15" Grid.Row="12"></Image>
+                        <Image Grid.Column="16" Grid.Row="12"></Image>
+                        <Image Grid.Column="17" Grid.Row="12"></Image>
+                        <Image Grid.Column="18" Grid.Row="12"></Image>
+                        <Image Grid.Column="19" Grid.Row="12"></Image>
+                        <Image Grid.Column="20" Grid.Row="12"></Image>
+                        <Image Grid.Column="21" Grid.Row="12"></Image>
+                        <Image Grid.Column="22" Grid.Row="12"></Image>
+                        <Image Grid.Column="23" Grid.Row="12"></Image>
+                        <Image Grid.Column="24" Grid.Row="12"></Image>
+                        <Image Grid.Column="25" Grid.Row="12"></Image>
+                        <Image Grid.Column="26" Grid.Row="12"></Image>
+                        <Image Grid.Column="27" Grid.Row="12"></Image>
+                        <Image Grid.Column="28" Grid.Row="12"></Image>
+                        <Image Grid.Column="29" Grid.Row="12"></Image>
+                        <Image Grid.Column="30" Grid.Row="12"></Image>
+                        <Image Grid.Column="31" Grid.Row="12"></Image>
+                        <Image Grid.Column="32" Grid.Row="12"></Image>
+                        <Image Grid.Column="0" Grid.Row="13"></Image>
+                        <Image Grid.Column="1" Grid.Row="13"></Image>
+                        <Image Grid.Column="2" Grid.Row="13"></Image>
+                        <Image Grid.Column="3" Grid.Row="13"></Image>
+                        <Image Grid.Column="4" Grid.Row="13"></Image>
+                        <Image Grid.Column="5" Grid.Row="13"></Image>
+                        <Image Grid.Column="6" Grid.Row="13"></Image>
+                        <Image Grid.Column="7" Grid.Row="13"></Image>
+                        <Image Grid.Column="8" Grid.Row="13"></Image>
+                        <Image Grid.Column="9" Grid.Row="13"></Image>
+                        <Image Grid.Column="10" Grid.Row="13"></Image>
+                        <Image Grid.Column="11" Grid.Row="13"></Image>
+                        <Image Grid.Column="12" Grid.Row="13"></Image>
+                        <Image Grid.Column="13" Grid.Row="13"></Image>
+                        <Image Grid.Column="14" Grid.Row="13"></Image>
+                        <Image Grid.Column="15" Grid.Row="13"></Image>
+                        <Image Grid.Column="16" Grid.Row="13"></Image>
+                        <Image Grid.Column="17" Grid.Row="13"></Image>
+                        <Image Grid.Column="18" Grid.Row="13"></Image>
+                        <Image Grid.Column="19" Grid.Row="13"></Image>
+                        <Image Grid.Column="20" Grid.Row="13"></Image>
+                        <Image Grid.Column="21" Grid.Row="13"></Image>
+                        <Image Grid.Column="22" Grid.Row="13"></Image>
+                        <Image Grid.Column="23" Grid.Row="13"></Image>
+                        <Image Grid.Column="24" Grid.Row="13"></Image>
+                        <Image Grid.Column="25" Grid.Row="13"></Image>
+                        <Image Grid.Column="26" Grid.Row="13"></Image>
+                        <Image Grid.Column="27" Grid.Row="13"></Image>
+                        <Image Grid.Column="28" Grid.Row="13"></Image>
+                        <Image Grid.Column="29" Grid.Row="13"></Image>
+                        <Image Grid.Column="30" Grid.Row="13"></Image>
+                        <Image Grid.Column="31" Grid.Row="13"></Image>
+                        <Image Grid.Column="32" Grid.Row="13"></Image>
+                        <Image Grid.Column="0" Grid.Row="14"></Image>
+                        <Image Grid.Column="1" Grid.Row="14"></Image>
+                        <Image Grid.Column="2" Grid.Row="14"></Image>
+                        <Image Grid.Column="3" Grid.Row="14"></Image>
+                        <Image Grid.Column="4" Grid.Row="14"></Image>
+                        <Image Grid.Column="5" Grid.Row="14"></Image>
+                        <Image Grid.Column="6" Grid.Row="14"></Image>
+                        <Image Grid.Column="7" Grid.Row="14"></Image>
+                        <Image Grid.Column="8" Grid.Row="14"></Image>
+                        <Image Grid.Column="9" Grid.Row="14"></Image>
+                        <Image Grid.Column="10" Grid.Row="14"></Image>
+                        <Image Grid.Column="11" Grid.Row="14"></Image>
+                        <Image Grid.Column="12" Grid.Row="14"></Image>
+                        <Image Grid.Column="13" Grid.Row="14"></Image>
+                        <Image Grid.Column="14" Grid.Row="14"></Image>
+                        <Image Grid.Column="15" Grid.Row="14"></Image>
+                        <Image Grid.Column="16" Grid.Row="14"></Image>
+                        <Image Grid.Column="17" Grid.Row="14"></Image>
+                        <Image Grid.Column="18" Grid.Row="14"></Image>
+                        <Image Grid.Column="19" Grid.Row="14"></Image>
+                        <Image Grid.Column="20" Grid.Row="14"></Image>
+                        <Image Grid.Column="21" Grid.Row="14"></Image>
+                        <Image Grid.Column="22" Grid.Row="14"></Image>
+                        <Image Grid.Column="23" Grid.Row="14"></Image>
+                        <Image Grid.Column="24" Grid.Row="14"></Image>
+                        <Image Grid.Column="25" Grid.Row="14"></Image>
+                        <Image Grid.Column="26" Grid.Row="14"></Image>
+                        <Image Grid.Column="27" Grid.Row="14"></Image>
+                        <Image Grid.Column="28" Grid.Row="14"></Image>
+                        <Image Grid.Column="29" Grid.Row="14"></Image>
+                        <Image Grid.Column="30" Grid.Row="14"></Image>
+                        <Image Grid.Column="31" Grid.Row="14"></Image>
+                        <Image Grid.Column="32" Grid.Row="14"></Image>
+                        <!--#endregion-->
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="PauseTab" Name="pause_menu_tab" TabIndex="1" Visibility="Collapsed">
+            <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Center" >
+                <DockPanel Background="Black" Margin="1" Width="735" Height="367" MaxWidth="980" MaxHeight="490">
+                    <Grid Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="32"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Label Content="PAUSA" FontSize="20" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="32"></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Height="24"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Margin="0,10,0,0" Content="Mondi" HorizontalAlignment="Left" HorizontalContentAlignment="Center" FontSize="16"/>
+                                <ListBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Foreground="White" Background="#FF000137" HorizontalAlignment="Stretch" Name="worlds_box" SelectionChanged="OnWorldSelected"></ListBox>
+                                <Button Grid.Row="2" Grid.Column="0" Content="Aggiorna" Click="DropWorldsCache"></Button>
+                                <Button Grid.Row="2" Grid.Column="1" Content="Ottieni  nuovi  mondi" Click="OpenExt"></Button>
                             </Grid>
-                        </StackPanel>
+                            <StackPanel Grid.Column="1" Margin="20,10,0,0">
+                                <Label Content="Impostazioni" HorizontalAlignment="Left" FontSize="16"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"></ColumnDefinition>
+                                        <ColumnDefinition></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Label Margin="1,0,0,0" Grid.Row="0" Grid.Column="0" Content="Volume" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                                    <Slider Grid.Row="0" Grid.Column="1" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="SetVolume" Maximum="100" Minimum="0" Value="{x:Static game:RuntimeSettingsHandler.XAML_Volume}"/>
+                                    <Label Margin="1,0,0,0" Grid.Row="1" Grid.Column="0" Content="Grafica" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
+                                    <Slider Grid.Row="1" Grid.Column="1" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="SetGraphicsQuality"  Maximum="3" Minimum="0" IsSnapToTickEnabled="True" Ticks="0,1,2,3" Value="{x:Static game:RuntimeSettingsHandler.XAML_GraphicMode}"/>
+                                    <Label Grid.Row="2" Grid.Column="1" Content="UNSPECIFIED" VerticalAlignment="Center" HorizontalAlignment="Left" Name="quality_label"></Label>
+                                    <Label Grid.Row="3" Content="Animazioni" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                                    <CheckBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" IsChecked="{x:Static game:RuntimeSettingsHandler.XAML_AnimationsEnabled}" Checked="SetAnimations" Unchecked="UnSetAnimations"></CheckBox>
+                                    <Label Grid.Row="4" Content="Finestra  Max." VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                                    <CheckBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" IsChecked="{x:Static game:RuntimeSettingsHandler.XAML_MaximizedStartup}" Checked="SetMaximizedStartup" Unchecked="UnSetMaximizedStartup"></CheckBox>
+                                </Grid>
+                            </StackPanel>
+                        </Grid>
                         <Button Margin="0,10,0,0" Width="100" Click="ClosePauseMenu" Content="Chiudi" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"></Button>
                     </Grid>
-                </StackPanel>
+                </DockPanel>
             </Border>
         </TabItem>
         <TabItem Header="GameWonTab" TabIndex="2" Name="game_won_tab" Visibility="Collapsed">
             <DockPanel>
                 <WrapPanel Name="game_won" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top">
-                    <Label Foreground="Yellow" FontSize="100" Content="Mondo "></Label>
-                    <Label Name="game_won_label" Foreground="Yellow" FontSize="100" Content="Sample"></Label>
-                    <Label Foreground="Yellow" FontSize="100" Content=" Superato!"></Label>
+                    <Label FontSize="100" Content="Mondo "></Label>
+                    <Label Name="game_won_label" FontSize="100" Content="Sample"></Label>
+                    <Label FontSize="100" Content=" Superato!"></Label>
                 </WrapPanel>
                 <Grid Width="auto" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                     <Grid.ColumnDefinitions>
@@ -658,78 +668,79 @@
                         <ColumnDefinition></ColumnDefinition>
                         <ColumnDefinition></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi  esc  per  tornare  alla  scelta  dei  mondi" Foreground="Yellow" FontSize="17" />
+                    <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi  esc  per  tornare  alla  scelta  dei  mondi" FontSize="17" Cursor="" />
                     <WrapPanel HorizontalAlignment="Right" Grid.Column="1">
-                        <Label Content="Punti:" Foreground="Yellow" FontSize="17" />
-                        <Label x:Name="points_final_label" Content="0" Foreground="Yellow" FontSize="17" />
+                        <Label Content="Punti:" FontSize="17" />
+                        <Label x:Name="points_final_label" Content="0" FontSize="17" />
                     </WrapPanel>
                     <WrapPanel HorizontalAlignment="Right" Grid.Column="2">
-                        <Label Content="Tempo  impiegato:" Foreground="Yellow" FontSize="17" />
-                        <Label x:Name="ellapsed_time_label" Content="00:00:00" Foreground="Yellow" FontSize="17" />
+                        <Label Content="Tempo  impiegato:" FontSize="17" />
+                        <Label x:Name="ellapsed_time_label" Content="00:00:00" FontSize="17" />
                     </WrapPanel>
                 </Grid>
             </DockPanel>
         </TabItem>
         <TabItem Header="StartScreen" Visibility="Collapsed" TabIndex="3" Name="start_game_tab" IsSelected="True">
-            <DockPanel>
-                <DockPanel.Background>
-                    <ImageBrush ImageSource="Assets/Images/bg.png" Stretch="Uniform"></ImageBrush>
-                </DockPanel.Background>
-                <Grid Margin="0, 0, 0, 6">
+            <Grid Margin="0,0,0,6" MaxHeight="9999999999">
+                <Grid.RowDefinitions>
+                    <RowDefinition MaxHeight="150"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition Height="150"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <DockPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="0">
+                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
+                </DockPanel>
+                <DockPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="1">
+                    <Image Source="Assets/Images/bg.png" Stretch="Uniform"></Image>
+                </DockPanel>
+                <Grid Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="OpenWorldsFolder">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
-                        <RowDefinition Height="90"></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Height="500" Width="550" Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="0" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
-                    <Grid Grid.Column="0" Grid.Row="1" MouseLeftButtonDown="OpenWorldsFolder">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\folder.png" VerticalAlignment="Top" Cursor="Hand"></Image>
-                        <Label Grid.Row="1" Content="Apri  cartella  mondi" Foreground="Yellow" HorizontalAlignment="Center"></Label>
-                    </Grid>
-                    <Grid Grid.Column="1" Grid.Row="1" MouseLeftButtonDown="OpenSettings">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\settings.png" VerticalAlignment="Top" Cursor="Hand"></Image>
-                        <Label Grid.Row="1" Content="Impostazioni/Start" Foreground="Yellow" HorizontalAlignment="Center"></Label>
-                    </Grid>
-                    <Grid Grid.Column="2" Grid.Row="1" MouseLeftButtonDown="OpenTG">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\tg.png" VerticalAlignment="Top" Cursor="Hand"></Image>
-                        <Label Grid.Row="1" Content="Sviluppatore" Foreground="Yellow" HorizontalAlignment="Center"></Label>
-                    </Grid>
-                    <Grid Grid.Column="3" Grid.Row="1" MouseLeftButtonDown="OpenGit">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Git.png" Cursor="Hand"></Image>
-                        <Label Grid.Row="1" Content="Codice  sorgente" Foreground="Yellow" HorizontalAlignment="Center"></Label>
-                    </Grid>
-                    <Grid Grid.Column="4" Grid.Row="1" MouseLeftButtonDown="OpenKaze">
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="20"></RowDefinition>
-                        </Grid.RowDefinitions>
-                        <Image Grid.Row="0" Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Kaze94.png" Cursor="Hand" DockPanel.Dock="Top"></Image>
-                        <Label Grid.Row="1" Content="Grafico  Kaze94" Foreground="Yellow" HorizontalAlignment="Center"></Label>
-                    </Grid>
+                    <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\folder.png" VerticalAlignment="Top" Cursor="Hand"></Image>
+                    <Label Grid.Row="1" Content="Apri  cartella  mondi" HorizontalAlignment="Center"></Label>
                 </Grid>
-            </DockPanel>
+                <Grid Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="OpenSettings">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\settings.png" VerticalAlignment="Top" Cursor="Hand"></Image>
+                    <Label Grid.Row="1" Content="Impostazioni/Start" HorizontalAlignment="Center"></Label>
+                </Grid>
+                <Grid Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="OpenTG">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\tg.png" VerticalAlignment="Top" Cursor="Hand"></Image>
+                    <Label Grid.Row="1" Content="Sviluppatore" HorizontalAlignment="Center"></Label>
+                </Grid>
+                <Grid Grid.Column="3" Grid.Row="2" MouseLeftButtonDown="OpenGit">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Git.png" Cursor="Hand"></Image>
+                    <Label Grid.Row="1" Content="Codice  sorgente" HorizontalAlignment="Center"></Label>
+                </Grid>
+                <Grid Grid.Column="4" Grid.Row="2" MouseLeftButtonDown="OpenKaze">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="20"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0" Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Kaze94.png" Cursor="Hand" DockPanel.Dock="Top"></Image>
+                    <Label Grid.Row="1" Content="Grafico  Kaze94" HorizontalAlignment="Center"></Label>
+                </Grid>
+            </Grid>
         </TabItem>
     </TabControl>
 </Window>

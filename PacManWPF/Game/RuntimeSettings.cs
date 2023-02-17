@@ -19,6 +19,9 @@ namespace PacManWPF.Game
         public int GraphicMode { get; internal set; } = 0;
         [JsonInclude]
         public bool AnimationsEnabled { get; internal set; } = true;
+
+        [JsonInclude]
+        public bool MaximizedStartup { get; internal set; } = true;
     }
 
     static class RuntimeSettingsHandler
@@ -34,6 +37,8 @@ namespace PacManWPF.Game
         public static double XAML_GraphicMode => INSTANCE.GraphicMode;
         public static bool AnimationsEnabled => INSTANCE.AnimationsEnabled;
         public static bool XAML_AnimationsEnabled => INSTANCE.AnimationsEnabled;
+        public static bool MaximizedStartup => INSTANCE.MaximizedStartup;
+        public static bool XAML_MaximizedStartup => INSTANCE.MaximizedStartup;
 
         static RuntimeSettingsHandler(){
             RuntimeSettingsHandler.INSTANCE = RuntimeSettingsHandler.Load();
@@ -62,6 +67,12 @@ namespace PacManWPF.Game
         public static void SetAnimations(bool value)
         {
             RuntimeSettingsHandler.INSTANCE.AnimationsEnabled = value;
+            RuntimeSettingsHandler.DumpToFile();
+        }
+
+        public static void SetMaximizedStartup(bool value)
+        {
+            RuntimeSettingsHandler.INSTANCE.MaximizedStartup = value;
             RuntimeSettingsHandler.DumpToFile();
         }
 
