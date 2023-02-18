@@ -40,7 +40,7 @@ namespace PacManWPF.Game.PGs
                 {
                     GamePage.Current!.drug_wrap.Visibility = Visibility.Visible;
 
-                    GamePage.Current!.drug_ticks_label.Content = value.ToString().ZFill(2) + " ticks";
+                    GamePage.Current!.drug_ticks_label.Content = value;
                 }
 
                 _drug_frames = value;

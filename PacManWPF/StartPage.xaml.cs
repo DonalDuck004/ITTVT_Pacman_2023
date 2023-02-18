@@ -47,8 +47,7 @@ namespace PacManWPF
 
         private void OpenSettings(object sender, RoutedEventArgs e)
         {
-            // FillWorldsBox();
-            // pause_menu_tab.IsSelected = true;
+            PausePage.Open();
         }
 
         private void OpenWorldsFolder(object sender, RoutedEventArgs e)

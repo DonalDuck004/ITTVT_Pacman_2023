@@ -14,23 +14,26 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Name="points_label" Content="000" FontSize="15" Height="30" Grid.Column="0"></Label>
-            <WrapPanel Name="lifes_wp" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Label Grid.Column="0" Name="points_label" Content="000" ContentStringFormat="{}{0:0000}" FontSize="15" Height="30"></Label>
+            <WrapPanel Grid.Column="1" Name="lifes_wp" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
                 <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
                 <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
             </WrapPanel>
-            <Label FontSize="18" Name="world_label" Content="Sample" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Center"></Label>
-            <Label FontSize="18" Name="time_label" Content="00:00:00" VerticalAlignment="Center" Grid.Column="3" HorizontalAlignment="Left"></Label>
-            <WrapPanel Grid.Column="4" HorizontalAlignment="Right" Name="drug_wrap" VerticalAlignment="Center">
-                <Label Name="drug_ticks_label" Content="test" HorizontalAlignment="Center"></Label>
-                <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Right" Stretch="Uniform">
+            <Label Grid.Column="2" FontSize="18" Name="time_label" Content="00:00:00" ContentStringFormat="{}{0:HH:mm:ss}" VerticalAlignment="Center" HorizontalAlignment="Right"></Label>
+            <Label Grid.Column="3" FontSize="18" Name="world_label" Content="Sample" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+            <WrapPanel Grid.Column="4" HorizontalAlignment="Left" Name="drug_wrap" VerticalAlignment="Center">
+                <Label Name="drug_ticks_label" Content="100" ContentStringFormat="{}{0:00} ticks" HorizontalAlignment="Center"></Label>
+                <Rectangle x:Name="drug_img" Width="30" HorizontalAlignment="Left" Stretch="Uniform">
                     <Rectangle.Fill>
                         <ImageBrush ImageSource="Assets\Images\PowerPellet.png"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </WrapPanel>
+            <Label Name="world_id_label" Grid.Column="6" HorizontalAlignment="Right" VerticalAlignment="Center" Content="AABBCCDDEEFFGGHHIIJJKKLLMMNNOOPP" FontSize="12" ContentStringFormat="ID: {0}"></Label>
         </Grid>
         <Border Background="DeepSkyBlue" BorderThickness="2" BorderBrush="DeepSkyBlue">
             <Grid x:Name="game_grid" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black">

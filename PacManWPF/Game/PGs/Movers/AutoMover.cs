@@ -17,7 +17,7 @@ namespace PacManWPF.Game.PGs.Movers
         protected Random rnd = new();
         protected bool was_drugged = false;
 
-        public AutoMover(string hash, Point StartPoint, Ghost ghost) : base(ghost) // TODO LIMIT LEN
+        public AutoMover(Point StartPoint, Ghost ghost) : base(ghost) // TODO LIMIT LEN
         {
             this.StartPoint = StartPoint;
             this.Position = StartPoint;

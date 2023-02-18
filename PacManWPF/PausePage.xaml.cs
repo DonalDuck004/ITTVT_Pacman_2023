@@ -70,6 +70,7 @@ namespace PacManWPF
             if (this.worlds_box.SelectedIndex == -1)
                 return;
 
+            SoundEffectsPlayer.StopAll();
             UIWindow.INSTANCE.FreezeGame();
             UIWindow.INSTANCE.SetPage(new GamePage(world_idx: this.worlds_box.SelectedIndex));
             UIWindow.INSTANCE.ResumeGame();
@@ -171,6 +172,7 @@ namespace PacManWPF
 
         internal static void Open()
         {
+            UIWindow.INSTANCE.FreezeGame();
             UIWindow.INSTANCE.SetPage(new PausePage());
         }
     }

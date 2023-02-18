@@ -7,7 +7,7 @@
       xmlns:game="clr-namespace:PacManWPF.Game"
       mc:Ignorable="d" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Center" >
-        <DockPanel Background="Black" Margin="1" Width="735" Height="367" MaxWidth="980" MaxHeight="490">
+        <DockPanel Background="Black" Margin="1" Width="735" Height="367" MaxWidth="980" MaxHeight="490" Cursor="">
             <Grid Margin="0,0,0,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="32"></RowDefinition>
@@ -62,6 +62,7 @@
                     </StackPanel>
                 </Grid>
                 <Button Margin="0,10,0,0" Width="100" Click="ClosePauseMenu" Content="Chiudi" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2"></Button>
+                <Label Grid.Row="5" Grid.ColumnSpan="2" Content="Premi  ESC  per  chiudere  ed  aprire  questo  menu  velocemente" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Label>
             </Grid>
         </DockPanel>
     </Border>

@@ -8,11 +8,7 @@
       Background="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Grid>
         <DockPanel>
-            <WrapPanel Name="game_won" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top">
-                <Label FontSize="100" Content="Mondo "></Label>
-                <Label Name="game_won_label" FontSize="100" Content="Sample"></Label>
-                <Label FontSize="100" Content=" Superato!"></Label>
-            </WrapPanel>
+            <Label VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top" Name="game_won_label" FontSize="100" Content="Sample" ContentStringFormat="Mondo  {0}  Superato!"></Label>
             <Grid Width="auto" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -20,14 +16,8 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label HorizontalAlignment="Left" Grid.Column="0" Content="Premi  esc  per  tornare  alla  scelta  dei  mondi" FontSize="17" Cursor="" />
-                <WrapPanel HorizontalAlignment="Right" Grid.Column="1">
-                    <Label Content="Punti:" FontSize="17" />
-                    <Label x:Name="points_final_label" Content="0" FontSize="17" />
-                </WrapPanel>
-                <WrapPanel HorizontalAlignment="Right" Grid.Column="2">
-                    <Label Content="Tempo  impiegato:" FontSize="17" />
-                    <Label x:Name="ellapsed_time_label" Content="00:00:00" FontSize="17" />
-                </WrapPanel>
+                <Label HorizontalAlignment="Right" Grid.Column="1" x:Name="points_final_label" Content="0" ContentStringFormat="Punti:  {0}" FontSize="17" />
+                <Label HorizontalAlignment="Right" Grid.Column="2" x:Name="ellapsed_time_label" Content="00:00:00" ContentStringFormat="Tempo  impiegato:  {0:HH:mm:ss}" FontSize="17" />
             </Grid>
         </DockPanel>
     </Grid>

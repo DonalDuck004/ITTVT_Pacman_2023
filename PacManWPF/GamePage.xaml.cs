@@ -47,6 +47,7 @@ namespace PacManWPF
             GamePage.Current = this;
             this.world_label.Content = WorldLoader.Worlds[world_idx].Name;
             WorldLoader.Worlds[world_idx].Apply();
+            this.world_id_label.Content = WorldLoader.Worlds[world_idx].ID;
 
             if (UIWindow.INSTANCE.KeyListener is null)
             {
@@ -65,7 +66,7 @@ namespace PacManWPF
                 Debug.Assert(WorldLoader.CurrentWorld is not null);
                 var world = WorldLoader.CurrentWorld;
                 var values = (FoodTypes[])Enum.GetValues(typeof(FoodTypes));
-                var ceils = this.game_grid.Children.OfType<Image>().Where(x => ((BaseTag)x.Tag).GetType() == typeof(EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
+                var ceils = this.game_grid.Children.OfType<Image>().Where(x => x.Tag is EmptyTag).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
                 if (ceils.Length == 0)
                     return;
 

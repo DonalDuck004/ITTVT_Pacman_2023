@@ -59,7 +59,7 @@ namespace PacManWPF.Game
             set
             {
                 Debug.Assert(GamePage.Current is not null);
-                GamePage.Current!.points_label.Content = value.ToString().ZFill(3);
+                GamePage.Current!.points_label.Content = value;
                 _points = value;
             }
         }
@@ -112,7 +112,7 @@ namespace PacManWPF.Game
                     return;
 
                 Debug.Assert(GamePage.Current is not null);
-                GamePage.Current!.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
+                GamePage.Current!.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds));
             };
         }
 

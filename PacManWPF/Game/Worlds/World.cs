@@ -17,6 +17,7 @@ namespace PacManWPF.Game.Worlds
     {
         private string filename;
         public string Name { get; private set; }
+        public string ID { get; private set; }
         public int PacDotCount { get; private set; }
 
         public Point SpawnGate { get; private set; }
@@ -101,7 +102,7 @@ namespace PacManWPF.Game.Worlds
 
                 }
 
-                md5 = MD5.Create().ComputeHash(md5);
+                this.ID = Convert.ToHexString(MD5.Create().ComputeHash(md5));
 
                 Type schema_type;
                 foreach (Ghost ghost in Ghost.INSTANCES)
@@ -131,7 +132,6 @@ namespace PacManWPF.Game.Worlds
                     if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)) || typeof(NoCachedAutoMover) == schema_type)
                     {
                         ghost.SetSchema((BaseGhostMover?)Activator.CreateInstance(schema_type,
-                                                                                 Convert.ToHexString(md5),
                                                                                  new Point(sr.ReadInt32(), sr.ReadInt32()),
                                                                                  ghost)!,
                                         SpawnPointOf(ghost));

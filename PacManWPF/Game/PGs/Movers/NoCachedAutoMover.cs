@@ -5,7 +5,7 @@ namespace PacManWPF.Game.PGs.Movers
 {
     public class NoCachedAutoMover : AutoMover
     {
-        public NoCachedAutoMover(string hash, Point StartPoint, Ghost ghost) : base(hash, StartPoint, ghost)
+        public NoCachedAutoMover(Point StartPoint, Ghost ghost) : base(StartPoint, ghost)
         {
         }
 
