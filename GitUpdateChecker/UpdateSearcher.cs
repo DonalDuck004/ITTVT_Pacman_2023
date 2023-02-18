@@ -30,26 +30,21 @@ namespace GitUpdateChecker
             this.client = new();
         }
 
-        public void Start()
+        public void Start(bool CheckForAlreadyDownloaded)
         {
             if (this.Version is null)
                 throw new Exception("AO, controlla se hai impostato la versione cogl");
 
-            if (Directory.Exists("Update") && Directory.EnumerateFiles("Update").Any())
+            if (CheckForAlreadyDownloaded && Directory.Exists("Update") && Directory.EnumerateFiles("Update").Any())
             {
                 string version = Path.Combine("Update", "VERSION.TXT");
                 if(!File.Exists(version))
                     Directory.Delete("Update", true);
                 else
                 {
-                    var DownloadedVersion = new int[2];
-                    using (var x = new BinaryReader(new FileStream(Path.Combine("Update", "VERSION.TXT"), FileMode.Open, FileAccess.Read)))
-                    {
-                        DownloadedVersion[0] = x.ReadInt32();
-                        DownloadedVersion[1] = x.ReadInt32();
-                    }
-
-                    if (VersionCheck(DownloadedVersion, this.Version!))
+                    var DownloadedVersion = this.GetDownloadedVersion();
+                  
+                    if (DownloadedVersion is not null && VersionCheck(DownloadedVersion, this.Version!))
                     {
                         var action = MessageBox.Show($"Versione {string.Join(".", DownloadedVersion)} scaricata \n\nVuoi installare?", "Aggiornamento", MessageBoxButton.YesNo);
                         if (action == MessageBoxResult.Yes)
@@ -65,12 +60,31 @@ namespace GitUpdateChecker
 
         private bool VersionCheck(int[] New, int[] Current) => New[0] >= Current[0] && New[1] > Current[1];
 
+        private int[]? GetDownloadedVersion()
+        {
+            string version = Path.Combine("Update", "VERSION.TXT");
+            if (File.Exists(version))
+            {
+                var DownloadedVersion = new int[2];
+                using (var x = new BinaryReader(new FileStream(Path.Combine("Update", "VERSION.TXT"), FileMode.Open, FileAccess.Read)))
+                {
+                    DownloadedVersion[0] = x.ReadInt32();
+                    DownloadedVersion[1] = x.ReadInt32();
+                }
+
+                return DownloadedVersion;
+            }
+
+            return null;
+        }
+
         private void RunUpdate()
         {
             var from = Path.Combine(Path.GetDirectoryName(Assembly.GetCallingAssembly().Location)!, "Updater", "UpdateInstaller.exe");
             Process.Start(new ProcessStartInfo(from)
             {
-                UseShellExecute = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
                 Arguments = Process.GetCurrentProcess().Id.ToString()
             });            
         }
@@ -93,6 +107,9 @@ namespace GitUpdateChecker
                 var js = JsonSerializer.Deserialize<Dictionary<string, object>[]>(response.Content.ReadAsStream())!.First();
                 var tag_name = js["tag_name"].ToString()!;
                 var LastVersion = tag_name.Substring(8).Split(".").Select(int.Parse).ToArray();
+                var DownloadedVersion = GetDownloadedVersion();
+                if (DownloadedVersion is not null && VersionCheck(DownloadedVersion, this.Version!) && !VersionCheck(LastVersion, DownloadedVersion))
+                    return;
 
                 if (VersionCheck(LastVersion, this.Version!))
                 {

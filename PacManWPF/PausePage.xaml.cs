@@ -49,6 +49,18 @@ namespace PacManWPF
                 StartPage.INSTANCE = null; // Clean up some memory
 
             UIWindow.INSTANCE.ResumeGame();
+
+            if (git_checker is null)
+                return;
+
+            try
+            {
+                git_stop!.Invoke(git_checker!, new object[] { });
+            }
+            catch (TargetInvocationException exc)
+            {
+                HandleGitExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
+            }
         }
 
 
@@ -180,6 +192,7 @@ namespace PacManWPF
             }
 
         }
+        private static bool GitCachedChecked = false;
 
         private void SetCheckForUpdates(object sender, EventArgs e)
         {
@@ -194,11 +207,14 @@ namespace PacManWPF
 
             try
             {
-                git_start!.Invoke(git_checker!, new object[] { });
+                git_start!.Invoke(git_checker!, new object[] { !GitCachedChecked });
+              
+                if (GitCachedChecked is false)
+                    GitCachedChecked = true;
             }
             catch (TargetInvocationException exc)
             {
-                HandleOnlineExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
+                HandleGitExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
             }
 
             Game.RuntimeSettingsHandler.SetCheckForUpdates(true);
@@ -217,7 +233,7 @@ namespace PacManWPF
             }
             catch (TargetInvocationException exc)
             {
-                HandleOnlineExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
+                HandleGitExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
             }
 
             Game.RuntimeSettingsHandler.SetCheckForUpdates(false);
