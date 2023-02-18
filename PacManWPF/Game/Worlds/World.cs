@@ -48,7 +48,7 @@ namespace PacManWPF.Game.Worlds
                 int idx = 0;
                 Walls walls;
 
-                foreach (var item in UIWindow.INSTANCE.game_grid.Children.OfType<System.Windows.Controls.Image>())
+                foreach (var item in GamePage.Current!.game_grid.Children.OfType<System.Windows.Controls.Image>())
                 {
 
                     if (object.ReferenceEquals(Pacman.INSTANCE.CeilObject, item) || 
