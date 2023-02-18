@@ -1,11 +1,16 @@
 ﻿using PacManWPF.Utils;
+using System.Collections.Generic;
+using System.Windows.Automation;
 
 namespace PacManWPF.Game.Tags
 {
     class WallTag : BaseTag
     {
+        private static Dictionary<Walls, WallTag> _cache = new Dictionary<Walls, WallTag>();
+
         public Walls walls { get; init; }
-        public WallTag(Walls walls)
+
+        private WallTag(Walls walls)
         {
             this.IsAWall = true;
             this.IsFood = false;
@@ -13,6 +18,15 @@ namespace PacManWPF.Game.Tags
             this.IsPacman = false;
             this.walls = walls;
             this.IsGate = false;
+        }
+
+        public static WallTag New(Walls walls)
+        {
+            _cache.TryGetValue(walls, out var wt);
+            if (wt is not null)
+                return wt;
+
+            return _cache[walls] = new(walls);
         }
     }
 }

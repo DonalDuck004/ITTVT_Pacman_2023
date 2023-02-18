@@ -56,59 +56,74 @@ namespace PacManWPF
         {
             Key? key;
             int dest_x, dest_y, angular;
+            TimeSpan wait;
+            TimeSpan diff;
+
             try
             {
                 while (true) {// (this._stop_required)
+                    wait = new(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV));
+                    diff = this.last_call + wait - DateTime.Now;
+                    if (diff.Ticks > 0)
+                        Thread.Sleep(diff);
+                    if (!PacmanGame.INSTANCE.Initizialized || PacmanGame.INSTANCE.Frozen)
+                        continue;
 
-                    key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null, (DispatcherPriority)5);
+                    do
+                    {
+                        key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null, (DispatcherPriority)5);
+                        if (key is null)
+                            Thread.Sleep(100);
+                        else
+                            break;
+
+                    } while (true);
 
 
-                if (!PacmanGame.INSTANCE.Initizialized || PacmanGame.INSTANCE.Frozen || key is null)
-                    continue;
+                    dest_x = Pacman.INSTANCE.X;
+                    dest_y = Pacman.INSTANCE.Y;
 
-                if (DateTime.Now - this.last_call < new TimeSpan(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)))
-                    continue;
+                    if (key is Key.Right)
+                    {
+                        dest_x++;
+                        angular = 0;
+                    }
+                    else if (key is Key.Left)
+                    {
+                        dest_x--;
+                        angular = 180;
+                    }
+                    else if (key is Key.Up)
+                    {
+                        dest_y--;
+                        angular = 270;
+                    }
+                    else // if (key is Key.Down)
+                    {
+                        dest_y++;
+                        angular = 90;
+                    }
 
-                dest_x = Pacman.INSTANCE.X;
-                dest_y = Pacman.INSTANCE.Y;
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        if (!PacmanGame.INSTANCE.Initizialized || PacmanGame.INSTANCE.GameOver)
+                            return;
 
-                if (key is Key.Right)
-                {
-                    dest_x++;
-                    angular = 0;
-                }
-                else if (key is Key.Left)
-                {
-                    dest_x--;
-                    angular = 180;
-                }
-                else if (key is Key.Up)
-                {
-                    dest_y--;
-                    angular = 270;
-                }
-                else // if (key is Key.Down)
-                {
-                    dest_y++;
-                    angular = 90;
-                }
+                        bool PacmanHitted = false;
+                        if (!Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted))
+                            return;
 
-                this.Dispatcher.Invoke(() =>
-                {
-                    bool PacmanHitted = false;
-                    if (!Pacman.INSTANCE.MoveTo(dest_x, dest_y, angular, ref PacmanHitted))
-                        return;
+                        this.last_call = DateTime.Now;
 
-                    this.last_call = DateTime.Now;
+                        if (PacmanGame.INSTANCE.GameOver)
+                            this.GameOver();
+                        else if (PacmanHitted)
+                            PacmanGame.INSTANCE.Respawn();
+                    }, DispatcherPriority.Render);
 
-                    if (PacmanGame.INSTANCE.GameOver)
-                        this.GameOver();
-                    else if (PacmanHitted)
-                        PacmanGame.INSTANCE.Respawn();
-                }, DispatcherPriority.Render);
-
-                Thread.Yield();
-            }                }
+                    Thread.Yield();
+                }                
+            }
             catch (System.Threading.Tasks.TaskCanceledException)
             {
                 return;
@@ -195,6 +210,11 @@ namespace PacManWPF
 
         public void GameOver()
         {
+            if (PacmanGame.INSTANCE.GameOver)
+                return;
+
+            Pacman.INSTANCE.DrugTicks = 0;
+            Pacman.INSTANCE.UpdateLayout();
             this.FreezeGame();
             SoundEffectsPlayer.Play(SoundEffectsPlayer.GAME_OVER);
             PacmanGame.INSTANCE.GameOver = true;

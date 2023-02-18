@@ -77,11 +77,6 @@
     </ContentWithTargetPath>
 </ItemGroup>
 <ItemGroup>
-  <Reference Include="PacmanOnlineMapsWPF">
-    <HintPath>..\PacmanOnlineMapsWPF\bin\Release\net7.0-windows\PacmanOnlineMapsWPF.dll</HintPath>
-  </Reference>
-</ItemGroup>
-<ItemGroup>
   <Resource Include="Assets\Images\gate.png">
     <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
   </Resource>

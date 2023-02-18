@@ -681,7 +681,7 @@
             </DockPanel>
         </TabItem>
         <TabItem Header="StartScreen" Visibility="Collapsed" TabIndex="3" Name="start_game_tab" IsSelected="True">
-            <Grid Margin="0,0,0,6" MaxHeight="9999999999">
+            <Grid Margin="0,0,0,6">
                 <Grid.RowDefinitions>
                     <RowDefinition MaxHeight="150"></RowDefinition>
                     <RowDefinition></RowDefinition>
@@ -705,7 +705,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\folder.png" VerticalAlignment="Top" Cursor="Hand"></Image>
+                    <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\folder.png" Cursor="Hand"></Image>
                     <Label Grid.Row="1" Content="Apri  cartella  mondi" HorizontalAlignment="Center"></Label>
                 </Grid>
                 <Grid Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="OpenSettings">
@@ -713,7 +713,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\settings.png" VerticalAlignment="Top" Cursor="Hand"></Image>
+                    <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\settings.png" Cursor="Hand"></Image>
                     <Label Grid.Row="1" Content="Impostazioni/Start" HorizontalAlignment="Center"></Label>
                 </Grid>
                 <Grid Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="OpenTG">
@@ -721,7 +721,7 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="20"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\tg.png" VerticalAlignment="Top" Cursor="Hand"></Image>
+                    <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\tg.png" Cursor="Hand"></Image>
                     <Label Grid.Row="1" Content="Sviluppatore" HorizontalAlignment="Center"></Label>
                 </Grid>
                 <Grid Grid.Column="3" Grid.Row="2" MouseLeftButtonDown="OpenGit">

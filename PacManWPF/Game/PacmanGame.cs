@@ -239,6 +239,9 @@ namespace PacManWPF.Game
         {
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
+            Pacman.INSTANCE.DrugTicks = 0;
+            Pacman.INSTANCE.UpdateLayout();
+
             SoundEffectsPlayer.Play(SoundEffectsPlayer.GAME_OVER).OnDone(() =>
                 {
                     Pacman.INSTANCE.Respawn();

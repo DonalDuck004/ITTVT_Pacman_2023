@@ -2,7 +2,8 @@
 {
     class GateTag : BaseTag
     {
-        public GateTag()
+        public static GateTag INSTANCE { get; } = new GateTag();
+        private GateTag()
         {
             this.IsAWall = false;
             this.IsFood = false;

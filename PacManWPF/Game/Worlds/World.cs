@@ -85,19 +85,19 @@ namespace PacManWPF.Game.Worlds
                         item.Source = ResourcesLoader.GetImage(walls, System.Drawing.Color.FromArgb(sr.ReadByte(),
                                                                                           sr.ReadByte(),
                                                                                           sr.ReadByte()));
-                        item.Tag = new WallTag(walls);
+                        item.Tag = WallTag.New(walls);
                     }
                     else if (v == -5)
                     {
                         this.SpawnGate = new(Grid.GetColumn(item), Grid.GetRow(item));
                         item.Source = ResourcesLoader.Gate;
-                        item.Tag = new GateTag();
+                        item.Tag = GateTag.INSTANCE;
                     }
                     else
                         throw new Exception();
 
                     if (v != -4)
-                        PacmanGame.INSTANCE.FreeAreas.Add(new Point(Grid.GetColumn(item), Grid.GetRow(item)));
+                        PacmanGame.INSTANCE.FreeAreas.Add(new (Grid.GetColumn(item), Grid.GetRow(item)));
 
                 }
 
@@ -152,12 +152,14 @@ namespace PacManWPF.Game.Worlds
         {
             if (ghost.Type is PGs.Enums.GhostColors.Red)
                 return this.SpawnGate;
-            else if (ghost.Type is PGs.Enums.GhostColors.Pink)
+
+            if (ghost.Type is PGs.Enums.GhostColors.Pink)
                 return new(this.SpawnGate.X, this.SpawnGate.Y + 1);
-            else if (ghost.Type is PGs.Enums.GhostColors.Cyan)
+
+            if (ghost.Type is PGs.Enums.GhostColors.Cyan)
                 return new(this.SpawnGate.X - 1, this.SpawnGate.Y + 1);
-            else
-                return new(this.SpawnGate.X + 1, this.SpawnGate.Y + 1);
+
+            return new(this.SpawnGate.X + 1, this.SpawnGate.Y + 1);
         }
 
         public bool IsInSpawnArea(Point pos) => IsInSpawnArea(pos.X, pos.Y);
