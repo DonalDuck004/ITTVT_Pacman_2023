@@ -4,6 +4,7 @@ namespace PacManWPF.Game.PGs.Movers
 {
     public class OneTimeSchemaMover : Abs.SchemaBasedMover
     {
+        protected new const Enums.GhostEngines EngineType = Enums.GhostEngines.OneTime;
         public OneTimeSchemaMover(Point[] schema, Ghost self) : base(schema, self)
         {
 

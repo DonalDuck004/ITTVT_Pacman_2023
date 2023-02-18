@@ -4,6 +4,7 @@ namespace PacManWPF.Game.PGs.Movers
 {
     public class NextToBackSchemaMover : Abs.SchemaBasedMover
     {
+        protected new const Enums.GhostEngines EngineType = Enums.GhostEngines.NextToBack;
         private bool increment = true;
     
         public NextToBackSchemaMover(Point[] schema, Ghost self) : base(schema, self)

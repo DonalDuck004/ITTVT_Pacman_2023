@@ -28,4 +28,16 @@
         Bell = 3000,
         Key = 5000,
     }
+
+    public enum GhostEngines
+    {
+        CachedAutoMover,
+        Cyclic,
+        NextToBack,
+        NoCachedAutoMover,
+        OneTime,
+        Fixed,
+
+        _NULL
+    }
 }

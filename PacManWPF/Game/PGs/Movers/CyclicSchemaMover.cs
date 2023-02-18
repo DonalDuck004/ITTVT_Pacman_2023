@@ -2,12 +2,15 @@
 
 namespace PacManWPF.Game.PGs.Movers
 {
+
     public class CyclicSchemaMover : Abs.SchemaBasedMover
     {
+        protected new const Enums.GhostEngines EngineType = Enums.GhostEngines.Cyclic;
         public CyclicSchemaMover(Point[] schema, Ghost self) : base(schema, self)
         {
 
         }
+
 
         public override bool Move()
         {

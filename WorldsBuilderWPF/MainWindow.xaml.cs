@@ -759,7 +759,7 @@ namespace WorldsBuilderWPF
             {
                 result.AddRange(BitConverter.GetBytes((int)ghost.engine));
 
-                if (ghost.engine is not GhostEngines.CachedAutoMover && ghost.engine is not GhostEngines.NoCachedAutoMover)
+                if (ghost.engine is not GhostEngines.CachedAutoMover && ghost.engine is not GhostEngines.NoCachedAutoMover && ghost.engine is not GhostEngines.Fixed)
                 {
                     Debug.Assert(ghost.positions is not null);
                     result.AddRange(BitConverter.GetBytes(ghost.positions.Count));
@@ -780,6 +780,7 @@ namespace WorldsBuilderWPF
             return result.ToArray();
         }
 
+
         public void Save()
         {
             SaveFileDialog dialog = new();
@@ -795,7 +796,7 @@ namespace WorldsBuilderWPF
             foreach (var field in this.game_grid.Children.OfType<Image>())
             {
                 if (ReferenceEquals(field.Source, EmptyImage))
-                        stream.Write(-3);
+                    stream.Write(-3);
                 else if (object.ReferenceEquals(field, this.ghosts[0].image) ||
                          object.ReferenceEquals(field, this.ghosts[1].image) ||
                          object.ReferenceEquals(field, this.ghosts[2].image) ||
@@ -803,12 +804,12 @@ namespace WorldsBuilderWPF
                          object.ReferenceEquals(field, this.PacmanCeil))
                     continue;
                 else if (object.ReferenceEquals(field.Source, GateImage))
-                        stream.Write(-5);
+                    stream.Write(-5);
                 else if (((BitmapImage)field.Source).UriSource is not null)
                 {
-                    if (((BitmapImage)field.Source).UriSource.AbsolutePath.EndsWith("Drug.png"))
+                    if (((BitmapImage)field.Source).UriSource.ToString().EndsWith("PowerPellet.png"))
                         stream.Write(-2);
-                    else if (((BitmapImage)field.Source).UriSource.AbsolutePath.EndsWith("Point.png"))
+                    else if (((BitmapImage)field.Source).UriSource.ToString().EndsWith("PacDot.png"))
                         stream.Write(-1);
                 }
                 else if (((BitmapImage)field.Source).StreamSource is not null &&
@@ -828,7 +829,7 @@ namespace WorldsBuilderWPF
             {
                 stream.Write((int)ghost.engine);
 
-                if (ghost.engine is not GhostEngines.CachedAutoMover && ghost.engine is not GhostEngines.NoCachedAutoMover)
+                if (ghost.engine.SupportsSchema())
                 {
                     Debug.Assert(ghost.positions is not null);
                     stream.Write(ghost.positions.Count);

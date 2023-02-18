@@ -5,6 +5,7 @@ namespace PacManWPF.Game.PGs.Movers
 {
     public class NoCachedAutoMover : AutoMover
     {
+        protected new const Enums.GhostEngines EngineType = Enums.GhostEngines.NoCachedAutoMover;
         public NoCachedAutoMover(Point StartPoint, Ghost ghost) : base(StartPoint, ghost)
         {
         }

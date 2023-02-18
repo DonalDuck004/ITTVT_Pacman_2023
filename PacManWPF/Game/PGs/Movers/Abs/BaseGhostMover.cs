@@ -14,10 +14,12 @@ using System.Collections;
 using Microsoft;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
+using System.Runtime.CompilerServices;
+using PacManWPF.Game.PGs.Enums;
+using System.Reflection;
 
 namespace PacManWPF.Game.PGs.Movers.Abs
 {
-
     public abstract class BaseGhostMover : IGhostMover
     {
         protected record GhostState(bool Died, bool PacmanDrugged, bool InGate, bool initialized, bool needToGoToSpawn);
@@ -25,6 +27,22 @@ namespace PacManWPF.Game.PGs.Movers.Abs
         protected Ghost ghost;
         protected GhostState? OldState = null;
         protected GhostState? CurrentState = null;
+        protected const GhostEngines EngineType = GhostEngines._NULL;
+        private static Dictionary<GhostEngines, Type> solver = new Dictionary<GhostEngines, Type>();
+
+        public static void Initialize()
+        {
+            Type[] classes = typeof(BaseGhostMover).Assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(BaseGhostMover))).ToArray();
+            GhostEngines et;
+            foreach (var item in classes)
+            {
+                et = (GhostEngines)item.GetField("EngineType", BindingFlags.NonPublic | BindingFlags.Static)!.GetRawConstantValue()!;
+                if (et is not GhostEngines._NULL)
+                    solver[et] = item;
+            }
+        }
+
+        public static Type GetClassByEngine(GhostEngines engine) => solver[engine];
 
         public BaseGhostMover(Ghost self) { 
             this.ghost = self;

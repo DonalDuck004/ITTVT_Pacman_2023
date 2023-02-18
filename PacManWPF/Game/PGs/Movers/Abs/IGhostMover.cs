@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using PacManWPF.Game.PGs.Enums;
+using System.Drawing;
 
 namespace PacManWPF.Game.PGs.Movers.Abs
 {

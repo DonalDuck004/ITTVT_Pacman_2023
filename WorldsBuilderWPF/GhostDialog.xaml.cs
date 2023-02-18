@@ -32,7 +32,10 @@ namespace WorldsBuilderWPF
         Cyclic,
         NextToBack,
         NoCachedAutoMover,
-        OneTime
+        OneTime,
+        Fixed,
+
+        _NULL
     }
 
     public partial class GhostDialog : Window
@@ -70,7 +73,12 @@ namespace WorldsBuilderWPF
             this.rec_img = StartRecImg.Source;
             this.cbk = cbk;
             foreach (var item in (GhostEngines[])Enum.GetValues(typeof(GhostEngines)))
+            {
+                if (item is GhostEngines._NULL) 
+                    continue;
+
                 this.engines.Items.Add(new ComboBoxItem() { Content = item.ToString(), Tag = item });
+            }
 
             this.engines.SelectedIndex = 0;
         }
@@ -125,9 +133,9 @@ namespace WorldsBuilderWPF
 
         private void StartRec(object sender, MouseButtonEventArgs e)
         {
-            if (this.CurrentEngine is GhostEngines.CachedAutoMover || this.CurrentEngine is GhostEngines.CachedAutoMover )
+            if (this.CurrentEngine.SupportsSchema())
             {
-                MessageBox.Show("Non puoi registrare in modalita auto");
+                MessageBox.Show("Questo engine non supporta gli schemi");
                 return;
             }
 

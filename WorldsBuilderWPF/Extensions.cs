@@ -34,5 +34,10 @@ namespace WorldsBuilderWPF
                 yield return array.Skip(i * size).Take(size).ToArray();
             }
         }
+
+        public static bool SupportsSchema(this GhostEngines self)
+        {
+            return self is not GhostEngines.CachedAutoMover && self is not GhostEngines.NoCachedAutoMover && self is not GhostEngines.Fixed;
+        }
     }
 }

@@ -17,7 +17,7 @@ namespace PacManWPF.Game.Worlds
     {
         private string filename;
         public string Name { get; private set; }
-        public string ID { get; private set; }
+        public string? ID { get; private set; } = null;
         public int PacDotCount { get; private set; }
 
         public Point SpawnGate { get; private set; }
@@ -36,9 +36,7 @@ namespace PacManWPF.Game.Worlds
 
             int v;
             this.PacDotCount = 0;
-            //Chunk tmp;
 
-            // background.Size = new Size(Config.CHUNK_WC * Config.ChunkSquare, Config.CHUNK_HC * Config.ChunkSquare);
             using (BinaryReader sr = new (new FileStream(filename, FileMode.Open, FileAccess.Read)))
             {
                 PacmanGame.INSTANCE.InitGame(pacman_x: sr.ReadInt32(),
@@ -104,45 +102,33 @@ namespace PacManWPF.Game.Worlds
 
                 this.ID = Convert.ToHexString(MD5.Create().ComputeHash(md5));
 
-                Type schema_type;
+                Type engine_class;
+                GhostEngines engine;
+
                 foreach (Ghost ghost in Ghost.INSTANCES)
                 {
-                    var a = sr.ReadInt32();
-                    switch (a)
-                    {
-                        case 0:
-                            schema_type = typeof(CyclicSchemaMover);
-                            break;
-                        case 1:
-                            schema_type = typeof(NextToBackSchemaMover);
-                            break;
-                        case 2:
-                            schema_type = typeof(OneTimeSchemaMover);
-                            break;
-                        case 3:
-                            schema_type = typeof(NoCachedAutoMover);
-                            break;
-                        case 4:
-                            schema_type = typeof(AutoMover);
-                            break;
-                        default: 
-                            throw new Exception();
-                    }
+                    engine = (GhostEngines)sr.ReadInt32();
+                    engine_class = BaseGhostMover.GetClassByEngine(engine);
 
-                    if (schema_type.IsSubclassOf(typeof(NoCachedAutoMover)) || typeof(NoCachedAutoMover) == schema_type)
+                    if (engine_class.IsSubclassOf(typeof(NoCachedAutoMover)) || typeof(NoCachedAutoMover) == engine_class)
                     {
-                        ghost.SetSchema((BaseGhostMover?)Activator.CreateInstance(schema_type,
+                        ghost.SetSchema((BaseGhostMover?)Activator.CreateInstance(engine_class,
                                                                                  new Point(sr.ReadInt32(), sr.ReadInt32()),
                                                                                  ghost)!,
                                         SpawnPointOf(ghost));
                     }
-                    else if (schema_type.IsSubclassOf(typeof(SchemaBasedMover)))
+                    else if (engine_class.IsSubclassOf(typeof(SchemaBasedMover)))
                     {
                         var schema = new Point[sr.ReadInt32()];
                         for (int i = 0; i < schema.Length; i++)
-                            schema[i] = new Point(sr.ReadInt32(), sr.ReadInt32());
-                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(schema_type, schema, ghost)!, SpawnPointOf(ghost));
-                    }  
+                            schema[i] = new(sr.ReadInt32(), sr.ReadInt32());
+
+                        ghost.SetSchema((BaseGhostMover)Activator.CreateInstance(engine_class, schema, ghost)!, SpawnPointOf(ghost));
+                    } else if (typeof(FixedPositionMover) == engine_class)
+                        ghost.SetSchema((FixedPositionMover)Activator.CreateInstance(engine_class, 
+                                                                                     new Point(sr.ReadInt32(), sr.ReadInt32()),
+                                                                                     ghost)!,
+                                        SpawnPointOf(ghost));
 
                 }
             }
@@ -150,19 +136,20 @@ namespace PacManWPF.Game.Worlds
 
         private Point SpawnPointOf(Ghost ghost)
         {
-            if (ghost.Type is PGs.Enums.GhostColors.Red)
+            if (ghost.Type is GhostColors.Red)
                 return this.SpawnGate;
 
-            if (ghost.Type is PGs.Enums.GhostColors.Pink)
+            if (ghost.Type is GhostColors.Pink)
                 return new(this.SpawnGate.X, this.SpawnGate.Y + 1);
 
-            if (ghost.Type is PGs.Enums.GhostColors.Cyan)
+            if (ghost.Type is GhostColors.Cyan)
                 return new(this.SpawnGate.X - 1, this.SpawnGate.Y + 1);
 
             return new(this.SpawnGate.X + 1, this.SpawnGate.Y + 1);
         }
 
         public bool IsInSpawnArea(Point pos) => IsInSpawnArea(pos.X, pos.Y);
+
         public bool IsInSpawnArea(int x, int y) {
             if (this.SpawnGate.X == x && this.SpawnGate.Y == y)
                 return true;

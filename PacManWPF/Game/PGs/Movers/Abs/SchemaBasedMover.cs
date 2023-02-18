@@ -9,6 +9,7 @@ namespace PacManWPF.Game.PGs.Movers.Abs
         private bool Gone = false;
 
         protected Point[] schema;
+        protected new const Enums.GhostEngines EngineType = Enums.GhostEngines._NULL;
 
         public SchemaBasedMover(Point[] schema, Ghost self) : base(self)
         {

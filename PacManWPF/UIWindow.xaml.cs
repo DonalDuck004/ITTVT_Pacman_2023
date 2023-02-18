@@ -11,6 +11,7 @@ using PacManWPF.Game;
 using System.Threading;
 using System.Diagnostics;
 using System.Xml.Linq;
+using PacManWPF.Game.PGs.Movers.Abs;
 
 namespace PacManWPF
 {
@@ -44,6 +45,7 @@ namespace PacManWPF
         public UIWindow()
         {
             UIWindow._INSTANCE = this;
+            BaseGhostMover.Initialize();
             InitializeComponent();
             this.game_ticker.Tick += new EventHandler(OnGameTick);
 
@@ -56,7 +58,6 @@ namespace PacManWPF
         public void SetPage(UserControl page)
         {
             this.Content = page;    
-
         }
 
         internal void MovementListener()

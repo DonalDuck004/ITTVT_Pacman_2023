@@ -16,6 +16,7 @@ namespace PacManWPF.Game.PGs.Movers
         protected Point StartPoint;
         protected Random rnd = new();
         protected bool was_drugged = false;
+        protected new const Enums.GhostEngines EngineType = Enums.GhostEngines.CachedAutoMover;
 
         public AutoMover(Point StartPoint, Ghost ghost) : base(ghost) // TODO LIMIT LEN
         {
