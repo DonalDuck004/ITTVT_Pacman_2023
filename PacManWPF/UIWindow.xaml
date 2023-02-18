@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PacManWPF"
         mc:Ignorable="d " PreviewKeyDown="DispatchKey" Closed="OnClosed"
-        Title="Pacman" Width="1480" Height="720" Background="Black">
+        Title="Pacman" Width="1480" Height="720" Background="Black"
+        VerticalContentAlignment="Center" 
+        HorizontalContentAlignment="Center">
     <Window.Icon>
         <BitmapImage UriSource="Assets/Images/pacman.png"></BitmapImage>
     </Window.Icon>
-    <Frame x:Name="CurrentPage" local:FrameNoHistoryBehavior.Enable="True" ></Frame>
 </Window>

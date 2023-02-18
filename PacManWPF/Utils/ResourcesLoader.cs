@@ -95,7 +95,6 @@ namespace PacManWPF.Utils
             return ResourcesLoader.GetImage(@$"Images\{color}_{f}_{dir}.png");
         }
 
-
         public static BitmapImage GetImage(Walls Block, ColorD PenColor) => GetImage(new CacheKey(Block, PenColor));
 
         public static BitmapImage GetImage(FoodTypes type)

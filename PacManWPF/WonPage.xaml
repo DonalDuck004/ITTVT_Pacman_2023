@@ -1,11 +1,11 @@
-﻿<Page x:Class="PacManWPF.WonPage"
+﻿<UserControl x:Class="PacManWPF.WonPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PacManWPF"
       mc:Ignorable="d" 
-      Title="WonPage" Background="Black">
+      Background="Black" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Grid>
         <DockPanel>
             <WrapPanel Name="game_won" VerticalAlignment="Center" HorizontalAlignment="Center" DockPanel.Dock="Top">
@@ -31,4 +31,4 @@
             </Grid>
         </DockPanel>
     </Grid>
-</Page>
+</UserControl>

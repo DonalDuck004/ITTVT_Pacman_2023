@@ -73,7 +73,7 @@ namespace PacManWPF.Game
             {
                 if (value <= 0)
                 {
-                    this.GameOver = true;
+                    UIWindow.INSTANCE.GameOver();
                     this._lifes = 0;
                 }
                 else
@@ -177,10 +177,12 @@ namespace PacManWPF.Game
             GameOver = false;
             Won = false;
             clock.Start();
+
+            foreach (var item in Ghost.INSTANCES)
+                GamePage.CurrentGrid!.Children.Add(item.CeilObject);
             Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
         }
 
-  
 
         public void Respawn()
         {

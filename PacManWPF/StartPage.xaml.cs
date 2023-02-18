@@ -20,7 +20,7 @@ namespace PacManWPF
     /// <summary>
     /// Logica di interazione per Page1.xaml
     /// </summary>
-    public partial class StartPage : Page
+    public partial class StartPage : UserControl
     {
         public static StartPage? INSTANCE = new();
 

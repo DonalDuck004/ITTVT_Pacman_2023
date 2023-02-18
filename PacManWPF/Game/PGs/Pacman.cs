@@ -55,7 +55,6 @@ namespace PacManWPF.Game.PGs
         private Pacman()
         {
             ImageBehavior.SetAnimatedSource(this.CeilObject, ResourcesLoader.PacMan);
-            GamePage.CurrentGrid.Children.Add(this.CeilObject); // Inject pacman
         }
 #nullable restore
 
@@ -94,6 +93,7 @@ namespace PacManWPF.Game.PGs
 
         public void Initialize(int x, int y, int grad)
         {
+            GamePage.CurrentGrid!.Children.Add(Pacman.INSTANCE.CeilObject);
             this.DrugTicks = 0;
             this.X = x;
             this.Y = y;

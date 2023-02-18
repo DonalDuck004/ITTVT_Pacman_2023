@@ -28,7 +28,7 @@ namespace PacManWPF
     /// <summary>
     /// Logica di interazione per GamePage.xaml
     /// </summary>
-    public partial class GamePage : Page
+    public partial class GamePage : UserControl
     {
         public static GamePage? Current { get; private set; } = null;
         public static Grid? CurrentGrid => Current is null ? null : Current!.game_grid;
@@ -37,6 +37,13 @@ namespace PacManWPF
         public GamePage(int world_idx)
         {
             InitializeComponent();
+            if (GamePage.Current is not null)
+            {
+                GamePage.CurrentGrid!.Children.Remove(Pacman.INSTANCE.CeilObject);
+                foreach (var item in Ghost.INSTANCES)
+                    GamePage.CurrentGrid!.Children.Remove(item.CeilObject);
+            }
+
             GamePage.Current = this;
             this.world_label.Content = WorldLoader.Worlds[world_idx].Name;
             WorldLoader.Worlds[world_idx].Apply();

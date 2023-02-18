@@ -50,12 +50,12 @@ namespace PacManWPF
             if (RuntimeSettingsHandler.MaximizedStartup)
                 this.WindowState = WindowState.Maximized;
 
-            this.CurrentPage.Navigate(StartPage.INSTANCE);
+            this.Content = StartPage.INSTANCE;
         }
 
-        public void SetPage(Page page)
+        public void SetPage(UserControl page)
         {
-            this.CurrentPage.Navigate(page);    
+            this.Content = page;    
 
         }
 
@@ -142,7 +142,7 @@ namespace PacManWPF
             e.Handled = true;
             if (e.Key is Key.Escape)
             {
-                if (this.CurrentPage.Content is PausePage CurrentPausePage)
+                if (this.Content is PausePage CurrentPausePage)
                 {
                     CurrentPausePage.Close();
                     return;

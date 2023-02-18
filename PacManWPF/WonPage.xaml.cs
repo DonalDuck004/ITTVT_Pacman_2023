@@ -19,7 +19,7 @@ namespace PacManWPF
     /// <summary>
     /// Logica di interazione per WonPage.xaml
     /// </summary>
-    public partial class WonPage : Page
+    public partial class WonPage : UserControl
     {
         public WonPage(TimeSpan time, int points)
         {

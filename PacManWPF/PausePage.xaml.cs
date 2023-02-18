@@ -1,4 +1,5 @@
 ﻿using PacManWPF.Game;
+using PacManWPF.Game.PGs;
 using PacManWPF.Game.Worlds;
 using PacManWPF.Utils;
 using System;
@@ -26,7 +27,7 @@ namespace PacManWPF
     /// <summary>
     /// Logica di interazione per PausePage.xaml
     /// </summary>
-    public partial class PausePage : Page
+    public partial class PausePage : UserControl
     {
         public PausePage()
         {
@@ -69,8 +70,9 @@ namespace PacManWPF
             if (this.worlds_box.SelectedIndex == -1)
                 return;
 
-            UIWindow.INSTANCE.SetPage(new GamePage(world_idx: this.worlds_box.SelectedIndex));
             UIWindow.INSTANCE.FreezeGame();
+            UIWindow.INSTANCE.SetPage(new GamePage(world_idx: this.worlds_box.SelectedIndex));
+            UIWindow.INSTANCE.ResumeGame();
 
             GC.Collect(2, GCCollectionMode.Aggressive, true, true);
         }

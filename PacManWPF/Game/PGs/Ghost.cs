@@ -63,8 +63,6 @@ namespace PacManWPF.Game.PGs
             this.Image = ResourcesLoader.GetImage(type, animation_f, (Direction)rnd.Next(4));
             this.CeilObject = new Image() { Tag = new Tags.GhostTag(this),
                                             Source = this.Image};
-            Debug.Assert(GamePage.CurrentGrid is not null);
-            GamePage.CurrentGrid!.Children.Add(this.CeilObject);
         }
 
         public bool ShouldTick(GhostTickTypes tickType)

@@ -1,12 +1,11 @@
-﻿<Page x:Class="PacManWPF.PausePage"
+﻿<UserControl x:Class="PacManWPF.PausePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PacManWPF"
       xmlns:game="clr-namespace:PacManWPF.Game"
-      mc:Ignorable="d" 
-      Title="PausePage">
+      mc:Ignorable="d" VerticalAlignment="Center" HorizontalAlignment="Center">
     <Border Background="GhostWhite" BorderBrush="Gainsboro" BorderThickness="1" HorizontalAlignment="Center" >
         <DockPanel Background="Black" Margin="1" Width="735" Height="367" MaxWidth="980" MaxHeight="490">
             <Grid Margin="0,0,0,10">
@@ -66,4 +65,4 @@
             </Grid>
         </DockPanel>
     </Border>
-</Page>
+</UserControl>
