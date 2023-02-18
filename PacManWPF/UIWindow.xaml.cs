@@ -9,16 +9,16 @@ using PacManWPF.Game.PGs.Enums;
 using PacManWPF.Utils;
 using PacManWPF.Game;
 using System.Threading;
+using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace PacManWPF
 {
-
-
     public partial class UIWindow : Window
     {
         private static UIWindow? _INSTANCE = null;
         // todo public static List<Thread>
-        private Thread? KeyListener = null;
+        internal Thread? KeyListener = null;
 
         public static UIWindow INSTANCE => _INSTANCE ?? throw new Exception("No instance was found");
 
@@ -40,7 +40,6 @@ namespace PacManWPF
         };
 
         private int tick_seq = 0;
-        
 
         public UIWindow()
         {
@@ -50,9 +49,17 @@ namespace PacManWPF
 
             if (RuntimeSettingsHandler.MaximizedStartup)
                 this.WindowState = WindowState.Maximized;
+
+            this.CurrentPage.Navigate(StartPage.INSTANCE);
         }
 
-        public void MovementListener()
+        public void SetPage(Page page)
+        {
+            this.CurrentPage.Navigate(page);    
+
+        }
+
+        internal void MovementListener()
         {
             Key? key;
             int dest_x, dest_y, angular;
@@ -135,37 +142,14 @@ namespace PacManWPF
             e.Handled = true;
             if (e.Key is Key.Escape)
             {
-                if (this.pause_menu_tab.IsSelected)
+                if (this.CurrentPage.Content is PausePage CurrentPausePage)
                 {
-                    if (WorldLoader.CurrentWorld is null)
-                    {
-                        this.start_game_tab.IsSelected = true;
-                        return;
-                    }
-
-                    this.ResumeGame();
-                    this.game_tab.IsSelected = true;
+                    CurrentPausePage.Close();
+                    return;
                 }
-                else
-                {
-                    this.FreezeGame();
-                    this.app_pages.SelectedIndex = this.pause_menu_tab.TabIndex;
-                }
-                CloseMenu();
-                return;
-            }
 
-        }
-
-        public void CloseMenu()
-        {
-            if (this.pause_menu_tab.IsSelected)
-            {
-                this.worlds_box.Items.Clear();
-                this.FillWorldsBox();
+                PausePage.Open();
             }
-            else
-                this.ResumeGame();
 
         }
 
@@ -196,16 +180,13 @@ namespace PacManWPF
             if (PacmanGame.INSTANCE.Won)
                 this.Won();
 
-            PacmanGame.INSTANCE.SpawnFood();
+            GamePage.Current!.SpawnFood();
         }
 
         public void Won()
         {
             this.FreezeGame();
-
-            this.ellapsed_time_label.Content = (new DateTime() + TimeSpan.FromSeconds(PacmanGame.INSTANCE.Seconds)).ToString("HH:mm:ss");
-            this.points_final_label.Content = PacmanGame.INSTANCE.Points;
-            this.game_won_tab.IsSelected = true;
+            this.SetPage(new WonPage(TimeSpan.FromSeconds(PacmanGame.INSTANCE.Seconds), PacmanGame.INSTANCE.Points));
         }
 
         public void GameOver()
@@ -222,7 +203,7 @@ namespace PacManWPF
             MessageBox.Show("Game Over");
         }
 
-        private void FreezeGame()
+        public void FreezeGame()
         {
             if (this.game_ticker.IsEnabled)
                 this.game_ticker.Stop();
@@ -231,32 +212,14 @@ namespace PacManWPF
         }
 
 
-        private void ResumeGame()
+        internal void ResumeGame()
         {
             if (!this.game_ticker.IsEnabled)
                 this.game_ticker.Start();
 
+            Debug.Assert(GamePage.Current is not null);
+            UIWindow.INSTANCE.SetPage(GamePage.Current!);
             PacmanGame.INSTANCE.Frozen = false;
-        }
-
-
-        private void OnWorldSelected(object sender, SelectionChangedEventArgs e)
-        {
-            if (this.worlds_box.SelectedIndex == -1) 
-                return;
-
-            this.FreezeGame();
-            this.world_label.Content = WorldLoader.Worlds[this.worlds_box.SelectedIndex].Name;
-            this.game_won_label.Content = this.world_label.Content;
-            WorldLoader.Worlds[this.worlds_box.SelectedIndex].Apply();
-            this.game_tab.IsSelected = true;
-            if (this.KeyListener is null)
-            {
-                this.KeyListener = new Thread(MovementListener);
-                this.KeyListener.Start();
-            }
-            this.CloseMenu();
-            GC.Collect(2, GCCollectionMode.Aggressive, true, true);
         }
     }
 }

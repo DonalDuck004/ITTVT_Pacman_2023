@@ -1,0 +1,70 @@
+﻿<Page x:Class="PacManWPF.StartPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PacManWPF"
+      mc:Ignorable="d" 
+      Title="StartPage" Background="Black">
+
+    <Grid Margin="0,0,0,6">
+        <Grid.RowDefinitions>
+            <RowDefinition MaxHeight="150"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="0">
+            <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
+        </DockPanel>
+        <DockPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="1">
+            <Image Source="Assets/Images/bg.png" Stretch="Uniform"></Image>
+        </DockPanel>
+        <Grid Grid.Column="0" Grid.Row="2" MouseLeftButtonDown="OpenWorldsFolder">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\folder.png" Cursor="Hand"></Image>
+            <Label Grid.Row="1" Content="Apri  cartella  mondi" HorizontalAlignment="Center"></Label>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="2" MouseLeftButtonDown="OpenSettings">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Stretch="Uniform" Grid.Row="0" HorizontalAlignment="Center" Source="Assets\Images\settings.png" Cursor="Hand"></Image>
+            <Label Grid.Row="1" Content="Impostazioni/Start" HorizontalAlignment="Center"></Label>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="2" MouseLeftButtonDown="OpenTG">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\tg.png" Cursor="Hand"></Image>
+            <Label Grid.Row="1" Content="Sviluppatore" HorizontalAlignment="Center"></Label>
+        </Grid>
+        <Grid Grid.Column="3" Grid.Row="2" MouseLeftButtonDown="OpenGit">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Git.png" Cursor="Hand"></Image>
+            <Label Grid.Row="1" Content="Codice  sorgente" HorizontalAlignment="Center"></Label>
+        </Grid>
+        <Grid Grid.Column="4" Grid.Row="2" MouseLeftButtonDown="OpenKaze">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="20"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Image Grid.Row="0" Stretch="Uniform" HorizontalAlignment="Center" Source="Assets\Images\Kaze94.png" Cursor="Hand" DockPanel.Dock="Top"></Image>
+            <Label Grid.Row="1" Content="Grafico  Kaze94" HorizontalAlignment="Center"></Label>
+        </Grid>
+    </Grid>
+</Page>

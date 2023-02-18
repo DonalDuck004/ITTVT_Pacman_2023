@@ -20,7 +20,7 @@ namespace PacManWPF.Game
     public class PacmanGame : Singleton<PacmanGame>
     {
         public Image[] CeilsAt(Point point) => CeilsAt(point.X, point.Y);
-        public Image[] CeilsAt(int x, int y) => UIWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
+        public Image[] CeilsAt(int x, int y) => GamePage.CurrentGrid!.Children.OfType<Image>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
 
         private Random rnd = new();
 
@@ -58,7 +58,8 @@ namespace PacManWPF.Game
             get => _points;
             set
             {
-                UIWindow.INSTANCE.points_label.Content = value.ToString().ZFill(3);
+                Debug.Assert(GamePage.Current is not null);
+                GamePage.Current!.points_label.Content = value.ToString().ZFill(3);
                 _points = value;
             }
         }
@@ -78,7 +79,8 @@ namespace PacManWPF.Game
                 else
                     this._lifes = value;
 
-                Image[] lifes_wp = UIWindow.INSTANCE.lifes_wp.Children.OfType<Image>().ToArray();
+                Debug.Assert(GamePage.Current is not null);
+                Image[] lifes_wp = GamePage.Current!.lifes_wp.Children.OfType<Image>().ToArray();
 
                 for (int i = 0; i < this._lifes; i++)
                     lifes_wp[i].Visibility = Visibility.Visible;
@@ -109,7 +111,8 @@ namespace PacManWPF.Game
                 if (!this.Initizialized)
                     return;
 
-                UIWindow.INSTANCE.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
+                Debug.Assert(GamePage.Current is not null);
+                GamePage.Current!.time_label.Content = (new DateTime() + TimeSpan.FromSeconds(++this.Seconds)).ToString("HH:mm:ss");
             };
         }
 
@@ -154,7 +157,7 @@ namespace PacManWPF.Game
         {
             Debug.Assert(WorldLoader.CurrentWorld is not null);
             this.Seconds = 0;
-            UIWindow.INSTANCE.time_label.Content = "00:00:00";
+            GamePage.Current!.time_label.Content = "00:00:00";
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
             SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() => {
@@ -177,63 +180,7 @@ namespace PacManWPF.Game
             Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
         }
 
-        public void SpawnFood()
-        {
-            if (rnd.Next(200) == 0)
-            {
-                Debug.Assert(WorldLoader.CurrentWorld is not null);
-                var world = WorldLoader.CurrentWorld;
-                var values = (FoodTypes[])Enum.GetValues(typeof(FoodTypes));
-                var ceils = UIWindow.INSTANCE.game_grid.Children.OfType<Image>().Where(x => ((Tags.BaseTag)x.Tag).GetType() == typeof(Tags.EmptyTag)).Where(x => !Pacman.INSTANCE.IsAt(Grid.GetColumn(x), Grid.GetRow(x))).Where(x => !world.IsInSpawnArea(Grid.GetColumn(x), Grid.GetRow(x))).ToArray();
-                if (ceils.Length == 0)
-                    return;
-
-                var ceil = ceils[rnd.Next(ceils.Length)];
-                var food = values[rnd.Next(2, values.Length)];
-                var guid = Guid.NewGuid();
-                ceil.Source = ResourcesLoader.GetImage(food);
-                if (!RuntimeSettingsHandler.AnimationsEnabled)
-                {
-                    ceil.Tag = new Tags.FoodTag(food, null, guid);
-                    var timer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(10) };
-                    timer.Tick += (s, e) => {
-                        timer.Stop();
-                        if (ceil.Tag.GetType() != typeof(Tags.FoodTag) || ((Tags.FoodTag)ceil.Tag).guid is null)
-                            return;
-
-                        Guid ID = ((Tags.FoodTag)ceil.Tag).guid!.Value;
-                        if (ID == guid)
-                        {
-                            ceil.Source = ResourcesLoader.EmptyImage;
-                            ceil.Tag = Tags.EmptyTag.INSTANCE;
-                        }
-                    };
-                    timer.Start();
-                    return;
-                }
-
-                var animation = new SpecialFoodAnimation();
-                ceil.Tag = new Tags.FoodTag(food, animation, guid);
-
-                animation.Completed += (s, e) =>
-                {
-                    if (ceil.Tag.GetType() != typeof(Tags.FoodTag) || ((Tags.FoodTag)ceil.Tag).animation is null || ((Tags.FoodTag)ceil.Tag).guid is null)
-                        return;
-
-                    Guid ID = ((Tags.FoodTag)ceil.Tag).guid!.Value;
-
-                    if (ID == guid)
-                    {
-                        ceil.Opacity = 1.0;
-                        ceil.Tag = Tags.EmptyTag.INSTANCE;
-                        ceil.Source = ResourcesLoader.EmptyImage;
-                    }
-                };
-
-
-                ceil.BeginAnimation(UIElement.OpacityProperty, animation);
-            }
-        }
+  
 
         public void Respawn()
         {

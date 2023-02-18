@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -32,13 +33,14 @@ namespace PacManWPF.Game.PGs
             get => _drug_frames;
             set
             {
+                Debug.Assert(GamePage.Current is not null);
                 if (value == 0)
-                    UIWindow.INSTANCE.drug_wrap.Visibility = Visibility.Hidden;
+                    GamePage.Current!.drug_wrap.Visibility = Visibility.Hidden;
                 else
                 {
-                    UIWindow.INSTANCE.drug_wrap.Visibility = Visibility.Visible;
+                    GamePage.Current!.drug_wrap.Visibility = Visibility.Visible;
 
-                    UIWindow.INSTANCE.drug_ticks_label.Content = value.ToString().ZFill(2) + " ticks";
+                    GamePage.Current!.drug_ticks_label.Content = value.ToString().ZFill(2) + " ticks";
                 }
 
                 _drug_frames = value;
@@ -53,8 +55,7 @@ namespace PacManWPF.Game.PGs
         private Pacman()
         {
             ImageBehavior.SetAnimatedSource(this.CeilObject, ResourcesLoader.PacMan);
-            UIWindow.INSTANCE.game_grid.Children.Add(this.CeilObject);
-            // this.CeilObject.BeginAnimation(Image.SourceProperty, this.Animation);
+            GamePage.CurrentGrid.Children.Add(this.CeilObject); // Inject pacman
         }
 #nullable restore
 

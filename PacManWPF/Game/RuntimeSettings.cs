@@ -7,7 +7,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-
+using System.Windows.Media;
 
 namespace PacManWPF.Game
 {
@@ -27,10 +27,13 @@ namespace PacManWPF.Game
     static class RuntimeSettingsHandler
     {
         public static RuntimeSettings INSTANCE { get; private set; }
+
+        public static readonly BitmapScalingMode[] GRAPHIC_OPTIONS = { BitmapScalingMode.Unspecified, BitmapScalingMode.LowQuality, BitmapScalingMode.HighQuality, BitmapScalingMode.NearestNeighbor };
         public static string EXE_PATH { get; } = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
         public static string CONFIG_NAME { get; } = Path.Combine(EXE_PATH, "Config.json");
         public static string ONLINE_DLL { get; } = Path.Combine(EXE_PATH, "PacmanOnlineMapsWPF.dll");
 
+        public static BitmapScalingMode CurrentGraphic => GRAPHIC_OPTIONS[GraphicMode];
         public static double Volume => INSTANCE.Volume;
         public static double XAML_Volume => INSTANCE.Volume * 100;
         public static int GraphicMode => INSTANCE.GraphicMode;
@@ -57,7 +60,7 @@ namespace PacManWPF.Game
 
         public static void SetGraphic(int val)
         {
-            if (val < 0 || val >= UIWindow.GraphicOptions.Length)
+            if (val < 0 || val >= RuntimeSettingsHandler.GRAPHIC_OPTIONS.Length)
                 throw new ArgumentException("Graphic must be between 0 and 1");
 
             RuntimeSettingsHandler.INSTANCE.GraphicMode = val;
