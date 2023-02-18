@@ -22,8 +22,6 @@ namespace PacManWPF.Game
         public Image[] CeilsAt(Point point) => CeilsAt(point.X, point.Y);
         public Image[] CeilsAt(int x, int y) => GamePage.CurrentGrid!.Children.OfType<Image>().Where(i => Grid.GetRow(i) == y && Grid.GetColumn(i) == x).ToArray();
 
-        private Random rnd = new();
-
         public readonly List<Point> FreeAreas = new();
         public bool Initizialized { get; private set; } = false;
 

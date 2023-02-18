@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PacmanOnlineMapsWPF", "Pacm
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "World Backend", "World Backend\World Backend.pyproj", "{88AC2084-5409-41D2-9341-AC9D5EB9C341}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitUpdateChecker", "GitUpdateChecker\GitUpdateChecker.csproj", "{322658F0-C9F1-4E56-9B31-9A1EA5CE01F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GitUpdateChecker", "GitUpdateChecker\GitUpdateChecker.csproj", "{322658F0-C9F1-4E56-9B31-9A1EA5CE01F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateInstaller", "UpdateInstaller\UpdateInstaller.csproj", "{09010799-470D-45E9-ABB8-32DA82F78AF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,6 +39,10 @@ Global
 		{322658F0-C9F1-4E56-9B31-9A1EA5CE01F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{322658F0-C9F1-4E56-9B31-9A1EA5CE01F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{322658F0-C9F1-4E56-9B31-9A1EA5CE01F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09010799-470D-45E9-ABB8-32DA82F78AF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09010799-470D-45E9-ABB8-32DA82F78AF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09010799-470D-45E9-ABB8-32DA82F78AF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09010799-470D-45E9-ABB8-32DA82F78AF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -78,19 +78,23 @@ namespace PacManWPF
             GC.Collect(2, GCCollectionMode.Aggressive, true, true);
         }
 
-        private static Assembly? asm = null;
+        private static Assembly? online_asm = null;
+        private static object? git_checker = null;
+        private static MethodInfo? git_start = null;
+        private static MethodInfo? git_stop = null;
 
-        private void LoadAsm()
+        private Assembly? LoadAsm(string name)
         {
-            string path = RuntimeSettingsHandler.ONLINE_DLL;
             try
             {
-                asm = Assembly.LoadFile(path);
+                return Assembly.LoadFile(name);
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("DLL Non Trovato", $"{path} non trovato.", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("DLL Non Trovato", $"{name} non trovato.", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+
+            return null;
         }
 
         private void HandleOnlineExc(Exception e)
@@ -107,14 +111,14 @@ namespace PacManWPF
 
         private void OpenExt(object sender, RoutedEventArgs e)
         {
-            if (asm is null)
-                LoadAsm();
+            if (online_asm is null)
+                online_asm = LoadAsm(RuntimeSettingsHandler.ONLINE_DLL);
 
-            if (asm is null)
+            if (online_asm is null)
                 return;
 
 
-            Type t = asm.GetType("PacmanOnlineMaps.PlugWindow")!;
+            Type t = online_asm.GetType("PacmanOnlineMaps.PlugWindow")!;
             var methodInfo = t.GetMethod("ShowDialog")!;
             try
             {
@@ -126,6 +130,17 @@ namespace PacManWPF
             }
         }
 
+        private void HandleGitExc(Exception e)
+        {
+            try
+            {
+                throw e;
+            }
+            catch (HttpRequestException)
+            {
+                MessageBox.Show("Impossibile collegarsi al server...");
+            }
+        }
 
         private void SetAnimations(object sender, EventArgs e)
         {
@@ -145,6 +160,67 @@ namespace PacManWPF
         private void UnSetMaximizedStartup(object sender, EventArgs e)
         {
             Game.RuntimeSettingsHandler.SetMaximizedStartup(false);
+        }
+
+        private void InitGit()
+        {
+            if (git_checker is null)
+            {
+                var git_asm = LoadAsm(RuntimeSettingsHandler.GIT_DLL);
+
+                if (git_asm is null)
+                {
+                    return;
+                }
+                Type t = git_asm.GetType("GitUpdateChecker.UpdateSearcher")!;
+                git_checker = Convert.ChangeType(t.GetField("INSTANCE", BindingFlags.Static | BindingFlags.Public | BindingFlags.CreateInstance | BindingFlags.Instance)!.GetValue(null), t)!;
+                t.GetField("Version", BindingFlags.Public | BindingFlags.Instance)!.SetValue(git_checker, Config.Version);
+                git_start = t.GetMethod("Start");
+                git_stop = t.GetMethod("Stop");
+            }
+
+        }
+
+        private void SetCheckForUpdates(object sender, EventArgs e)
+        {
+            InitGit();
+
+            if (git_checker is null)
+            {
+                ((CheckBox)sender).IsChecked = false;
+                return;
+            }
+
+
+            try
+            {
+                git_start!.Invoke(git_checker!, new object[] { });
+            }
+            catch (TargetInvocationException exc)
+            {
+                HandleOnlineExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
+            }
+
+            Game.RuntimeSettingsHandler.SetCheckForUpdates(true);
+        }
+
+        private void UnSetCheckForUpdates(object sender, EventArgs e)
+        {
+            InitGit();
+
+            if (git_checker is null)
+                return;
+            
+            try
+            {
+                git_stop!.Invoke(git_checker!, new object[] { });
+            }
+            catch (TargetInvocationException exc)
+            {
+                HandleOnlineExc(((AggregateException)exc.InnerException!.InnerException!).InnerExceptions[0]);
+            }
+
+            Game.RuntimeSettingsHandler.SetCheckForUpdates(false);
         }
 
         private void SetVolume(object sender, RoutedPropertyChangedEventArgs<double> e)

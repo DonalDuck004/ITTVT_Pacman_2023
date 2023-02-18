@@ -48,6 +48,7 @@
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
                                 <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <Label Margin="1,0,0,0" Grid.Row="0" Grid.Column="0" Content="Volume" HorizontalAlignment="Left" HorizontalContentAlignment="Right" VerticalAlignment="Center"/>
                             <Slider Grid.Row="0" Grid.Column="1" Width="120" VerticalAlignment="Center" HorizontalAlignment="Left" ValueChanged="SetVolume" Maximum="100" Minimum="0" Value="{x:Static game:RuntimeSettingsHandler.XAML_Volume}"/>
@@ -58,6 +59,8 @@
                             <CheckBox Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" IsChecked="{x:Static game:RuntimeSettingsHandler.XAML_AnimationsEnabled}" Checked="SetAnimations" Unchecked="UnSetAnimations"></CheckBox>
                             <Label Grid.Row="4" Content="Finestra  Max." VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
                             <CheckBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" IsChecked="{x:Static game:RuntimeSettingsHandler.XAML_MaximizedStartup}" Checked="SetMaximizedStartup" Unchecked="UnSetMaximizedStartup"></CheckBox>
+                            <Label Grid.Row="5" Content="Aggiornamenti" VerticalAlignment="Center" HorizontalAlignment="Left"></Label>
+                            <CheckBox Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" IsChecked="{x:Static game:RuntimeSettingsHandler.XAML_CheckForUpdates}" Checked="SetCheckForUpdates" Unchecked="UnSetCheckForUpdates"></CheckBox>
                         </Grid>
                     </StackPanel>
                 </Grid>

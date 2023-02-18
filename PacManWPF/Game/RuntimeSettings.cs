@@ -22,6 +22,9 @@ namespace PacManWPF.Game
 
         [JsonInclude]
         public bool MaximizedStartup { get; internal set; } = true;
+
+        [JsonInclude]
+        public bool CheckForUpdates { get; internal set; } = true;
     }
 
     static class RuntimeSettingsHandler
@@ -32,6 +35,7 @@ namespace PacManWPF.Game
         public static string EXE_PATH { get; } = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
         public static string CONFIG_NAME { get; } = Path.Combine(EXE_PATH, "Config.json");
         public static string ONLINE_DLL { get; } = Path.Combine(EXE_PATH, "PacmanOnlineMapsWPF.dll");
+        public static string GIT_DLL { get; } = Path.Combine(EXE_PATH, "GitUpdateChecker.dll");
 
         public static BitmapScalingMode CurrentGraphic => GRAPHIC_OPTIONS[GraphicMode];
         public static double Volume => INSTANCE.Volume;
@@ -42,6 +46,8 @@ namespace PacManWPF.Game
         public static bool XAML_AnimationsEnabled => INSTANCE.AnimationsEnabled;
         public static bool MaximizedStartup => INSTANCE.MaximizedStartup;
         public static bool XAML_MaximizedStartup => INSTANCE.MaximizedStartup;
+        public static bool CheckForUpdates => INSTANCE.CheckForUpdates;
+        public static bool XAML_CheckForUpdates => INSTANCE.CheckForUpdates;
 
         static RuntimeSettingsHandler(){
             RuntimeSettingsHandler.INSTANCE = RuntimeSettingsHandler.Load();
@@ -78,6 +84,13 @@ namespace PacManWPF.Game
             RuntimeSettingsHandler.INSTANCE.MaximizedStartup = value;
             RuntimeSettingsHandler.DumpToFile();
         }
+
+        public static void SetCheckForUpdates(bool value)
+        {
+            RuntimeSettingsHandler.INSTANCE.CheckForUpdates = value;
+            RuntimeSettingsHandler.DumpToFile();
+        }
+
 
         public static RuntimeSettings Load()
         {
