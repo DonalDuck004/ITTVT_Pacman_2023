@@ -4,6 +4,8 @@ namespace PacManWPF.Utils
 {
     class Config
     {
+        public static readonly int[] Version = new[] { 1, 20 };
+
         public const string WORLD_DIR = "worlds";
 
         public const int CHUNK_WC = 33;

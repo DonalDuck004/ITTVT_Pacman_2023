@@ -18,7 +18,7 @@ using System.Windows.Shapes;
 namespace PacManWPF
 {
     /// <summary>
-    /// Logica di interazione per Page1.xaml
+    /// Logica di interazione per StartPage.xaml
     /// </summary>
     public partial class StartPage : UserControl
     {
@@ -28,6 +28,7 @@ namespace PacManWPF
         {
             InitializeComponent();
             StartPage.INSTANCE = this;
+            this.version_label.Content = string.Join(".", Config.Version);
         }
 
         private void OpenGit(object sender, RoutedEventArgs e)

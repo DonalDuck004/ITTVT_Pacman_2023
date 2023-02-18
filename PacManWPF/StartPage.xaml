@@ -20,9 +20,10 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="0">
+        <DockPanel Grid.ColumnSpan="4" Grid.Column="0" Grid.Row="0">
             <Image Margin="20" VerticalAlignment="Top" HorizontalAlignment="Left" Source="Assets\Images\CreditiDellaScuolaCheMiHaFattoDeprimere.png" Stretch="Uniform" MouseLeftButtonDown="OpenITTVTSite" Cursor="Hand"></Image>
         </DockPanel>
+        <Label Grid.Column="4" Grid.Row="0" Content="1.00" ContentStringFormat="Versione:  {0}" HorizontalAlignment="Right" VerticalAlignment="Top" Name="version_label"></Label>
         <DockPanel Grid.ColumnSpan="5" Grid.Column="0" Grid.Row="1">
             <Image Source="Assets/Images/bg.png" Stretch="Uniform"></Image>
         </DockPanel>
