@@ -37,6 +37,7 @@ namespace PacManWPF
         public GamePage(int world_idx)
         {
             InitializeComponent();
+            UIWindow.INSTANCE.last_key = null;
             if (GamePage.Current is not null)
             {
                 GamePage.CurrentGrid!.Children.Remove(Pacman.INSTANCE.CeilObject);

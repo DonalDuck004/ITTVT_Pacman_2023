@@ -60,9 +60,20 @@ namespace PacManWPF.Game.PGs
         public Ghost(GhostColors type)
         {
             this.Type = type;
-            this.Image = ResourcesLoader.GetImage(type, animation_f, (Direction)rnd.Next(4));
+            this.Image = ResourcesLoader.GetImage(type, animation_f, GetInitialDirection());
             this.CeilObject = new Image() { Tag = new Tags.GhostTag(this),
                                             Source = this.Image};
+        }
+
+        private Direction GetInitialDirection()
+        {
+            if ((GhostColors.Red | GhostColors.Pink).HasFlag(this.Type))
+                return Direction.Top;
+            if (this.Type is GhostColors.Orange)
+                return Direction.Left;
+            
+            return Direction.Right;
+
         }
 
         public bool ShouldTick(GhostTickTypes tickType)
@@ -77,7 +88,7 @@ namespace PacManWPF.Game.PGs
             return false;
         }
 
-        public void SetSchema(BaseGhostMover mover, System.Drawing.Point spawnPoint)
+        public void SetSchema(BaseGhostMover mover, System.Drawing.Point spawnPoint, bool BeginCalled = false)
         {
             this.mover = mover;
             this.mover.Loaded();
@@ -86,9 +97,13 @@ namespace PacManWPF.Game.PGs
             this.Initialized = false;
             this.NeedToGoToSpawn = false;
             this.SpawnPoint = spawnPoint;
-            this.CeilObject.Source = this.Image;
-            this.CeilObject.RenderTransform = null;
-            Grid.SetZIndex(this.CeilObject, 3);
+
+            if (BeginCalled is false)
+            {
+                this.CeilObject.Source = this.Image;
+                this.CeilObject.RenderTransform = null;
+                Grid.SetZIndex(this.CeilObject, 3);
+            }
 
             Grid.SetColumn(this.CeilObject, spawnPoint.X);
             Grid.SetRow(this.CeilObject, spawnPoint.Y);
@@ -96,12 +111,17 @@ namespace PacManWPF.Game.PGs
 
         public void Kill()
         {
-            var controller = SoundEffectsPlayer.Play(SoundEffectsPlayer.EAT_GHOST);
             if (this.Initialized is false)
                 this.Initialized = true;
 
             if (this.IsDied is false)
-                controller.OnDone(() => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_GO_BACK, () => this.IsDied));
+            {
+                SoundEffectsPlayer.Play(SoundEffectsPlayer.EAT_GHOST).OnDone(
+                    () => SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_GO_BACK, () => this.IsDied)
+                );
+
+                PacmanGame.INSTANCE.Points += ++Pacman.INSTANCE.ComboKill * Config.GHOST_EAT_POINTS;
+            }
 
 
             this.IsDied = true;
@@ -251,10 +271,24 @@ namespace PacManWPF.Game.PGs
                 this.Kill();
         }
 
-        public void Respawn()
+        public void BeginRespawn()
         {
+            if (!object.ReferenceEquals(this.CeilObject.Source, this.Image))
+            {
+                this.CeilObject.Source = this.Image;
+                this.CeilObject.RenderTransform = null;
+                Grid.SetZIndex(this.CeilObject, 3);
+            }
+
+        }
+
+        public void Respawn(bool BeginCalled = true)
+        {
+            if (BeginCalled is false)
+                BeginRespawn();
+            
             Debug.Assert(this.mover is not null);
-            this.SetSchema(this.mover, this.SpawnPoint);
+            this.SetSchema(this.mover, this.SpawnPoint, BeginCalled);
         }
     }
 }

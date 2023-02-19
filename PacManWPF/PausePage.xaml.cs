@@ -174,6 +174,16 @@ namespace PacManWPF
             Game.RuntimeSettingsHandler.SetMaximizedStartup(false);
         }
 
+        private void SetLegacyMode(object sender, EventArgs e)
+        {
+            Game.RuntimeSettingsHandler.SetLegacyMode(true);
+        }
+
+        private void UnSetLegacyMode(object sender, EventArgs e)
+        {
+            Game.RuntimeSettingsHandler.SetLegacyMode(false);
+        }
+
         private void InitGit()
         {
             if (git_checker is null)

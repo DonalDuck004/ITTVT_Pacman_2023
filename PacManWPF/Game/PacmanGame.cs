@@ -51,6 +51,8 @@ namespace PacManWPF.Game
         public int PacDots { get; set; } = 0;
 
         private int _points = 0;
+        private int _extra_lifes = 0;
+
         public int Points
         {
             get => _points;
@@ -59,6 +61,16 @@ namespace PacManWPF.Game
                 Debug.Assert(GamePage.Current is not null);
                 GamePage.Current!.points_label.Content = value;
                 _points = value;
+                if (_points == 0)
+                    _extra_lifes = 0;
+
+                int extra = _points / Config.NEW_LIFE_EVERY;
+                
+                if (extra > _extra_lifes)
+                {
+                    this.Lifes += extra - _extra_lifes;
+                    _extra_lifes = extra;
+                }
             }
         }
 
@@ -77,15 +89,7 @@ namespace PacManWPF.Game
                 else
                     this._lifes = value;
 
-                Debug.Assert(GamePage.Current is not null);
-                Image[] lifes_wp = GamePage.Current!.lifes_wp.Children.OfType<Image>().ToArray();
-
-                for (int i = 0; i < this._lifes; i++)
-                    lifes_wp[i].Visibility = Visibility.Visible;
-
-                for (int i = this._lifes; i < lifes_wp.Length; i++)
-                    lifes_wp[i].Visibility = Visibility.Hidden;
-
+                GamePage.Current!.lifes_counter.Content = value;
             }
         }
 
@@ -181,29 +185,36 @@ namespace PacManWPF.Game
             Pacman.INSTANCE.Initialize(pacman_x, pacman_y, pacman_grad);
         }
 
-
         public void Respawn()
         {
             SoundEffectsPlayer.StopAll();
             this.Initizialized = false;
-            Pacman.INSTANCE.DrugTicks = 0;
-            Pacman.INSTANCE.UpdateLayout();
+            UIWindow.INSTANCE.last_key = null;
+
+            if (Pacman.INSTANCE.IsDrugged)
+            {
+                Pacman.INSTANCE.DrugTicks = 0;
+                Grid.SetZIndex(Pacman.INSTANCE.CeilObject, 2);
+                Pacman.INSTANCE.UpdateLayout();
+            }
+            
+            for (int i = 0; i < Ghost.INSTANCES.Length; i++)
+                Ghost.INSTANCES[i].BeginRespawn();
+
 
             SoundEffectsPlayer.Play(SoundEffectsPlayer.GAME_OVER).OnDone(() =>
+            {
+                Pacman.INSTANCE.Respawn();
+                for (int i = 0; i < Ghost.INSTANCES.Length; i++)
+                    Ghost.INSTANCES[i].Respawn();
+
+                SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() =>
                 {
-                    Pacman.INSTANCE.Respawn();
-                    for (int i = 0; i < Ghost.INSTANCES.Length; i++)
-                        Ghost.INSTANCES[i].Respawn();
-                    
-                    SoundEffectsPlayer.Play(SoundEffectsPlayer.START).OnDone(() =>
-                    {
-                        this.Initizialized = true;
-                        SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
-                    });
-                }
+                    this.Initizialized = true;
+                    SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
+                });
+            }
             );
-
-
         }
     }
 }

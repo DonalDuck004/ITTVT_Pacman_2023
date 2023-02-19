@@ -57,9 +57,16 @@ namespace PacManWPF
 
         public void SetPage(UserControl page)
         {
-            this.Content = page;    
+            this.Content = page;
+            this.UpdateLayout();
+            if (page.ActualWidth > this.ActualWidth)
+                this.Width = page.ActualWidth;
+
+            if ((page.ActualHeight + 80) > this.ActualHeight)
+                this.Height = page.ActualHeight + 80;
         }
 
+        internal Key? last_key = null;
         internal void MovementListener()
         {
             Key? key;
@@ -70,7 +77,7 @@ namespace PacManWPF
             try
             {
                 while (true) {// (this._stop_required)
-                    wait = new(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV));
+                    wait = new((long)(TimeSpan.TicksPerSecond / (Pacman.INSTANCE.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)));
                     diff = this.last_call + wait - DateTime.Now;
                     if (diff.Ticks > 0)
                         Thread.Sleep(diff);
@@ -80,11 +87,28 @@ namespace PacManWPF
                     do
                     {
                         key = this.Dispatcher.Invoke<Key?>(() => Keyboard.IsKeyDown(Key.Right) ? Key.Right : Keyboard.IsKeyDown(Key.Left) ? Key.Left : Keyboard.IsKeyDown(Key.Up) ? Key.Up : Keyboard.IsKeyDown(Key.Down) ? Key.Down : null, (DispatcherPriority)5);
-                        if (key is null)
-                            Thread.Sleep(100);
+                        if (RuntimeSettingsHandler.LegacyMode)
+                        {
+                            if (last_key is null && key is null)
+                                Thread.Sleep(25);
+                            else if (key is null)
+                            {
+                                key = last_key;
+                                break;
+                            }
+                            else
+                            {
+                                last_key = key;
+                                break;
+                            }
+                        }
                         else
-                            break;
-
+                        {
+                            if (key is null)
+                                Thread.Sleep(25);
+                            else
+                                break;
+                        }
                     } while (true);
 
 
@@ -126,7 +150,9 @@ namespace PacManWPF
                         if (PacmanGame.INSTANCE.GameOver)
                             this.GameOver();
                         else if (PacmanHitted)
+                        {
                             PacmanGame.INSTANCE.Respawn();
+                        }
                     }, DispatcherPriority.Render);
 
                     Thread.Yield();
@@ -134,7 +160,6 @@ namespace PacManWPF
             }
             catch (System.Threading.Tasks.TaskCanceledException)
             {
-                return;
             }
         }
 
@@ -188,6 +213,7 @@ namespace PacManWPF
         {
             this.FreezeGame();
             this.SetPage(new WonPage(TimeSpan.FromSeconds(PacmanGame.INSTANCE.Seconds), PacmanGame.INSTANCE.Points));
+
         }
 
         public void GameOver()

@@ -20,6 +20,7 @@ namespace PacManWPF.Game.PGs
     {
         public static Pacman INSTANCE = new();
 
+        public DoubleAnimation? CurrentAnimation { get; private set; } = null;
         public int X { get; private set; }
         public int Y { get; private set; }
         public Point Position => new (X, Y);
@@ -27,6 +28,7 @@ namespace PacManWPF.Game.PGs
         public int SpawnGrad { get; private set; }
         public int Grad = 0;
 
+        public int ComboKill { get; set; } = 0;
         private int _drug_frames = 0;
         public int DrugTicks
         {
@@ -35,13 +37,21 @@ namespace PacManWPF.Game.PGs
             {
                 Debug.Assert(GamePage.Current is not null);
                 if (value == 0)
+                {
                     GamePage.Current!.drug_wrap.Visibility = Visibility.Hidden;
+                    ComboKill = 0;
+                }
                 else
                 {
                     GamePage.Current!.drug_wrap.Visibility = Visibility.Visible;
 
                     GamePage.Current!.drug_ticks_label.Content = value;
                 }
+
+                if (value <= Config.POWER_PELLET_WARN)
+                    GamePage.Current!.warn_lbl.Visibility = value % 2 == 0 ? Visibility.Hidden : Visibility.Visible;
+                else if (GamePage.Current!.warn_lbl.Visibility != Visibility.Hidden)
+                    GamePage.Current!.warn_lbl.Visibility = Visibility.Hidden;
 
                 _drug_frames = value;
             }
@@ -185,12 +195,13 @@ namespace PacManWPF.Game.PGs
             return can_pass;
         }
 
+
         private void HandleAnimation(int grad)
         {
             if (!RuntimeSettingsHandler.AnimationsEnabled)
                 return;
 
-            TimeSpan duration = new(TimeSpan.TicksPerSecond / (this.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV));
+            TimeSpan duration = new((long)(TimeSpan.TicksPerSecond / (this.IsDrugged ? Config.PACMAN_PP_MOVE_DIV : Config.PACMAN_MOVE_DIV)));
             TranslateTransform trans = new();
             TransformGroup group = new();
             if (Pacman.INSTANCE.IsDrugged)
@@ -202,25 +213,24 @@ namespace PacManWPF.Game.PGs
             group.Children.Add(trans);
 
             this.CeilObject.RenderTransform = group;
-            DoubleAnimation animation;
 
 
             if (grad == 90) // Down
             {
-                animation = new(-this.CeilObject.ActualHeight, 0, duration);
-                trans.BeginAnimation(TranslateTransform.YProperty, animation);
+                CurrentAnimation = new(-this.CeilObject.ActualHeight, 0, duration);
+                trans.BeginAnimation(TranslateTransform.YProperty, CurrentAnimation);
             } else if (grad == 180) // <-
             {
-                animation = new(this.CeilObject.ActualWidth, 0, duration);
-                trans.BeginAnimation(TranslateTransform.XProperty, animation);
+                CurrentAnimation = new(this.CeilObject.ActualWidth, 0, duration);
+                trans.BeginAnimation(TranslateTransform.XProperty, CurrentAnimation);
             } else if (grad == 270) // Up
             {
-                animation = new(this.CeilObject.ActualHeight, 0, duration);
-                trans.BeginAnimation(TranslateTransform.YProperty, animation);
+                CurrentAnimation = new(this.CeilObject.ActualHeight, 0, duration);
+                trans.BeginAnimation(TranslateTransform.YProperty, CurrentAnimation);
             } else // ->
             {
-                animation = new(-this.CeilObject.ActualWidth, 0, duration);
-                trans.BeginAnimation(TranslateTransform.XProperty, animation);
+                CurrentAnimation = new(-this.CeilObject.ActualWidth, 0, duration);
+                trans.BeginAnimation(TranslateTransform.XProperty, CurrentAnimation);
             }
         }
 

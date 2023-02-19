@@ -25,6 +25,9 @@ namespace PacManWPF.Game
 
         [JsonInclude]
         public bool CheckForUpdates { get; internal set; } = true;
+
+        [JsonInclude]
+        public bool LegacyMode { get; internal set; } = false;
     }
 
     static class RuntimeSettingsHandler
@@ -48,7 +51,9 @@ namespace PacManWPF.Game
         public static bool XAML_MaximizedStartup => INSTANCE.MaximizedStartup;
         public static bool CheckForUpdates => INSTANCE.CheckForUpdates;
         public static bool XAML_CheckForUpdates => INSTANCE.CheckForUpdates;
-
+        public static bool LegacyMode => INSTANCE.LegacyMode;
+        public static bool XAML_LegacyMode => INSTANCE.LegacyMode;
+        
         static RuntimeSettingsHandler(){
             RuntimeSettingsHandler.INSTANCE = RuntimeSettingsHandler.Load();
         }
@@ -88,6 +93,12 @@ namespace PacManWPF.Game
         public static void SetCheckForUpdates(bool value)
         {
             RuntimeSettingsHandler.INSTANCE.CheckForUpdates = value;
+            RuntimeSettingsHandler.DumpToFile();
+        }
+
+        public static void SetLegacyMode(bool value)
+        {
+            RuntimeSettingsHandler.INSTANCE.LegacyMode = value;
             RuntimeSettingsHandler.DumpToFile();
         }
 
