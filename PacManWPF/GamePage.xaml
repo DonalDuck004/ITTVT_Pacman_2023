@@ -17,7 +17,7 @@
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Name="points_label" Content="0000" ContentStringFormat="{}{0:0000}" FontSize="15" Height="30"></Label>
+            <Label Grid.Column="0" Name="points_label" Content="0000" ContentStringFormat="Punteggio:  {0:0000}" FontSize="15" Height="30"></Label>
             <WrapPanel Grid.Column="1" Name="lifes_wp" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <Label Name="lifes_counter" ContentStringFormat="{}{0}  X" Content="3" FontSize="20"></Label>
                 <Image Source="Assets/Images/pacman.png" Width="32" Height="32" MaxHeight="32" VerticalAlignment="Center"></Image>
