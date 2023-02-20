@@ -213,6 +213,7 @@ namespace PacManWPF.Game
                     this.Initizialized = true;
                     SoundEffectsPlayer.PlayWhile(SoundEffectsPlayer.GHOST_SIREN, () => !Pacman.INSTANCE.IsDrugged);
                 });
+
             }
             );
         }

@@ -24,6 +24,8 @@ namespace GitUpdateChecker
         private Timer timer;
         public int[]? Version = null;
         private HttpClient client;
+        public int[]? Purposed = null;
+
 
         private UpdateSearcher() {
             this.timer = new(new TimerCallback(CBK), null, Timeout.Infinite, Timeout.Infinite); // every 10 mins
@@ -108,6 +110,9 @@ namespace GitUpdateChecker
                 var tag_name = js["tag_name"].ToString()!;
                 var LastVersion = tag_name.Substring(8).Split(".").Select(int.Parse).ToArray();
                 var DownloadedVersion = GetDownloadedVersion();
+                if (this.Purposed is not null && LastVersion[0] == this.Purposed[0] && LastVersion[1] == this.Purposed[1])
+                    return;
+
                 if (DownloadedVersion is not null && VersionCheck(DownloadedVersion, this.Version!) && !VersionCheck(LastVersion, DownloadedVersion))
                     return;
 
@@ -121,6 +126,7 @@ namespace GitUpdateChecker
 
                     
                     var action = MessageBox.Show($"{body}\n\nVuoi installare?", $"Aggiornamento {tag_name}", MessageBoxButton.YesNo);
+                    this.Purposed = LastVersion;
                     if (action == MessageBoxResult.Yes)
                     {
                         if (Directory.Exists("Update"))
