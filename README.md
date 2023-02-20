@@ -3,14 +3,16 @@
 Questo proggetto è stato creato in occasione dell'open day 2023 della scuola ITTVT(Istituto Tecnico Tecnlogico di Viterbo)
 Il sito della scuola è accessibile presso questo link [ittvt.edu.it](https://www.ittvt.edu.it/)
 
-# Dipendenze necessarie per la versione pre-compilata
-1. NET 7.0 scariabile presso il [sito ufficiale](https://dotnet.microsoft.com/en-us/download/dotnet/7.0), in caso non sia installato, verrà richiesta la sua installazione da una finestra che si aprirà al posto del gioco
+# Dipendenze necessarie per le versioni pre-compilate
+Ogni tot vengono rilasciate versioni pre-compilate nella sezione [releses](https://github.com/DonalDuck004/ITTVT_Pacman_2023/releases), esse richiedono che il Runtime Desktop NET 7.0 sia installato nel proprio dispositivo.\
+NET 7.0 è scariabile presso il [sito ufficiale](https://dotnet.microsoft.com/en-us/download/dotnet/7.0), e in caso non sia installato, verrà richiesta la sua installazione da una finestra che si aprirà al posto del gioco.\
+Se sei uno sviluppatore, che ha intenzione di modificare il codice sorgente, dovrai invece installare l'SDK NET 7.0, disponibile presso il medesimo sito.
 
 
 # Descrizione Rapida
 Il progetto è composta da 6 sotto-proggetti:
 Proggetti da installare/compilare nel client:
-1. GitUpdateChecker - Non necessario per giocare, si occupa di controllare se sono presenti [nuovi rilasci pre-compilati ](https://github.com/DonalDuck004/ITTVT_Pacman_2023/releases). Può essere integrato in PacManWPF insieme a UpdateInstaller
+1. GitUpdateChecker - Non necessario per giocare, si occupa di controllare se sono presenti [nuovi rilasci pre-compilati](https://github.com/DonalDuck004/ITTVT_Pacman_2023/releases). Può essere integrato in PacManWPF insieme a UpdateInstaller
 2. PacmanOnlineMapsWPF - Non necessario per giocare, permette la navigazione e lo scaricamento dei mondi caricati da altri utenti. Può essere integrato in PacManWPF
 3. PacmanWPF - Necessario per giocare, in quanto è il gioco stesso lol
 4. UpdateInstaller - Non necessario per giocare, me neccessario se si usa GitUpdateChecker. Questo progetto si occuppa di lanciare il setup di installazione aggiornato
@@ -21,11 +23,11 @@ Proggetti da installare/compilare nel server:
 
 # Note
 Ogni versione pre-compilata disponibile nella sezione rilasci, ha il setup di installazione realizzato con [WinRar](https://winrar.it/).\
-Non è stato utilizzato alcun tipo di engine grafico, per facilitare la lettura del codice agli studenti con un livello di reparazione nella media.
-World Backend necessita di un server PostgresSQL a cui collegarsi, oltre ad un interprete Python 3.7+
-Successivamente sarà indicata come root(\) la certella in è situtato il file .sln
-Il termine "cartella di compilazione" indicherà la cartella, la cartella in cui sarà disponibile il risultato della compilazione
-*Quindi ad esempio la cartella di compilazione di PacManWPF, è \PacManWPF\PacManWPF\bin\Release\net7.0\ se si sta compilando una Release, altirmenti in \PacManWPF\PacManWPF\bin\Debug\net7.0\ se si sta compilando in modalità Debug*
+Non è stato utilizzato alcun tipo di engine grafico, per facilitare la lettura del codice agli studenti con un livello di reparazione nella media.\
+World Backend necessita di un server PostgresSQL a cui collegarsi, oltre ad un interprete Python 3.7+.\
+Successivamente sarà indicata come root(\) la certella in è situtato il file .sln.\
+Il termine "cartella di compilazione" indicherà la cartella, la cartella in cui sarà disponibile il risultato della compilazione\
+*Esempio: La cartella di compilazione di PacManWPF, è \PacManWPF\PacManWPF\bin\Release\net7.0\ se si ha compilato una Release, altirmenti \PacManWPF\PacManWPF\bin\Debug\net7.0\ se si ha compilato una versione Debug*.
 
 
 # Configurazione del Backend(World Backend)
