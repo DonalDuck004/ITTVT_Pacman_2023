@@ -10,6 +10,7 @@
             this.IsAGhost = false;
             this.IsGate = false;
             this.IsPacman = true;
+            this.IsUnspawnable = false;
         }
     }
 }

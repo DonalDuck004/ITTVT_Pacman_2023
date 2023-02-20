@@ -16,17 +16,9 @@ using Pen = System.Drawing.Pen;
 using Color = System.Drawing.Color;
 using Image = System.Windows.Controls.Image;
 using Microsoft.Win32;
-using static System.Net.Mime.MediaTypeNames;
-using System.Windows.Media.Animation;
-using System.Windows.Documents;
 using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json.Nodes;
 using System.Text;
 using System.Text.Json;
-using System.Windows.Media.Media3D;
-using System.IO.Pipes;
-using System.Security.Policy;
 
 namespace WorldsBuilderWPF
 {
@@ -63,16 +55,26 @@ namespace WorldsBuilderWPF
         SmallCurveBottom = 0b1000000000000000,
     }
 
-    public class WallStream : MemoryStream
+    public enum Tags
     {
-        public Walls walls { get; private set; }
-        public Color color { get; private set; }
-        public WallStream(Walls walls, Color color)
-        {
-            this.walls = walls;
-            this.color = color;
-        }
+        Wall,
+        PacDot,
+        PowerPellet,
+        Empty,
+        Unspawnable,
+        Gate
     }
+
+    public record class Tag(Tags tag)
+    {
+        public static Tag PAC_DOT = new(Tags.PacDot);
+        public static Tag POWER_PELLET = new(Tags.PowerPellet);
+        public static Tag EMPTY = new(Tags.Empty);
+        public static Tag GATE = new(Tags.Gate);
+        public static Tag UNSPAWNABLE = new(Tags.Unspawnable);
+    }
+
+    public record WallTag(Walls wall, Color color) : Tag(Tags.Wall);
 
     public class GhostData
     {
@@ -100,8 +102,10 @@ namespace WorldsBuilderWPF
     public partial class MainWindow : Window
     {
         Image[][] game_ceils;
-        BitmapImage filler;
-        WrapPanel? currentWP = null;
+        int? filler_idx = null;
+        private WrapPanel? CurrentWP => filler_idx is null ? null : (WrapPanel)this.viewer.Children[filler_idx.Value];
+        private Image? CurrentImage => filler_idx is null ? null : (Image)CurrentWP!.Children[0];
+
         Image PacmanCeil;
 
 #pragma warning disable CS8618
@@ -115,8 +119,9 @@ namespace WorldsBuilderWPF
         private const string POINT_PATH = @".\Assets\Images\PacDot.png";
         private const string GATE_PATH = @".\Assets\Images\Gate.png";
         public static BitmapImage EmptyImage = new();
-        public static BitmapImage DrugImage = new(new Uri(DRUG_PATH, UriKind.Relative));
-        public static BitmapImage PointImage = new(new Uri(POINT_PATH, UriKind.Relative));
+        public static BitmapImage UnspawnableImage = new();
+        public static BitmapImage PowerPelletImage = new(new Uri(DRUG_PATH, UriKind.Relative));
+        public static BitmapImage PacDotImage = new(new Uri(POINT_PATH, UriKind.Relative));
         public static BitmapImage GateImage = new(new Uri(GATE_PATH, UriKind.Relative));
         public static Image FocusEffect = new();
 
@@ -124,6 +129,7 @@ namespace WorldsBuilderWPF
         private GhostData[] ghosts = new GhostData[4];
         private List<CacheKey> images = new();
         private Image? ActiveImg = null;
+
 
         public MainWindow()
         {
@@ -146,7 +152,6 @@ namespace WorldsBuilderWPF
             buff = new();
             image.Save(buff, ImageFormat.Png);
             buff.Position = 0;
-            MainWindow.FocusEffect.ImageFailed += (s, e) => Debug.WriteLine("Dio gane");
             var pd = new BitmapImage();
             pd.BeginInit();
             pd.StreamSource = buff;
@@ -160,7 +165,10 @@ namespace WorldsBuilderWPF
             foreach (var row in game_ceils)
             {
                 foreach (var col in row)
+                {
                     col.Source = MainWindow.EmptyImage;
+                    col.Tag = WorldsBuilderWPF.Tag.EMPTY;
+                }
             }
 
             this.PacmanCeil = new Image() { Source = Pacman.Source };
@@ -194,37 +202,63 @@ namespace WorldsBuilderWPF
             game_grid.Children.Add(this.ghosts[3].image);
             Grid.SetColumn(this.ghosts[3].image, 4);
 
-            this.filler = EmptyImage;
+            this.filler_idx = 3;
 
             var wp = new WrapPanel();
-            var tmp = new Image() { Source = DrugImage };
+            var tmp = new Image() { Source = PowerPelletImage };
             tmp.MouseLeftButtonDown += Setter;
+            tmp.Tag = WorldsBuilderWPF.Tag.POWER_PELLET;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
 
             wp = new WrapPanel();
-            tmp = new Image() { Source = PointImage };
+            tmp = new Image() { Source = PacDotImage };
             tmp.MouseLeftButtonDown += Setter;
+            tmp.Tag = WorldsBuilderWPF.Tag.PAC_DOT;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
 
             wp = new WrapPanel();
             tmp = new Image() { Source = GateImage };
             tmp.MouseLeftButtonDown += Setter;
+            tmp.Tag = WorldsBuilderWPF.Tag.GATE;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
 
             wp = new WrapPanel();
             tmp = new Image() { Source = EmptyImage };
             tmp.MouseLeftButtonDown += Setter;
+            tmp.Tag = WorldsBuilderWPF.Tag.EMPTY;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp); 
+            ChoiceFiller(tmp);
+
+
+            image = new(256, 256);
+            var graphics = Graphics.FromImage(image);
+            Pen pen = new(Color.Red, 12);
+            graphics.DrawLine(pen, 0, 0, 255, 255);
+            graphics.DrawLine(pen, 255, 0, 255, 0);
+            UnspawnableImage.BeginInit();
+            buff = new MemoryStream();
+            image.Save(buff, ImageFormat.Png);
+            buff.Position = 0;
+            UnspawnableImage.StreamSource = buff;
+            UnspawnableImage.EndInit();
+
+            wp = new WrapPanel();
+            tmp = new Image() { Source = UnspawnableImage };
+            tmp.MouseLeftButtonDown += Setter;
+            tmp.Tag = WorldsBuilderWPF.Tag.UNSPAWNABLE;
+            wp.Children.Add(tmp);
+            viewer.Children.Add(wp);
             ChoiceFiller(tmp);
         }
 
         private void ClickEvent(object sender, MouseButtonEventArgs e)
         {
-            if (PacmanDialog.SINGLETON is not null)
+            var img = (Image)e.Source;
+            if (PacmanDialog.SINGLETON is not null && !PacmanDialog.SINGLETON.IsHidden)
             {
                 if (object.ReferenceEquals(e.Source, this.ghosts[0].image) ||
                     object.ReferenceEquals(e.Source, this.ghosts[1].image) ||
@@ -233,18 +267,20 @@ namespace WorldsBuilderWPF
                         return;
 
                 PacmanDialog.SINGLETON.Activate();
-                PacmanDialog.SINGLETON.SetPos(Grid.GetColumn((Image)e.Source), Grid.GetRow((Image)e.Source));
+                PacmanDialog.SINGLETON.SetPos(Grid.GetColumn(img), Grid.GetRow(img));
                 return;
             }
 
-            if (object.ReferenceEquals(e.Source, PacmanCeil)    ||
-                object.ReferenceEquals(e.Source, this.ghosts[0].image) || 
-                object.ReferenceEquals(e.Source, this.ghosts[1].image) ||
-                object.ReferenceEquals(e.Source, this.ghosts[2].image) ||
-                object.ReferenceEquals(e.Source, this.ghosts[3].image))
+            if (object.ReferenceEquals(img, PacmanCeil)    ||
+                object.ReferenceEquals(img, this.ghosts[0].image) || 
+                object.ReferenceEquals(img, this.ghosts[1].image) ||
+                object.ReferenceEquals(img, this.ghosts[2].image) ||
+                object.ReferenceEquals(img, this.ghosts[3].image))
                 return;
 
-            ((Image)e.Source).Source = filler;
+
+            img.Source = this.CurrentImage!.Source;
+            img.Tag = this.CurrentImage!.Tag;
         }
 
         public static BitmapImage GetImage(Walls Block, Color PenColor) => GetImage(new CacheKey(Block, PenColor));
@@ -432,7 +468,7 @@ namespace WorldsBuilderWPF
 
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            WallStream buff = new(key.Block, key.PenColor);
+            MemoryStream buff = new();
             image.Save(buff, ImageFormat.Png);
             buff.Position = 0;
             bitmapImage.StreamSource = buff;
@@ -443,12 +479,11 @@ namespace WorldsBuilderWPF
 
         private void ChoiceFiller(Image image)
         {
-            if (currentWP is not null)
-                currentWP.Background = null;
+            if (this.filler_idx is not null)
+                this.CurrentWP!.Background = null;
 
-            currentWP = (WrapPanel)image.Parent;
-            currentWP.Background = new SolidColorBrush(Colors.Wheat);
-            filler = (BitmapImage)image.Source;
+            this.filler_idx = this.viewer.Children.IndexOf((WrapPanel)image.Parent);
+            this.CurrentWP!.Background = new SolidColorBrush(Colors.Wheat);
         }
 
         private void Setter(object sender, RoutedEventArgs e) => ChoiceFiller((Image)sender);
@@ -502,13 +537,14 @@ namespace WorldsBuilderWPF
             RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.HighQuality);
             tmp.MouseLeftButtonDown += Setter;
             tmp.BeginInit();
-            tmp.Source = Picker.Result is Walls.Nothing ? MainWindow.EmptyImage : GetImage(Picker.Result, Picker.PenColor); ;
+            tmp.Source = Picker.Result is Walls.Nothing ? MainWindow.EmptyImage : GetImage(Picker.Result, Picker.PenColor); 
+            tmp.Tag = Picker.Result is Walls.Nothing ? WorldsBuilderWPF.Tag.EMPTY : new WallTag(Picker.Result, Picker.PenColor);
             tmp.EndInit();
-            filler = (BitmapImage)tmp.Source;
 
             var wp = new WrapPanel();
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
+            filler_idx = viewer.Children.Count - 1;
             ChoiceFiller(tmp);
         }
 
@@ -642,8 +678,11 @@ namespace WorldsBuilderWPF
             BinaryReader reader = new(new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read));
             Grid.SetRow(this.PacmanCeil, reader.ReadInt32());
             Grid.SetRow(this.PacmanCeil, reader.ReadInt32());
-            reader.ReadInt32(); // Rotation
+            reader.ReadInt32(); // TODO: Rotation
             int i = 0;
+            Walls walls;
+            Color color;
+
             foreach (var item in this.game_grid.Children.OfType<Image>())
             {
 
@@ -651,27 +690,39 @@ namespace WorldsBuilderWPF
                     object.ReferenceEquals(item, this.ghosts[1].image) ||
                     object.ReferenceEquals(item, this.ghosts[2].image) ||
                     object.ReferenceEquals(item, this.ghosts[3].image) ||
-                    object.ReferenceEquals(item, this.PacmanCeil))
+                    object.ReferenceEquals(item, this.PacmanCeil) ||
+                    object.ReferenceEquals(item, FocusEffect))
                     continue;
-                var a = reader.ReadInt32();
-                switch (a)
+
+                switch (reader.ReadInt32())
                 {
                     case -1:
-                        item.Source = MainWindow.PointImage;
+                        item.Source = MainWindow.PacDotImage;
+                        item.Tag = WallTag.PAC_DOT;
                         break;
                     case -2:
-                        item.Source = MainWindow.DrugImage;
+                        item.Source = MainWindow.PowerPelletImage;
+                        item.Tag = WallTag.POWER_PELLET;
                         break;
                     case -3:
                         item.Source = MainWindow.EmptyImage;
+                        item.Tag = WallTag.EMPTY;
                         break;
                     case -4:
-                        item.Source = MainWindow.GetImage((Walls)reader.ReadInt32(), Color.FromArgb(reader.ReadByte(),
-                                                                                                    reader.ReadByte(),
-                                                                                                    reader.ReadByte()));
+                        walls = (Walls)reader.ReadInt32();
+                        color = Color.FromArgb(reader.ReadByte(),
+                                               reader.ReadByte(),
+                                               reader.ReadByte());
+                        item.Source = MainWindow.GetImage(walls, color);
+                        item.Tag = new WallTag(walls, color);
                         break;
                     case -5:
                         item.Source = MainWindow.GateImage;
+                        item.Tag = WallTag.GATE;
+                        break;
+                    case -6:
+                        item.Source = MainWindow.UnspawnableImage;
+                        item.Tag = WallTag.UNSPAWNABLE;
                         break;
                     default:
                         continue;
@@ -696,7 +747,12 @@ namespace WorldsBuilderWPF
 
             HttpClient client = new();
 
-            var world = new World(this.DumpWorld(), title, tags, this.GetWindowScreen());
+            BinaryWriter st = new(new MemoryStream());
+            this.DumpWorld(st);
+            st.BaseStream.Position = 0;
+           
+            var world = new World(((MemoryStream)st.BaseStream).ToArray(), title, tags, this.GetWindowScreen());
+            st.Close();
             var content = new StringContent(JsonSerializer.Serialize(world), Encoding.UTF8, "application/json");
 
             var a = client.PostAsync("http://localhost:8000/add_world", content).Result;
@@ -716,70 +772,79 @@ namespace WorldsBuilderWPF
             }
         }
 
-        public byte[] DumpWorld()
+        public void DumpWorld(BinaryWriter output_stream)
         {
 
-            List<byte> result = new();
-            result.AddRange(BitConverter.GetBytes(Grid.GetColumn(this.PacmanCeil)));
-            result.AddRange(BitConverter.GetBytes(Grid.GetRow(this.PacmanCeil)));
-            result.AddRange(BitConverter.GetBytes(1));
+            output_stream.Write(Grid.GetColumn(this.PacmanCeil));
+            output_stream.Write(Grid.GetRow(this.PacmanCeil));
+            output_stream.Write(PacmanDialog.SINGLETON is null ? 0 : PacmanDialog.SINGLETON.D);
 
+            int c = 0;
             foreach (var field in this.game_grid.Children.OfType<Image>())
             {
-                if (ReferenceEquals(field.Source, EmptyImage))
-                    result.AddRange(BitConverter.GetBytes(-3));
-                else if (object.ReferenceEquals(field, this.ghosts[0].image) ||
-                         object.ReferenceEquals(field, this.ghosts[1].image) ||
-                         object.ReferenceEquals(field, this.ghosts[2].image) ||
-                         object.ReferenceEquals(field, this.ghosts[3].image) ||
-                         object.ReferenceEquals(field, this.PacmanCeil))
+                if (object.ReferenceEquals(field, this.ghosts[0].image) ||
+                    object.ReferenceEquals(field, this.ghosts[1].image) ||
+                    object.ReferenceEquals(field, this.ghosts[2].image) ||
+                    object.ReferenceEquals(field, this.ghosts[3].image) ||
+                    object.ReferenceEquals(field, this.PacmanCeil) || 
+                    object.ReferenceEquals(field, MainWindow.FocusEffect))
                     continue;
-                else if (object.ReferenceEquals(field.Source, GateImage))
-                    result.AddRange(BitConverter.GetBytes(-5));
-                else if (((BitmapImage)field.Source).UriSource is not null)
+                c++;
+
+
+                if (((Tag)field.Tag).tag is Tags.PacDot)
+                    output_stream.Write(-1);
+                else if (((Tag)field.Tag).tag is Tags.PowerPellet)
+                    output_stream.Write(-2);
+                else if (((Tag)field.Tag).tag is Tags.Empty)
+                    output_stream.Write(-3);
+                else if (field.Tag is WallTag wt)
                 {
-                    if (((BitmapImage)field.Source).UriSource.AbsolutePath.EndsWith("Drug.png"))
-                        result.AddRange(BitConverter.GetBytes(-2));
-                    else if (((BitmapImage)field.Source).UriSource.AbsolutePath.EndsWith("Point.png"))
-                        result.AddRange(BitConverter.GetBytes(-1));
+                    output_stream.Write(-4);
+                    output_stream.Write((int)wt.wall);
+                    output_stream.Write(wt.color.R);
+                    output_stream.Write(wt.color.G);
+                    output_stream.Write(wt.color.B);
                 }
-                else if (((BitmapImage)field.Source).StreamSource is not null &&
-                        ((BitmapImage)field.Source).StreamSource.GetType() == typeof(WallStream))
-                {
-                    result.AddRange(BitConverter.GetBytes(-4));
-                    var src = (WallStream)((BitmapImage)field.Source).StreamSource;
-                    result.AddRange(BitConverter.GetBytes((int)src.walls));
-                    result.Add(src.color.R);
-                    result.Add(src.color.G);
-                    result.Add(src.color.B);
-                }
+                else if (((Tag)field.Tag).tag is Tags.Gate)
+                    output_stream.Write(-5);
+                else if (((Tag)field.Tag).tag is Tags.Unspawnable)
+                    output_stream.Write(-6);
+                else
+                    throw new Exception("Invalid field");
             }
 
             foreach (var ghost in this.ghosts)
             {
-                result.AddRange(BitConverter.GetBytes((int)ghost.engine));
+                output_stream.Write((int)ghost.engine);
 
-                if (ghost.engine is not GhostEngines.CachedAutoMover && ghost.engine is not GhostEngines.NoCachedAutoMover && ghost.engine is not GhostEngines.Fixed)
+                if (ghost.engine.SupportsSchema())
                 {
                     Debug.Assert(ghost.positions is not null);
-                    result.AddRange(BitConverter.GetBytes(ghost.positions.Count));
+                    output_stream.Write(ghost.positions.Count);
                     foreach (var item in ghost.positions)
                     {
-                        result.AddRange(BitConverter.GetBytes(item.X));
-                        result.AddRange(BitConverter.GetBytes(item.Y));
+                        output_stream.Write(item.X);
+                        output_stream.Write(item.Y);
                     }
                 }
                 else
                 {
-                    result.AddRange(BitConverter.GetBytes(Grid.GetColumn(ghost.image)));
-                    result.AddRange(BitConverter.GetBytes(Grid.GetRow(ghost.image)));
+                    output_stream.Write(Grid.GetColumn(ghost.image));
+                    output_stream.Write(Grid.GetRow(ghost.image));
                 }
 
             }
-
-            return result.ToArray();
         }
 
+
+        public void OnClosed(object sender, EventArgs e)
+        {
+            if (PacmanDialog.SINGLETON is not null)
+                PacmanDialog.SINGLETON.Close();
+
+            Application.Current.Shutdown(0);
+        }
 
         public void Save()
         {
@@ -789,62 +854,8 @@ namespace WorldsBuilderWPF
                 return;
 
             BinaryWriter stream = new(new FileStream(dialog.FileName, FileMode.OpenOrCreate, FileAccess.Write));
-            stream.Write(Grid.GetColumn(this.PacmanCeil));
-            stream.Write(Grid.GetRow(this.PacmanCeil));
-            stream.Write(PacmanDialog.SINGLETON is null ? 0 : PacmanDialog.SINGLETON.D);
 
-            foreach (var field in this.game_grid.Children.OfType<Image>())
-            {
-                if (ReferenceEquals(field.Source, EmptyImage))
-                    stream.Write(-3);
-                else if (object.ReferenceEquals(field, this.ghosts[0].image) ||
-                         object.ReferenceEquals(field, this.ghosts[1].image) ||
-                         object.ReferenceEquals(field, this.ghosts[2].image) ||
-                         object.ReferenceEquals(field, this.ghosts[3].image) ||
-                         object.ReferenceEquals(field, this.PacmanCeil))
-                    continue;
-                else if (object.ReferenceEquals(field.Source, GateImage))
-                    stream.Write(-5);
-                else if (((BitmapImage)field.Source).UriSource is not null)
-                {
-                    if (((BitmapImage)field.Source).UriSource.ToString().EndsWith("PowerPellet.png"))
-                        stream.Write(-2);
-                    else if (((BitmapImage)field.Source).UriSource.ToString().EndsWith("PacDot.png"))
-                        stream.Write(-1);
-                }
-                else if (((BitmapImage)field.Source).StreamSource is not null &&
-                        ((BitmapImage)field.Source).StreamSource.GetType() == typeof(WallStream))
-                {
-                    stream.Write(-4);
-                    var src = (WallStream)((BitmapImage)field.Source).StreamSource;
-                    stream.Write((int)src.walls);
-                    stream.Write(src.color.R);
-                    stream.Write(src.color.G);
-                    stream.Write(src.color.B);
-                }
-                // TODO
-             }
-
-            foreach (var ghost in this.ghosts)
-            {
-                stream.Write((int)ghost.engine);
-
-                if (ghost.engine.SupportsSchema())
-                {
-                    Debug.Assert(ghost.positions is not null);
-                    stream.Write(ghost.positions.Count);
-                    foreach (var item in ghost.positions)
-                    {
-                        stream.Write(item.X);
-                        stream.Write(item.Y);
-                    }
-                } else
-                {
-                    stream.Write(Grid.GetColumn(ghost.image));
-                    stream.Write(Grid.GetRow(ghost.image));
-                }
-
-            }
+            this.DumpWorld(stream);
             stream.Close();
         }
     }

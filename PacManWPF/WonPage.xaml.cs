@@ -1,4 +1,5 @@
 ﻿using PacManWPF.Game;
+using PacManWPF.Game.Worlds;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace PacManWPF
             InitializeComponent();
             this.ellapsed_time_label.Content = (new DateTime() + time).ToString("HH:mm:ss");
             this.points_final_label.Content = points;
+            this.game_won_label.Content = WorldLoader.CurrentWorld!.Name;
         }
     }
 }

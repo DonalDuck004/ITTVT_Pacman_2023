@@ -18,6 +18,7 @@ namespace PacManWPF.Game.Tags
             this.IsPacman = false;
             this.walls = walls;
             this.IsGate = false;
+            this.IsUnspawnable = false;
         }
 
         public static WallTag New(Walls walls)

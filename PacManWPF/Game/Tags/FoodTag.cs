@@ -20,6 +20,7 @@ namespace PacManWPF.Game.Tags
             this.FoodType = type;
             this.animation = animation;
             this.guid = guid;
+            this.IsUnspawnable = false;
         }
     }
 }

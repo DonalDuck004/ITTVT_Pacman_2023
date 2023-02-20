@@ -26,7 +26,7 @@
         </WrapPanel>
         <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label Content="Rotazione" VerticalAlignment="Center"></Label>
-            <ComboBox SelectedIndex="0" x:Name="rotation" VerticalAlignment="Center" VerticalContentAlignment="Center">
+            <ComboBox SelectedIndex="0" x:Name="rotation" VerticalAlignment="Center" VerticalContentAlignment="Center" SelectionChanged="rotation_SelectionChanged">
                 <ComboBoxItem Content="0°"></ComboBoxItem>
                 <ComboBoxItem Content="90°"></ComboBoxItem>
                 <ComboBoxItem Content="180°"></ComboBoxItem>

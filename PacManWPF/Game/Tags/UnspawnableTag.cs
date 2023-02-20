@@ -1,17 +1,17 @@
 ﻿namespace PacManWPF.Game.Tags
 {
-    class EmptyTag : BaseTag
+    class UnspawnableTag : BaseTag
     {
-        public static EmptyTag INSTANCE { get; }  = new EmptyTag();
+        public static UnspawnableTag INSTANCE { get; } = new UnspawnableTag();
 
-        private EmptyTag()
+        private UnspawnableTag()
         {
             this.IsAWall = false;
             this.IsFood = false;
             this.IsAGhost = false;
             this.IsPacman = false;
             this.IsGate = false;
-            this.IsUnspawnable = false;
+            this.IsUnspawnable = true;
         }
     }
 }

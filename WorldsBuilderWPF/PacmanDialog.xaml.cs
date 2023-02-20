@@ -16,7 +16,7 @@ namespace WorldsBuilderWPF
         public int? X;
         public int? Y;
         public int D => this.rotation.SelectedIndex;
-
+        public bool IsHidden = false;
         public static PacmanDialog? SINGLETON { get; private set; } = null;
         private Action cbk;
 
@@ -25,10 +25,9 @@ namespace WorldsBuilderWPF
             if (PacmanDialog.SINGLETON is not null)
                 throw new Exception("Instance is not null");
 
-            InitializeComponent();
             PacmanDialog.SINGLETON = this;
             this.cbk = cbk;
-            this.rotation.SelectedIndex = 0;
+            InitializeComponent();
         }
 
         public void SetPos(int X, int Y)
@@ -43,7 +42,7 @@ namespace WorldsBuilderWPF
 
         private void NumberValidation(object sender, TextCompositionEventArgs e)
         {
-            Regex regex = new Regex("[^0-9]+");
+            var regex = new Regex("[^0-9]+");
             if (regex.IsMatch(e.Text))
             {
                 e.Handled = true;
@@ -56,13 +55,14 @@ namespace WorldsBuilderWPF
 
         private void OnCloseButton(object sender, RoutedEventArgs e)
         {
+            this.IsHidden = true;
             this.Hide();
         }
 
         public void Reload()
         {
-            wp_Y.Text = Y.ToString();
-            wp_X.Text = X.ToString();
+            this.IsHidden = false;
+
             this.Show();
             this.Activate();
         }
@@ -80,6 +80,7 @@ namespace WorldsBuilderWPF
                 Y = null;
 
             cbk.Invoke();
+            this.IsHidden = true;
             this.Hide();
             e.Cancel = true;
         }
@@ -88,6 +89,11 @@ namespace WorldsBuilderWPF
         {
             if (e.Key is Key.Escape)
                 this.Close();
+        }
+
+        private void rotation_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cbk.Invoke();
         }
     }
 }

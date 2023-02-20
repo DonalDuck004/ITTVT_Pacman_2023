@@ -92,6 +92,11 @@ namespace PacManWPF.Game.Worlds
                         item.Source = ResourcesLoader.Gate;
                         item.Tag = GateTag.INSTANCE;
                     }
+                    else if (v == -6)
+                    {
+                        item.Source = ResourcesLoader.EmptyImage;
+                        item.Tag = UnspawnableTag.INSTANCE;
+                    }
                     else
                         throw new Exception();
 

@@ -11,6 +11,7 @@
             this.IsGate = false;
             this.IsPacman = false;
             this.ghost = ghost;
+            this.IsUnspawnable = false;
         }
     }
 }
