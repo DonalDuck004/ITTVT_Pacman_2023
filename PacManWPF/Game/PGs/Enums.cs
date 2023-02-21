@@ -2,10 +2,10 @@
 {
     public enum GhostColors
     {
-        Pink,
-        Orange,
         Red,
-        Cyan
+        Pink,
+        Cyan,
+        Orange
     }
 
     public enum GhostTickTypes

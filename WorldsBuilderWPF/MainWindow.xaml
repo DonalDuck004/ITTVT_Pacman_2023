@@ -5,43 +5,78 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldsBuilderWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Background="Black" KeyDown="OnKeyDown" MouseLeftButtonDown="OutFocus" Closed="OnClosed">
+        Title="*New World*" Height="450" Width="1056" Background="Black" MouseLeftButtonDown="OutFocus">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="384"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="32"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="32"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Grid.Row="0">
-            <WrapPanel Background="Red">
-                <Image x:Name="Pacman" MouseLeftButtonDown="PacmanSetPos">
-                    <Image.Source>
-                        <BitmapImage UriSource="Assets\Images\pacman.png"></BitmapImage>
-                    </Image.Source>
-                </Image>
-                <Image x:Name="Red" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Red}">
-                    <Image.Source>
-                        <BitmapImage UriSource="Assets\Images\Red.png"></BitmapImage>
-                    </Image.Source>
-                </Image>
-                <Image x:Name="Pink" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Pink}">
-                    <Image.Source>
-                        <BitmapImage UriSource="Assets\Images\Pink.png"></BitmapImage>
-                    </Image.Source>
-                </Image>
-                <Image x:Name="Orange" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Cyan}">
-                    <Image.Source>
-                        <BitmapImage UriSource="Assets\Images\Cyan.png"></BitmapImage>
-                    </Image.Source>
-                </Image>
-                <Image x:Name="Cyan" MouseLeftButtonDown="RecordGhost" Tag="{x:Static local:GhostColors.Orange}">
-                    <Image.Source>
-                        <BitmapImage UriSource="Assets\Images\Orange.png"></BitmapImage>
-                    </Image.Source>
-                </Image>
-            </WrapPanel>
+        <DockPanel Background="DeepSkyBlue">
+            <TabControl Name="tabs" KeyDown="OnKeyDown">
+                <TabItem Width="32" Height="32">
+                    <TabItem.Header>
+                        <Image Source="./Assets/Images/Pacman.png" Stretch="UniformToFill" HorizontalAlignment="Center"></Image>
+                    </TabItem.Header>
+                    <GroupBox Header="Posizione" Margin="0,32,0,0">
+                        <Grid Height="96" VerticalAlignment="Top">
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition></ColumnDefinition>
+                                <ColumnDefinition></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <WrapPanel Grid.Column="0" VerticalAlignment="Center">
+                                <Label Content="Pacman X" VerticalAlignment="Center"></Label>
+                                <TextBox PreviewTextInput="NumberValidation" Width="48" VerticalAlignment="Center" Name="pacman_x_txt"></TextBox>
+                            </WrapPanel>
+                            <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                                <Label Content="Pacman Y" VerticalAlignment="Center"></Label>
+                                <TextBox PreviewTextInput="NumberValidation" Width="48" VerticalAlignment="Center" Name="pacman_y_txt"></TextBox>
+                            </WrapPanel>
+                            <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                <Label Content="Rotazione" VerticalAlignment="Center"></Label>
+                                <ComboBox SelectedIndex="0" x:Name="pacman_rotation_combo_box" VerticalAlignment="Center" VerticalContentAlignment="Center">
+                                    <ComboBoxItem Content="0°"></ComboBoxItem>
+                                    <ComboBoxItem Content="90°"></ComboBoxItem>
+                                    <ComboBoxItem Content="180°"></ComboBoxItem>
+                                    <ComboBoxItem Content="270°"></ComboBoxItem>
+                                </ComboBox>
+                            </WrapPanel>
+                            <Button Grid.Row="2" Grid.ColumnSpan="2" Content="Conferma" Height="16" Width="96" Click="PacmanApplyChanges"></Button>
+                        </Grid>
+                    </GroupBox>
+                </TabItem>
+                <TabItem Width="32" Height="32">
+                    <TabItem.Header>
+                        <Image Source="./Assets/Images/Red.png"></Image>
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem Width="32" Height="32">
+                    <TabItem.Header>
+                        <Image Source="./Assets/Images/Pink.png"></Image>
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem Width="32" Height="32">
+                    <TabItem.Header>
+                        <Image Source="./Assets/Images/Orange.png"></Image>
+                    </TabItem.Header>
+                </TabItem>
+                <TabItem Width="32" Height="32">
+                    <TabItem.Header>
+                        <Image Source="./Assets/Images/Cyan.png"></Image>
+                    </TabItem.Header>
+                </TabItem>
+            </TabControl>
         </DockPanel>
-        <DockPanel Grid.Row="1" Background="DeepSkyBlue">
+        <DockPanel Grid.Column="1" Background="DeepSkyBlue">
             <Grid x:Name="game_grid" DockPanel.Dock="Top" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Black" MouseLeftButtonDown="ClickEvent">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -595,7 +630,7 @@
                 <!--#endregion-->
             </Grid>
         </DockPanel>
-        <DockPanel Background="AliceBlue" Name="BottomWrapper" Grid.Row="2">
+        <DockPanel Background="AliceBlue" Name="BottomWrapper" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
@@ -605,7 +640,7 @@
                     <ColumnDefinition Width="96"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel Grid.Column="0" x:Name="viewer" Orientation="Vertical"></WrapPanel>
-                <Button Content="Nuovo  muro" Grid.Column="1" Click="Button_Click"/>
+                <Button Content="Nuovo  muro" Grid.Column="1" Click="OnNewWall"/>
                 <Button Content="Carica  online" Grid.Column="2" Click="UpLoad"/>
                 <Button Content="Apri" Grid.Column="3" Click="OnLoadClick"/>
                 <Button Content="Salva" Grid.Column="4" Click="SaveBtn"/>
