@@ -150,6 +150,8 @@ namespace WorldsBuilderWPF
 
         public void ClearGrid()
         {
+            this.positions.Clear();
+
             var filler = new SolidColorBrush(Colors.Red);
             foreach (var item in this.matrix.Children.OfType<Rectangle>())
                 item.Fill = filler;
@@ -200,5 +202,7 @@ namespace WorldsBuilderWPF
                 this.y_txt.Text = Y.ToString();
             }
         }
+
+        private void OnClear(object sender, RoutedEventArgs e) => this.ClearGrid();
     }
 }

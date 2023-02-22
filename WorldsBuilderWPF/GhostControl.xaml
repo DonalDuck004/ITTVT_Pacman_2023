@@ -39,7 +39,7 @@
                     <Image x:Name="StartRecImg" Source="./Assets/Images/Record.png" MouseLeftButtonDown="GhostStartRec" Cursor="Hand"></Image>
                     <Image x:Name="StopRecImg" Source="./Assets/Images/Stop.png" MouseLeftButtonDown="GhostStopRec" Cursor="Hand"></Image>
                 </WrapPanel>
-                <ComboBox Grid.Column="1" Height="20" Name="engines" SelectionChanged="OnGhostEngineChanged"></ComboBox>
+                <ComboBox Grid.Column="1" Height="20" Name="engines" SelectionChanged="OnGhostEngineChanged" VerticalAlignment="Center" VerticalContentAlignment="Center"></ComboBox>
             </Grid>
         </GroupBox>
         <GroupBox Header="Anteprima Percorso" Grid.Row="2">
@@ -597,6 +597,7 @@
                         <!--#endregion-->
                     </Grid>
                 </Viewbox>
+                <Button Content="Pulisci" Click="OnClear"></Button>
             </StackPanel>
         </GroupBox>
     </Grid>

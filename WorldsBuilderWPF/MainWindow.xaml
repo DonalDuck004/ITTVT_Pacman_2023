@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WorldsBuilderWPF"
+        xmlns:wm="System.Windows.Media"
         mc:Ignorable="d"
         Icon="Assets/Images/builder.ico"
         Title="*New World*" Height="450" Width="1056" Background="Black" MouseLeftButtonDown="OutFocus">
@@ -77,6 +78,31 @@
                     <TabItem.Header>
                         <Image Source="./Assets/Images/Cyan.png"></Image>
                     </TabItem.Header>
+                </TabItem>
+                <TabItem Width="32" Height="32">
+                    <TabItem.Header>
+                        <Image Source="./Assets/Images/Settings.png"></Image>
+                    </TabItem.Header>
+                    <StackPanel>
+                        <GroupBox Header="Impostazioni Griglia" Margin="0,32,0,0" Height="auto">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Content="Mostra  griglia"></Label>
+                                <CheckBox Grid.Row="0" Grid.Column="1" Checked="ShowGridLines" Unchecked="HideGridLines"  VerticalContentAlignment="Center"></CheckBox>
+                                <Label Grid.Row="1" Grid.Column="0" Content="Sfondo" VerticalContentAlignment="Center"></Label>
+                                <ComboBox Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Center" SelectionChanged="ChangeBackground" Name="color_box"></ComboBox>
+                                <Label Grid.Row="2" Grid.ColumnSpan="2" Content="Solo  graficamente" VerticalAlignment="Top" VerticalContentAlignment="Top" FontSize="10"></Label>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
                 </TabItem>
             </TabControl>
         </DockPanel>

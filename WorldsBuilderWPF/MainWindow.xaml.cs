@@ -18,7 +18,7 @@ using Pen = System.Drawing.Pen;
 using Matrix = System.Windows.Media.Matrix;
 using Color = System.Drawing.Color;
 using Image = System.Windows.Controls.Image;
-
+using System.Runtime.CompilerServices;
 
 namespace WorldsBuilderWPF
 {
@@ -31,6 +31,7 @@ namespace WorldsBuilderWPF
     {
         public const int X_COUNT = 33;
         public const int Y_COUNT = 15;
+        public const int SP_IMAGES_COUNT = 5;
 
 
         Image[][] game_ceils;
@@ -148,8 +149,6 @@ namespace WorldsBuilderWPF
             game_grid.Children.Add(this.ghosts[3].image);
             Grid.SetColumn(this.ghosts[3].image, 4);
 
-            this.filler_idx = 3;
-
             var wp = new WrapPanel();
             var tmp = new Image() { Source = PowerPelletImage };
             tmp.MouseLeftButtonDown += Setter;
@@ -176,8 +175,7 @@ namespace WorldsBuilderWPF
             tmp.MouseLeftButtonDown += Setter;
             tmp.Tag = Types.Tag.EMPTY;
             wp.Children.Add(tmp);
-            viewer.Children.Add(wp); 
-            ChoiceFiller(tmp);
+            viewer.Children.Add(wp);
 
 
             image = new(256, 256);
@@ -202,18 +200,32 @@ namespace WorldsBuilderWPF
 
             var arr = this.tabs.Items.OfType<TabItem>().Skip(1).ToArray();
 
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 0; i < arr.Length - 1; i++)
                 arr[i].Content = ghosts[i];
 
             this.KeyDown += new KeyEventHandler(OnKeyDown);
+
+            foreach (var item in new System.Windows.Media.Color[] {Colors.Black, Colors.White})
+            {
+                this.color_box.Items.Add(new ComboBoxItemColor()
+                {
+                    Content = item.ToString(),
+                    Tag = item,
+                    ColorFill = new SolidColorBrush(item),
+                });
+            }
+
+            this.color_box.SelectedIndex = 0;
         }
 
         private void ClickEvent(object sender, MouseButtonEventArgs e)
         {
-            var img = (Image)e.Source;
+            var img = e.Source as Image;
+            if (img is null)
+                return;
 
-            if (object.ReferenceEquals(img, PacmanCeil)    ||
-                object.ReferenceEquals(img, this.ghosts[0].image) || 
+            if (object.ReferenceEquals(img, PacmanCeil) ||
+                object.ReferenceEquals(img, this.ghosts[0].image) ||
                 object.ReferenceEquals(img, this.ghosts[1].image) ||
                 object.ReferenceEquals(img, this.ghosts[2].image) ||
                 object.ReferenceEquals(img, this.ghosts[3].image))
@@ -230,7 +242,7 @@ namespace WorldsBuilderWPF
             if (cache.ContainsKey(key) && false)
                 return cache[key];
 
-            Bitmap image = new(256, 256); 
+            Bitmap image = new(256, 256);
             Graphics graphics = Graphics.FromImage(image);
             Pen pen = new(key.PenColor, 8);
             #region External
@@ -321,14 +333,14 @@ namespace WorldsBuilderWPF
                 if (key.Block.HasFlag(Walls.SmallRight))
                     graphics.DrawArc(pen, 159, 159, 32, 32, -270, -90);
                 else if (key.Block.HasFlag(Walls.Right))
-                        graphics.DrawLine(pen, 176, 192, 192, 192);
+                    graphics.DrawLine(pen, 176, 192, 192, 192);
                 else
                     graphics.DrawLine(pen, 176, 192, 256, 192);
 
                 if (key.Block.HasFlag(Walls.SmallLeft))
                     graphics.DrawArc(pen, 64, 159, 32, 32, -270, 90);
                 else if (key.Block.HasFlag(Walls.Left))
-                        graphics.DrawLine(pen, 64, 192, 80, 192);
+                    graphics.DrawLine(pen, 64, 192, 80, 192);
                 else
                     graphics.DrawLine(pen, 0, 192, 80, 192);
             }
@@ -343,7 +355,7 @@ namespace WorldsBuilderWPF
 
                 if (!key.Block.HasFlag(Walls.SmallTop) && !key.Block.HasFlag(Walls.Top))
                     graphics.DrawLine(pen, 192, 80, 192, 0);
-                else if(!key.Block.HasFlag(Walls.SmallTop))
+                else if (!key.Block.HasFlag(Walls.SmallTop))
                     graphics.DrawLine(pen, 192, 80, 192, 64);
             }
             #endregion
@@ -440,9 +452,9 @@ namespace WorldsBuilderWPF
                 return;
 
             var key = new CacheKey(Picker.Result, Picker.PenColor);
-            if (images.Contains(key) || Picker.Result == Walls.Nothing)
+            if (images.Contains(key) || Picker.Result is Walls.Nothing)
             {
-                ChoiceFiller((Image)((WrapPanel)viewer.Children[images.IndexOf(key) + 4]).Children[0]);
+                ChoiceFiller((Image)((WrapPanel)viewer.Children[images.IndexOf(key) + SP_IMAGES_COUNT]).Children[0]);
                 return;
             }
 
@@ -458,7 +470,6 @@ namespace WorldsBuilderWPF
             var wp = new WrapPanel();
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
-            filler_idx = viewer.Children.Count - 1;
             ChoiceFiller(tmp);
         }
 
@@ -469,10 +480,10 @@ namespace WorldsBuilderWPF
 
             this.filler_idx = this.viewer.Children.IndexOf((WrapPanel)image.Parent);
             this.CurrentWP!.Background = new SolidColorBrush(Colors.Wheat);
+
         }
 
         private void Setter(object sender, RoutedEventArgs e) => ChoiceFiller((Image)sender);
-
 
         private System.Drawing.Point Move(Key key, Image img)
         {
@@ -574,7 +585,7 @@ namespace WorldsBuilderWPF
 
         private void OnFocus(object sender, RoutedEventArgs e)
         {
-            
+
             e.Handled = true;
             if (object.ReferenceEquals(e.Source, FocusEffect))
                 return;
@@ -586,5 +597,20 @@ namespace WorldsBuilderWPF
             Grid.SetRow(MainWindow.FocusEffect, Grid.GetRow(this.ActiveImg));
         }
 
+        private void ShowGridLines(object sender, RoutedEventArgs e)
+        {
+            this.game_grid.ShowGridLines = true;
+        }
+
+        private void HideGridLines(object sender, RoutedEventArgs e)
+        {
+            this.game_grid.ShowGridLines = false;
+        }
+
+        private void ChangeBackground(object sender, RoutedEventArgs e)
+        {
+            var color = (System.Windows.Media.Color)((sender as ComboBox)!.SelectedItem as ComboBoxItemColor)!.Tag;
+            this.game_grid.Background = new SolidColorBrush(color);
+        }
     }
 }
