@@ -13,12 +13,18 @@
       <Page Remove="bin\**" />
     </ItemGroup>
     <ItemGroup>
+      <None Remove="Assets\Images\pacman.ico" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
         <PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
     </ItemGroup>
 	<ItemGroup>
 		<Resource Include="Assets\Images\gate.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Resource>
+		<Resource Include="Assets\Images\pacman.ico">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</Resource>
 		<Resource Include="Assets\Images\red_3_right.png">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

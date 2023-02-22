@@ -27,76 +27,12 @@ namespace WorldsBuilderWPF
     /// </summary>
     /// 
 
-    [Flags]
-    public enum Walls
-    {
-        Nothing =           0b000000000000000,
-
-        Top =               0b000000000000001,
-        Left =              0b000000000000010,
-        Right =             0b000000000000100,
-        Bottom =            0b000000000001000,
-        
-        SmallTop =          0b000000000010000,
-        SmallLeft =         0b000000000100000,
-        SmallRight =        0b000000001000000,
-        SmallBottom =       0b000000010000000,
-
-
-        CurveTop =          0b000000100000000,
-        CurveLeft =         0b000001000000000,
-        CurveRight =        0b000010000000000,
-        CurveBottom =       0b000100000000000,
-
-
-        SmallCurveTop =    0b0001000000000000,
-        SmallCurveLeft =   0b0010000000000000,
-        SmallCurveRight =  0b0100000000000000,
-        SmallCurveBottom = 0b1000000000000000,
-    }
-
-    public enum Tags
-    {
-        Wall,
-        PacDot,
-        PowerPellet,
-        Empty,
-        Unspawnable,
-        Gate
-    }
-
-    public enum GhostEngines
-    {
-        CachedAutoMover,
-        Cyclic,
-        NextToBack,
-        NoCachedAutoMover,
-        OneTime,
-        Fixed,
-
-        _NULL
-    }
-    public record class Tag(Tags tag)
-    {
-        public static Tag PAC_DOT = new(Tags.PacDot);
-        public static Tag POWER_PELLET = new(Tags.PowerPellet);
-        public static Tag EMPTY = new(Tags.Empty);
-        public static Tag GATE = new(Tags.Gate);
-        public static Tag UNSPAWNABLE = new(Tags.Unspawnable);
-    }
-
-    public record WallTag(Walls wall, Color color) : Tag(Tags.Wall);
-
-    public enum GhostColors
-    {
-        Red,
-        Pink,
-        Cyan,
-        Orange
-    }
-
     public partial class MainWindow : Window
     {
+        public const int X_COUNT = 33;
+        public const int Y_COUNT = 15;
+
+
         Image[][] game_ceils;
         int? filler_idx = null;
         private WrapPanel? CurrentWP => filler_idx is null ? null : (WrapPanel)this.viewer.Children[filler_idx.Value];
@@ -144,7 +80,7 @@ namespace WorldsBuilderWPF
         {
             MainWindow.INSTANCE = this;
             InitializeComponent();
-            game_ceils = this.game_grid.Children.OfType<Image>().Split(33).ToArray();
+            game_ceils = this.game_grid.Children.OfType<Image>().Split(X_COUNT).ToArray();
 
             Random rnd = new();
             Bitmap image = new(256, 256);
@@ -176,7 +112,7 @@ namespace WorldsBuilderWPF
                 foreach (var col in row)
                 {
                     col.Source = MainWindow.EmptyImage;
-                    col.Tag = WorldsBuilderWPF.Tag.EMPTY;
+                    col.Tag = Types.Tag.EMPTY;
                 }
             }
 
@@ -217,28 +153,28 @@ namespace WorldsBuilderWPF
             var wp = new WrapPanel();
             var tmp = new Image() { Source = PowerPelletImage };
             tmp.MouseLeftButtonDown += Setter;
-            tmp.Tag = WorldsBuilderWPF.Tag.POWER_PELLET;
+            tmp.Tag = Types.Tag.POWER_PELLET;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
 
             wp = new WrapPanel();
             tmp = new Image() { Source = PacDotImage };
             tmp.MouseLeftButtonDown += Setter;
-            tmp.Tag = WorldsBuilderWPF.Tag.PAC_DOT;
+            tmp.Tag = Types.Tag.PAC_DOT;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
 
             wp = new WrapPanel();
             tmp = new Image() { Source = GateImage };
             tmp.MouseLeftButtonDown += Setter;
-            tmp.Tag = WorldsBuilderWPF.Tag.GATE;
+            tmp.Tag = Types.Tag.GATE;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
 
             wp = new WrapPanel();
             tmp = new Image() { Source = EmptyImage };
             tmp.MouseLeftButtonDown += Setter;
-            tmp.Tag = WorldsBuilderWPF.Tag.EMPTY;
+            tmp.Tag = Types.Tag.EMPTY;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp); 
             ChoiceFiller(tmp);
@@ -259,7 +195,7 @@ namespace WorldsBuilderWPF
             wp = new WrapPanel();
             tmp = new Image() { Source = UnspawnableImage };
             tmp.MouseLeftButtonDown += Setter;
-            tmp.Tag = WorldsBuilderWPF.Tag.UNSPAWNABLE;
+            tmp.Tag = Types.Tag.UNSPAWNABLE;
             wp.Children.Add(tmp);
             viewer.Children.Add(wp);
             ChoiceFiller(tmp);
@@ -492,22 +428,12 @@ namespace WorldsBuilderWPF
             }
 
             var n = int.Parse(((TextBox)sender).Text + e.Text);
-            e.Handled = !(0 <= n && n <= (((TextBox)sender).Name == "wp_Y" ? 14 : 31));
+            e.Handled = !(0 <= n && n <= ((((TextBox)sender).Tag.ToString() == "Y" ? Y_COUNT : X_COUNT) - 1));
         }
-
-        private void ChoiceFiller(Image image)
-        {
-            if (this.filler_idx is not null)
-                this.CurrentWP!.Background = null;
-
-            this.filler_idx = this.viewer.Children.IndexOf((WrapPanel)image.Parent);
-            this.CurrentWP!.Background = new SolidColorBrush(Colors.Wheat);
-        }
-
-        private void Setter(object sender, RoutedEventArgs e) => ChoiceFiller((Image)sender);
 
         private void OnNewWall(object sender, RoutedEventArgs e)
         {
+            e.Handled = true;
             Picker picker = new Picker();
             picker.ShowDialog();
             if (!picker.HasResult)
@@ -525,8 +451,8 @@ namespace WorldsBuilderWPF
             RenderOptions.SetBitmapScalingMode(tmp, BitmapScalingMode.HighQuality);
             tmp.MouseLeftButtonDown += Setter;
             tmp.BeginInit();
-            tmp.Source = Picker.Result is Walls.Nothing ? MainWindow.EmptyImage : GetImage(Picker.Result, Picker.PenColor); 
-            tmp.Tag = Picker.Result is Walls.Nothing ? WorldsBuilderWPF.Tag.EMPTY : new WallTag(Picker.Result, Picker.PenColor);
+            tmp.Source = Picker.Result is Walls.Nothing ? MainWindow.EmptyImage : GetImage(Picker.Result, Picker.PenColor);
+            tmp.Tag = Picker.Result is Walls.Nothing ? Types.Tag.EMPTY : new Types.WallTag(Picker.Result, Picker.PenColor);
             tmp.EndInit();
 
             var wp = new WrapPanel();
@@ -535,6 +461,18 @@ namespace WorldsBuilderWPF
             filler_idx = viewer.Children.Count - 1;
             ChoiceFiller(tmp);
         }
+
+        private void ChoiceFiller(Image image)
+        {
+            if (this.filler_idx is not null)
+                this.CurrentWP!.Background = null;
+
+            this.filler_idx = this.viewer.Children.IndexOf((WrapPanel)image.Parent);
+            this.CurrentWP!.Background = new SolidColorBrush(Colors.Wheat);
+        }
+
+        private void Setter(object sender, RoutedEventArgs e) => ChoiceFiller((Image)sender);
+
 
         private System.Drawing.Point Move(Key key, Image img)
         {
@@ -637,6 +575,7 @@ namespace WorldsBuilderWPF
         private void OnFocus(object sender, RoutedEventArgs e)
         {
             
+            e.Handled = true;
             if (object.ReferenceEquals(e.Source, FocusEffect))
                 return;
 
@@ -645,21 +584,6 @@ namespace WorldsBuilderWPF
             MainWindow.FocusEffect.Visibility = Visibility.Visible;
             Grid.SetColumn(MainWindow.FocusEffect, Grid.GetColumn(this.ActiveImg));
             Grid.SetRow(MainWindow.FocusEffect, Grid.GetRow(this.ActiveImg));
-            Grid.SetZIndex(MainWindow.FocusEffect, -1);
-        }
-
-
-        private void PacmanApplyChanges(object sender, RoutedEventArgs e)
-        {
-            if (pacman_x_txt.Text == "" || pacman_y_txt.Text == "")
-                return;
-
-            Grid.SetColumn(this.PacmanCeil, int.Parse(pacman_x_txt.Text));
-            Grid.SetRow(this.PacmanCeil, int.Parse(pacman_y_txt.Text));
-
-            var transform = Matrix.Identity;
-            transform.RotateAt(pacman_rotation_combo_box.SelectedIndex * 90, 0.5, 0.5);
-            this.PacmanCeil.LayoutTransform = new MatrixTransform(transform);
         }
 
     }

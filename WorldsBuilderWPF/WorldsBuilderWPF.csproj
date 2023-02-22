@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Images\builder.ico" />
     <None Remove="Assets\Images\Gate.png" />
     <None Remove="Assets\Images\PowerPellet.png" />
     <None Remove="Assets\Images\Record.png" />
@@ -37,6 +38,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include=".\Assets\Images\Red.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Images\builder.ico">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Assets\Images\Gate.png">

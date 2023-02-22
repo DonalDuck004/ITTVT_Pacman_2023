@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -33,6 +35,7 @@ namespace WorldsBuilderWPF
             Interval = new TimeSpan(TimeSpan.TicksPerSecond / 2)
         };
         private Color[] scale = { Colors.Green, Colors.DarkGreen, Colors.Blue, Colors.DarkBlue };
+        private static int init_x = 1;
 
         public GhostControl(Image image,
                      GhostEngines engine,
@@ -56,6 +59,7 @@ namespace WorldsBuilderWPF
             }
 
             this.engines.SelectedIndex = 0;
+            this.x_txt.Text = init_x++.ToString();
         }
 
         private void OnGhostEngineChanged(object sender, RoutedEventArgs e)
@@ -104,7 +108,8 @@ namespace WorldsBuilderWPF
             }
 
             var n = int.Parse(((TextBox)sender).Text + e.Text);
-            e.Handled = !(0 <= n && n <= (((TextBox)sender).Name == "wp_Y" ? 14 : 31));
+            
+            e.Handled = !(0 <= n && n <= ((((TextBox)sender).Tag.ToString() == "Y" ? MainWindow.Y_COUNT : MainWindow.X_COUNT) - 1));
         }
 
         public void RecPos(int X, int Y)
@@ -118,13 +123,13 @@ namespace WorldsBuilderWPF
             positions.Add(new(X, Y));
 
 
-            var ceil = (Rectangle)matrix.Children[Y * 33 + X];
+            var ceil = (Rectangle)matrix.Children[Y * MainWindow.X_COUNT + X];
             var tmp = (SolidColorBrush)ceil.Fill;
             int colorIdx = tmp.Color == Colors.Red ? -1 : Array.IndexOf(scale, tmp.Color);
             if (++colorIdx == scale.Length)
                 colorIdx = 0;
 
-            ((Rectangle)matrix.Children[Y * 33 + X]).Fill = new SolidColorBrush(scale[colorIdx]);
+            ((Rectangle)matrix.Children[Y * MainWindow.X_COUNT + X]).Fill = new SolidColorBrush(scale[colorIdx]);
         }
 
         private void OnRecTick(object? sender, EventArgs e)
@@ -140,8 +145,60 @@ namespace WorldsBuilderWPF
             if (x_txt.Text == "" || y_txt.Text == "")
                 return;
 
-            Grid.SetColumn(this.image, int.Parse(x_txt.Text));
-            Grid.SetRow(this.image, int.Parse(y_txt.Text));
+            this.SetPos(int.Parse(x_txt.Text), int.Parse(y_txt.Text), from_e: true);
+        }
+
+        public void ClearGrid()
+        {
+            var filler = new SolidColorBrush(Colors.Red);
+            foreach (var item in this.matrix.Children.OfType<Rectangle>())
+                item.Fill = filler;
+        }
+
+        public void SetPositions(List<System.Drawing.Point> positions, GhostEngines gh)
+        {
+            Debug.Assert(gh.SupportsSchema());
+            this.SetEngine(gh);
+
+            this.positions = positions;
+
+            var filler = new SolidColorBrush(scale[0]);
+            foreach (var item in positions)
+                ((Rectangle)matrix.Children[item.Y * MainWindow.X_COUNT + item.X]).Fill = filler;
+
+            this.SetPos(positions[0]);
+        }
+
+        public void SetPosition(System.Drawing.Point point, GhostEngines gh)
+        {
+            Debug.Assert(!gh.SupportsSchema());
+            this.SetEngine(gh);
+
+            this.SetPos(point);
+        }
+
+        private void SetEngine(GhostEngines gh)
+        {
+            for (int i = 0; i < this.engines.Items.Count; i++)
+                if ((GhostEngines)((ComboBoxItem)this.engines.Items[i]).Tag == gh)
+                {
+                    this.engines.SelectedIndex = i;
+                    return;
+                } // I can cast GhostEngines to int, but i wanna be safe lol
+        }
+
+        private void SetPos(System.Drawing.Point point, bool from_e = false) => SetPos(point.X, point.Y, from_e);
+
+        private void SetPos(int X, int Y, bool from_e = false)
+        {
+            Grid.SetColumn(this.image, X);
+            Grid.SetRow(this.image, Y);
+
+            if (from_e is false)
+            {
+                this.x_txt.Text = X.ToString();
+                this.y_txt.Text = Y.ToString();
+            }
         }
     }
 }

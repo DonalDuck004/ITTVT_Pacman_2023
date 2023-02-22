@@ -6,8 +6,12 @@ using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Controls;
 
+using WorldsBuilderWPF.Types;
+
 using Color = System.Drawing.Color;
 using Image = System.Windows.Controls.Image;
+using System.Collections.Generic;
+
 
 namespace WorldsBuilderWPF
 {
@@ -23,11 +27,9 @@ namespace WorldsBuilderWPF
             this.Title = dialog.FileName;
 
             BinaryReader reader = new(new FileStream(dialog.FileName, FileMode.Open, FileAccess.Read));
-            Grid.SetColumn(this.PacmanCeil, reader.ReadInt32());
-            Grid.SetRow(this.PacmanCeil, reader.ReadInt32());
 
-            reader.ReadInt32(); // TODO: Rotation
-            int i = 0;
+            this.SetPacman(x: reader.ReadInt32(), y: reader.ReadInt32(), rt: reader.ReadInt32());
+
             Walls walls;
             Color color;
 
@@ -76,7 +78,27 @@ namespace WorldsBuilderWPF
                         continue;
                         // throw new Exception();
                 }
-                i++;
+
+            }
+
+            GhostEngines engine;
+            List<System.Drawing.Point> positions = new();
+
+            foreach (var item in ghosts)
+            {
+                item.ClearGrid();
+                engine = (GhostEngines)reader.ReadInt32();
+
+                if (engine.SupportsSchema())
+                {
+                    positions = new();
+
+                    for (int _ = reader.ReadInt32(); _ >= 0; _--)
+                        positions.Add(new(reader.ReadInt32(), reader.ReadInt32()));
+                    
+                    item.SetPositions(positions, engine);
+                }else
+                    item.SetPosition(new(reader.ReadInt32(), reader.ReadInt32()), engine);
 
             }
             reader.Close();

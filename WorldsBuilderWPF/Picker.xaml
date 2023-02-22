@@ -28,7 +28,7 @@
                 </Grid.RowDefinitions>
                 <GroupBox Grid.Row="0" Header="External">
                     <WrapPanel Margin="0, 10, 0, 0">
-                        <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="top_flag" Click="CheckBoxClicked" Content="Top"></CheckBox>
+                        <CheckBox Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="top_flag" Click="CheckBoxClicked" Content="Top"  VerticalContentAlignment="Center"></CheckBox>
                         <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="left_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                         <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="right_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                         <CheckBox Margin="4, 0, 0, 0" Grid.Row="0" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="bottom_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
@@ -36,7 +36,7 @@
                 </GroupBox>
                 <GroupBox Grid.Row="1" Header="Internal">
                     <WrapPanel Margin="0, 10, 0, 0">
-                        <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="small_top_flag" Click="CheckBoxClicked" Content="Top"></CheckBox>
+                        <CheckBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="small_top_flag" Click="CheckBoxClicked" Content="Top" VerticalContentAlignment="Center"></CheckBox>
                         <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Left" x:Name="small_left_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                         <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Right" x:Name="small_right_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
                         <CheckBox Margin="4, 0, 0, 0" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Bottom" x:Name="small_bottom_flag" Click="CheckBoxClicked" VerticalContentAlignment="Center"></CheckBox>
