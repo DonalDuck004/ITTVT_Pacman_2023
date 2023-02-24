@@ -12,7 +12,7 @@ Se sei uno sviluppatore, che ha intenzione di modificare il codice sorgente, dov
 
 
 # Descrizione Rapida
-Il progetto è composta da 6 sotto-proggetti:
+Il progetto è composta da 6 sotto-proggetti:\
 Proggetti da installare/compilare nel client:
 1. GitUpdateChecker - Non necessario per giocare, si occupa di controllare se sono presenti [nuovi rilasci pre-compilati](https://github.com/DonalDuck004/ITTVT_Pacman_2023/releases). Può essere integrato in PacManWPF insieme a UpdateInstaller
 2. PacmanOnlineMapsWPF - Non necessario per giocare, permette la navigazione e lo scaricamento dei mondi caricati da altri utenti. Può essere integrato in PacManWPF
