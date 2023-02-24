@@ -130,7 +130,7 @@ namespace PacManWPF
                 return;
 
 
-            Type t = online_asm.GetType("PacmanOnlineMaps.PlugWindow")!;
+            Type t = online_asm.GetType("PacmanOnlineMapsWPF.PlugWindow")!;
             var methodInfo = t.GetMethod("ShowDialog")!;
             try
             {

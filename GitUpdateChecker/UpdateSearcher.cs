@@ -37,24 +37,30 @@ namespace GitUpdateChecker
             if (this.Version is null)
                 throw new Exception("AO, controlla se hai impostato la versione cogl");
 
-            if (CheckForAlreadyDownloaded && Directory.Exists("Update") && Directory.EnumerateFiles("Update").Any())
+            try
             {
-                string version = Path.Combine("Update", "VERSION.TXT");
-                if(!File.Exists(version))
-                    Directory.Delete("Update", true);
-                else
+                if (CheckForAlreadyDownloaded && Directory.Exists("Update") && Directory.EnumerateFiles("Update").Any())
                 {
-                    var DownloadedVersion = this.GetDownloadedVersion();
-                  
-                    if (DownloadedVersion is not null && VersionCheck(DownloadedVersion, this.Version!))
-                    {
-                        var action = MessageBox.Show($"Versione {string.Join(".", DownloadedVersion)} scaricata \n\nVuoi installare?", "Aggiornamento", MessageBoxButton.YesNo);
-                        if (action == MessageBoxResult.Yes)
-                            this.RunUpdate();
-                    }
-                    else
+                    string version = Path.Combine("Update", "VERSION.TXT");
+                    if (!File.Exists(version))
                         Directory.Delete("Update", true);
+                    else
+                    {
+                        var DownloadedVersion = this.GetDownloadedVersion();
+
+                        if (DownloadedVersion is not null && VersionCheck(DownloadedVersion, this.Version!))
+                        {
+                            var action = MessageBox.Show($"Versione {string.Join(".", DownloadedVersion)} scaricata \n\nVuoi installare?", "Aggiornamento", MessageBoxButton.YesNo);
+                            if (action == MessageBoxResult.Yes)
+                                this.RunUpdate();
+                        }
+                        else
+                            Directory.Delete("Update", true);
+                    }
                 }
+            } catch (Exception)
+            {
+
             }
 
             this.timer.Change(0, 1000 * 100);

@@ -104,7 +104,7 @@ namespace WorldsBuilderWPF
             reader.Close();
         }
 
-        public void DumpWorld(BinaryWriter output_stream)
+        public bool DumpWorld(BinaryWriter output_stream)
         {
 
             output_stream.Write(Grid.GetColumn(this.PacmanCeil));
@@ -166,6 +166,8 @@ namespace WorldsBuilderWPF
                     output_stream.Write(Grid.GetRow(ghost.image));
                 }
             }
+
+            return true; // TODO true if is valid world (with spawn area)
         }
 
         public void Save()

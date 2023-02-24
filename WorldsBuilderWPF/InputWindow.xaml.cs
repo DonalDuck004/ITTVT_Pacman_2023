@@ -19,6 +19,10 @@ namespace WorldsBuilderWPF
     /// </summary>
     public partial class InputWindow : Window
     {
+        public bool Acquired { get; private set; } = false;
+        public string InTitle => this.title_box.Text;
+        public string[] InTags => this.tags_box.Text.Split("; ");
+
         public InputWindow()
         {
             InitializeComponent();
@@ -26,6 +30,7 @@ namespace WorldsBuilderWPF
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            this.Acquired = true;
             this.Close();
         }
     }
