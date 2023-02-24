@@ -66,7 +66,7 @@ namespace GitUpdateChecker
             this.timer.Change(0, 1000 * 100);
         }
 
-        private bool VersionCheck(int[] New, int[] Current) => New[0] >= Current[0] && New[1] > Current[1];
+        private bool VersionCheck(int[] New, int[] Current) => New[0] > Current[0] || (New[0] == Current[0] && New[1] > Current[1]);
 
         private int[]? GetDownloadedVersion()
         {
@@ -168,5 +168,17 @@ namespace GitUpdateChecker
                 }
             }
         }
+
+#if DEBUG
+        public static void Main()
+        {
+            INSTANCE.Version = new int[] { 1, 1 };
+            INSTANCE.Start(false);
+            while(true)
+            {
+                Thread.Sleep(1000);
+            }
+        }
+#endif
     }
 }
