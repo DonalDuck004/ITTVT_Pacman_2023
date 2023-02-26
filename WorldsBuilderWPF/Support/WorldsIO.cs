@@ -93,7 +93,7 @@ namespace WorldsBuilderWPF
                 {
                     positions = new();
 
-                    for (int _ = reader.ReadInt32(); _ >= 0; _--)
+                    for (int _ = reader.ReadInt32(); _ > 0; _--)
                         positions.Add(new(reader.ReadInt32(), reader.ReadInt32()));
                     
                     item.SetPositions(positions, engine);
@@ -148,9 +148,9 @@ namespace WorldsBuilderWPF
 
             foreach (var ghost in this.ghosts)
             {
-                output_stream.Write((int)ghost.engine);
+                output_stream.Write((int)ghost.CurrentEngine);
 
-                if (ghost.engine.SupportsSchema())
+                if (ghost.CurrentEngine.SupportsSchema())
                 {
                     Debug.Assert(ghost.positions is not null);
                     output_stream.Write(ghost.positions.Count);

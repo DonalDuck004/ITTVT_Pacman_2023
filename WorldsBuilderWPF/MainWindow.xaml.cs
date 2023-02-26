@@ -122,28 +122,28 @@ namespace WorldsBuilderWPF
             this.PacmanCeil.MouseLeftButtonDown += OnFocus;
             Grid.SetColumn(this.PacmanCeil, 0);
 
-            this.ghosts[0] = new(new(), GhostEngines.NoCachedAutoMover, GhostColors.Red); // TODO creare oggetto Image, mettere sopra
+            this.ghosts[0] = new(new(), GhostColors.Red); // TODO creare oggetto Image, mettere sopra
             this.ghosts[0].image.Source = RedImage;
             this.ghosts[0].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[0].image);
             Grid.SetColumn(this.ghosts[0].image, 1);
 
 
-            this.ghosts[1] = new(new(), GhostEngines.NoCachedAutoMover, GhostColors.Pink);
+            this.ghosts[1] = new(new(), GhostColors.Pink);
             this.ghosts[1].image.Source = PinkImage;
             this.ghosts[1].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[1].image);
             Grid.SetColumn(this.ghosts[1].image, 2);
 
 
-            this.ghosts[2] = new(new(), GhostEngines.NoCachedAutoMover, GhostColors.Orange);
+            this.ghosts[2] = new(new(), GhostColors.Orange);
             this.ghosts[2].image.Source = OrangeImage;
             this.ghosts[2].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[2].image);
             Grid.SetColumn(this.ghosts[2].image, 3);
 
 
-            this.ghosts[3] = new(new(), GhostEngines.NoCachedAutoMover, GhostColors.Cyan);
+            this.ghosts[3] = new(new(), GhostColors.Cyan);
             this.ghosts[3].image.Source = CyanImage;
             this.ghosts[3].image.MouseLeftButtonDown += OnFocus;
             game_grid.Children.Add(this.ghosts[3].image);

@@ -25,7 +25,6 @@ namespace WorldsBuilderWPF
     public partial class GhostControl : UserControl
     {
         public Image image;
-        public GhostEngines engine;
         public GhostColors color;
         public List<System.Drawing.Point> positions;
         public bool IsInRec;
@@ -38,13 +37,11 @@ namespace WorldsBuilderWPF
         private static int init_x = 1;
 
         public GhostControl(Image image,
-                     GhostEngines engine,
                      GhostColors color
                      )
         {
             InitializeComponent();
             this.image = image;
-            this.engine = engine;
             this.positions = new();
             this.color = color;
             this.IsInRec = false;
@@ -64,14 +61,13 @@ namespace WorldsBuilderWPF
 
         private void OnGhostEngineChanged(object sender, RoutedEventArgs e)
         {
-            this.positions.Clear();
-            foreach (var control in matrix.Children.OfType<Rectangle>())
-                control.Fill = new SolidColorBrush(Colors.Red);
+            if (!this.CurrentEngine.SupportsSchema())
+                ClearGrid();
         }
 
         private void GhostStartRec(object sender, MouseButtonEventArgs e)
         {
-            if (this.CurrentEngine.SupportsSchema())
+            if (!this.CurrentEngine.SupportsSchema())
             {
                 MessageBox.Show("Questo engine non supporta gli schemi");
                 return;
